@@ -1,0 +1,285 @@
+\documentclass[12pt]{report}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color} 
+\usepackage{colortbl}
+\usepackage{slashbox}          
+                           
+\title{FISSURATION D'ELEMENTS EN BETON ET EFFETS D'ECHELLE}
+\author{\textsc{Christian Nader}\\Encadrement: \textsc{C. Olivier-Leblond,C. Giry, F. Ragueneau}}
+\date{\\Le 20 Juin 2013} 
+  
+\begin{document}
+  
+\maketitle
+
+\chapter*{Remerciements}
+thank you thank you've been a great audience
+
+\renewcommand{\contentsname}{Sommaire} 
+\tableofcontents 
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction} 
+Dans ce stage on propose un protocole expérimental permettant de mettre en œuvre des essais de
+flexion sur poutre en béton mettant en évidence des effets d’échelle en termes de fissuration.
+Les résultats de l’étude faite sur des poutres en micro-béton (à priori) entaillées et non entaillées
+chargées en flexion trois points seront comparés à d’autres résultats expérimentaux et les lois
+d'effet d’échelle de Bažant. On confirme déjà l’existence de l’effet d’échelle sur des poutres de
+petites tailles (ce qui est le cas de notre étude). Cependant, pour de plus grandes poutres non
+entaillées la résistance nominale tend vers une valeur constante liée à la résistance en traction
+uniaxiale. Il a été conclu que l'applicabilité de la loi d’effet d’échelle dépend du type de
+problème, ceci dit, si la propagation de la fissure avant la charge ultime est très stable, la loi
+d’effet d’échelle peut être utilisée dans une gamme de taille plutôt large. Toutefois, si ce n'est pas
+le cas, la validité de la loi d’effet d’échelle est limitée à une plage de taille plus petite. Par
+conséquent, on ne peut pas extrapoler l'effet d’échelle à partir des essais avec une gamme de
+taille petite à une gamme de grande taille, pour cela il nous manque des données expérimentales
+provenant d’essais sur de gammes de grande taille. Ainsi, dans notre étude, nous allons ignorer
+cette partie de la problématique, puisque nous allons tester seulement de petites poutres, plutôt,
+nous allons nous concentrer sur d'autres aspects de l’effet d’échelle tels que les propriétés de la
+résistance nominale d’une structure contenant une entaille (ou initialement une grande fissure) et
+d’autres initialement non entaillées.
+
+
+Mots-clés: Flexion trois points, Béton, Fissure, Effet d’échelle
+
+
+\part{Bibliographie}
+\chapter{Effet d'échelle}
+\section{Introduction}
+
+
+\section{Loi en puissance}
+
+
+\section{Analyse asymptotique dans les poutres entaillées}
+
+
+\section{Effet d'échelle à l'amorcage de la fissure}
+
+
+\section{Effet d'echelle en flexion trois points}
+
+
+\chapter{Energie de fissuration}
+\section{Introduction}
+
+
+\section{Méthode de détermination}
+
+
+
+\chapter{correlation d'image}
+\section{Introduction}
+
+
+\section{Principe}
+
+
+\section{Discrétisation par éléments finis (Correli Q4)}
+
+
+\part{Procédure expérimentale}
+\chapter*{}
+Cette section est consacrée à la présentation de la campagne expérimentale menée sur des
+poutres homothétiques, entaillées et non-entaillées faites du même matériau. Nous avons
+considéré trois géométries différentes afin de prendre en compte les effets d’échelle et les effets
+de bord.
+
+\chapter{Les échantillons}
+\section{Description du matériau}
+Dans notre étude on test des éprouvettes de petites dimensions on a alors recours à utiliser un
+micro-béton. (Référence: rapport de stage de Amine Hamouche - 2010)
+\\\\
+La composition du micro-béton pour $1m^3$ est présenté dans le tableau 1. Le ciment utilisé
+est un CEM1 $52,5 N$ (HOLCIM), et le sable normalisé est conforme $ISO  679$, sa granulométrie
+est $0/2 mm$ et donnée dans le tableau 2. Le rapport $e/c$ est de $0,46$. Cette formulation est tirée de
+la thèse de Anna Ouglova 2004.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+\begin{bf}                   Sable(Kg)         \end{bf} & \begin{bf}                   Eau(Kg)         \end{bf} & \begin{bf}                   Ciment(Kg)           \end{bf} \\
+\hline 
+\begin{bf}\rowcolor{cyan}1342\end{bf} & \begin{bf}294\end{bf} & \begin{bf}631\end{bf} \\
+\hline 
+\end{tabular}
+\end{center}
+\caption{Composition du micro-béton}
+\label{micro-béton}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cc}
+\hline
+\begin{bf}Tamis ouverture des mailles (mm)\end{bf}   &   \begin{bf}refus cummulés (\%)\end{bf} \\
+\hline 
+\begin{bf}\rowcolor{cyan}0.08\end{bf}   &   \begin{bf}99 \pm{}1 \end{bf} \\
+ 
+\begin{bf}0.16\end{bf}   &   \begin{bf}87 \pm{}5\end{bf} \\
+ 
+\begin{bf}\rowcolor{cyan}0.50\end{bf}   &   \begin{bf}67 \pm{}5\end{bf} \\
+
+\begin{bf}1.00\end{bf}   &   \begin{bf}33 \pm{}5\end{bf} \\
+
+\begin{bf}\rowcolor{cyan}1.60\end{bf}   &   \begin{bf}7 \pm{}5\end{bf} \\
+
+\begin{bf}2.00\end{bf}   &   \begin{bf}0\end{bf} \\
+\hline 
+\end{tabular}
+\end{center}
+\caption{Granulométrie du sable normalisé}
+\label{sable}
+\end{table}
+
+
+\section{Géométrie des éprouvettes}
+Les essais de flexion seront réalisés sur des poutres de dimensions $B\times D\times L{} cm^3 (largeur \times{} hauteur
+\times{} longueur)$ avec un rapport $L/D=5$ constant et $B$ une dimension fixe (restriction du type de test,
+ici $B=4 cm$).
+\\\\
+Trois différentes tailles sont considérées, présentant toutes un rapport $L/D = 5$, où $L$ est la
+longueur et $D$ est la hauteur de la poutre. La profondeur, quant à elle a été choisie constante et
+égale à $B (4 cm)$. Les entailles centrales seront taillées après coulage et non moulées sur les
+éprouvettes. Trois longueurs d’entaille ont été considérées avec une épaisseur d’entaille
+constante de $2 mm$ pour tous les échantillons (voir figure 4, page suivante).
+\\\\
+On propose les dimensions suivantes :
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c|c|c|c|c}
+\hline
+\backslashbox{\begin{bf}taille\end{bf}}{\begin{bf}dimension\end{bf}}   &   \begin{bf}épaisseur\end{bf}   &   \begin{bf}hauteur\end{bf}   &   \begin{bf}longueur\end{bf}   &   \begin{bf}distance entre appuis\end{bf}\\
+\hline
+ 
+\begin{bf}\rowcolor{cyan}$n_1$\end{bf}   &   \begin{bf}$B_1=4cm$\end{bf}   &   \begin{bf}$D_1=4cm$\end{bf}   &   \begin{bf}$L_1=20cm$\end{bf}   &   \begin{bf}$I_1=16cm$\end{bf} \\
+
+\begin{bf}$n_2$\end{bf}   &   \begin{bf}$B_2=4cm$\end{bf}   &   \begin{bf}$D_2=8cm$\end{bf}   &   \begin{bf}$L_2=40cm$\end{bf}   &   \begin{bf}$I_2=32cm$\end{bf} \\
+
+\begin{bf}\rowcolor{cyan}$n_3$\end{bf}   &   \begin{bf}$B_3=4cm$\end{bf}   &   \begin{bf}$D_3=8cm$\end{bf}   &   \begin{bf}$L_3=80cm$\end{bf}   &   \begin{bf}$I_3=64cm$\end{bf} \\
+
+\hline 
+\end{tabular}
+\end{center}
+\caption{Les dimensions des éprouvettes}
+\label{sable}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Coffrages}
+Types de bois :\\
+\begin{itemize}
+ 
+\item[•] bois standard (BS, joue le rôle de support)
+\item[•] bois de coffrage (BC, en contact avec le béton)\\
+
+\end{itemize}
+Pour concevoir le coffrage on utilise des planches de bois standard de $2,5m \times{} 1,25m$
+(épaisseur $1,5 cm$), ainsi que des planches de bois de coffrage de $2,5m \times{} 1,22m$ (épaisseur $1,8 cm$), on admet $4 mm$ comme trait de coupe.
+\\\\
+Les coffres seront conçus d’une façon à être réutilisables, on aura besoin alors de tiges
+filetés ($2$ par éprouvette).
+\\\\
+On a besoin de $9$ coffres en total mais les coffres des éprouvettes qui ont une même09088
+dimension seront exactement pareils.
+\\
+\begin{itemize}
+ 
+\item[•] Pour les éprouvettes de dimension $4\times 4\times 20$ on peut faire un seul coffre de la manière
+suivante : (N.B. : masse du coffre avec béton environ $6,5Kg$)
+
+
+\end{itemize}
+
+\section{Matériel et équipement}
+Composants du micro-béton (perte 15\%) :\\
+Volume total de béton :\\
+\begin{itemize} 
+\item[\triangleright] $27$ éprouvettes (poutres) : $v_1 = 60480 cm^3$
+\item[\triangleright] $12$ échantillons cylindriques ($11\times 22$) pour définir les caractéristiques du béton (6 pour le
+   test de compression uni-axial, 6 pour l’essai brésilien) : $v_2 = 25090 cm^3$   
+\item[\triangleright] $+5L$ (cône d’Abrams) $+1L$ (Aréomètre) : $v_3 = 6000 cm^3$
+\item[\triangleright] Volume total : $V = 91570 cm^3$
+\item[\triangleright] $+pertes$ : $V_{final} = 0.1053055 m^3$\\
+\end{itemize}
+
+Ainsi,d’après le Tableau -1- on peut calculer les quantités des composantes du béton:\\
+
+\begin{itemize}
+\item[•] Sable : $141.32 Kg$
+\item[•] Eau : $30.96 Kg$
+\item[•] Eau : Ciment : $66.45 Kg$\\
+\end{itemize}
+
+Matériels pour le coffrage :\\
+
+\begin{itemize}
+\item[•] Une plaque de bois standard
+\item[•] Une plaque de bois de coffrage
+\item[•] 16 écrous
+\item[•] 16 rondelles
+\end{itemize}
+
+\chapter{Essai F3P}
+\section{MTS}
+
+\section{Pilotage}
+
+
+
+\part{Étude numérique}
+\chapter*{}
+Dans notre étude on utilise comme matériau un micro-béton. Pour bien prédire numériquement
+les résultats de l’expérience, on a besoin d’introduire les paramètres qui correspondes à ce
+matériau, or par manque de données sur certains de ces paramètres (principalement la fragilité en
+traction) on a recours à une identification par rapport à des essais expérimentaux. Pour cela on a
+lancé plusieurs calcules sur des échantillons similaires aux échantillons de l’expérience en
+géométrie et chargement et on a changé les paramètres d’une façon intuitive pour obtenir au final
+une courbe force/déplacement similaire aux courbes trouvées expérimentalement.
+
+\chapter{Modélisation}
+\section{Mode de calcule}
+
+
+\section{Paramètres matériau}
+
+
+\section{Maillages}
+
+
+\section{Résultats}
+
+
+\part{Résultats et analyse expérimentale}
+\chapter*{}
+
+
+\chapter{Identification des paramètres mécanique}
+\section{Procédure}
+
+
+\section{Mesures}
+
+
+\chapter{Essais de flexion trois points}
+\section{montage}
+
+
+\section{Résultats}
+
+
+\chapter*{Références}
+\addcontentsline{toc}{chapter}{Références} 
+trallalla
+
+\end{document}

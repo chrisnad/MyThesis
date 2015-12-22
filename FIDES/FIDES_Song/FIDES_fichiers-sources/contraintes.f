@@ -1,0 +1,88 @@
+module contraintes
+
+!*********************************************************!
+!     Calcul des contraintes en fonction du modele        !
+!*********************************************************!
+
+contains
+
+!---------------------------------------------------------!
+!   Fonction d'aiguillage pour le calcul des contraintes  !
+!---------------------------------------------------------!
+   subroutine elem_sig(vsi,vnl,ie,vhep,vb,vnl0,vprel,vdle,ipg)
+
+    use initialisation, only : init_mat, init_vec
+    use aiguillage, only : loi
+    use element_interface, only : interf_sig, interf_sig_endo
+    use fissuration, only : fiss_sig
+    use interface_macro, only : interf_macro_endo
+    use acier, only : acier_sig
+    use variables, only : ktypel, nomtype
+    use lib_elem, only : elem_hooke
+    use aiguillage, only : modul
+    implicit none
+
+    ! Variables IN
+    real*8, dimension(:,:), intent(in) :: vb
+    integer, intent(in) :: ie, ipg
+    real*8, dimension(:), intent(in) :: vnl0, vprel, vdle
+
+    ! Variables OUT
+    real*8, dimension(:), intent(inout) :: vsi
+    real*8, dimension(:), intent(out) :: vnl
+    real*8, dimension(:,:), allocatable, intent(out) :: vhep
+
+    real*8, dimension(:,:), allocatable :: vh
+    integer :: icomp, iloi
+
+    ! ----- On recupere le type de comportement --------
+    icomp = int(vprel(1))   ! icomp pour chaque elements
+
+    ! ----- On verifie la compatibilite : Comportement / Loi ---
+    if (icomp /= 1) then
+       call loi(iloi,icomp,ie,ipg)
+    else
+       iloi = 1
+    end if
+
+    !----- matrice d'elasticite vh, en fonction du type d'element -----
+    call elem_hooke(vh,nomtype(ktypel(ie)),vprel) 
+    call modul(ie,ipg,vh,vprel)
+
+    call init_mat(vhep,size(vh,1),size(vh,2))
+
+    select case (iloi)
+
+    case(1)
+         ! Cas de l'elasticite lineaire
+         vsi = matmul(vh,matmul(vb,vdle))
+         vhep = vh
+
+    case(100,101)		
+         call interf_sig(vhep,vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)	
+
+    case(102)		
+         call interf_sig_endo(vhep,vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+
+    case(12,13,14)
+         call fiss_sig(vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+         vhep = vh
+
+    case(11)
+         call acier_sig(vhep,vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+
+    case(201,202,203)
+        !call interf_macro_sig(vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+        call interf_macro_endo(vsi,vnl,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+        vhep = vh
+
+    case default 
+        stop "Elem_sig : cas non encore implante"  
+
+    end select
+
+    deallocate(vh)
+
+   end subroutine elem_sig
+
+end module contraintes

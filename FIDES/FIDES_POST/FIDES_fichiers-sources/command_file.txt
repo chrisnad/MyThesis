@@ -1,0 +1,8 @@
+set nokey
+set yrange [0.0:  0.2681638E-01]
+set xrange [  0.9611172E+00:  0.1190626E+02]
+set style data histograms
+set style fill solid border -1
+plot "data_file.txt" using 1:2 notitle with boxes linecolor rgb"#779921"
+pause 0.200E+01
+q

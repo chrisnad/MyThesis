@@ -1,0 +1,491 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.5.26)  4 JUN 2013 22:30
+entering extended mode
+**couverture.tex
+("C:\Users\Toshiba\Desktop\rapport de stage\Modele_rapport\Latex\couverture.tex"
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, arabic, armenian, assamese, basque, bengali
+, bokmal, bulgarian, catalan, coptic, croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, galic
+ian, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, icelandic, indonesian, interlingua, irish, italian,
+ kannada, kurmanji, latin, latvian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, ngerman
+-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, romanian, russian, sanskrit, serbian, slovak, sloven
+ian, spanish, swedish, swissgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usenglishmax, w
+elsh, loaded.
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{center}
+                  \normalfont\bfseries
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 3--3
+[] 
+ []
+
+! Undefined control sequence.
+l.6 \noindent\includegraphics
+                             [height=1.6cm]{LogoENS}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.8 \includegraphics
+                    [height=1.6cm]{LogoUPMC}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.10 \includegraphics
+                     [height=2.3cm]{LogoDGC}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (122.97852pt too wide) in paragraph at lines 6--11
+ \OT1/cmr/bx/n/10 [height=1.6cm]LogoENS 
+ []
+
+
+Overfull \hbox (135.96455pt too wide) in paragraph at lines 6--11
+ \OT1/cmr/bx/n/10 [height=1.6cm]LogoUPMC 
+ []
+
+
+Overfull \hbox (126.20071pt too wide) in paragraph at lines 6--11
+ \OT1/cmr/bx/n/10 [height=2.3cm]LogoDGC 
+ []
+
+Missing character: There is no é in font cmbx10!
+Missing character: There is no é in font cmbx10!
+Missing character: There is no é in font cmbx10!
+Missing character: There is no é in font cmbx10!
+
+Overfull \hbox (35.52202pt too wide) in paragraph at lines 12--12
+ []\OT1/cmr/bx/n/10 Master 
+ []
+
+
+Overfull \hbox (18.52768pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 Sci- 
+ []
+
+
+Overfull \hbox (26.57764pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 ences 
+ []
+
+
+Overfull \hbox (11.65967pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 de 
+ []
+
+
+Overfull \hbox (52.06224pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 l'Ingnieur, 
+ []
+
+
+Overfull \hbox (16.61102pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 Sp- 
+ []
+
+
+Overfull \hbox (24.75679pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 cialit 
+ []
+
+
+Overfull \hbox (23.8957pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 Gnie 
+ []
+
+
+Overfull \hbox (23.9582pt too wide) in paragraph at lines 12--12
+ \OT1/cmr/bx/n/10 Civil 
+ []
+
+Missing character: There is no é in font cmbx10!
+Missing character: There is no é in font cmbx10!
+
+Overfull \hbox (44.39003pt too wide) in paragraph at lines 12--13
+ []\OT1/cmr/bx/n/10 Parcours 
+ []
+
+
+Overfull \hbox (30.9304pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 Struc- 
+ []
+
+
+Overfull \hbox (28.59846pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 tures, 
+ []
+
+
+Overfull \hbox (18.86101pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 Ou- 
+ []
+
+
+Overfull \hbox (31.95259pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 vrages 
+ []
+
+
+Overfull \hbox (9.74301pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 et 
+ []
+
+
+Overfull \hbox (20.34015pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 Ma- 
+ []
+
+
+Overfull \hbox (16.23604pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 tri- 
+ []
+
+
+Overfull \hbox (18.0485pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 aux 
+ []
+
+
+Overfull \hbox (12.77771pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 du 
+ []
+
+
+Overfull \hbox (23.8957pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 Gnie 
+ []
+
+
+Overfull \hbox (23.9582pt too wide) in paragraph at lines 12--13
+ \OT1/cmr/bx/n/10 Civil 
+ []
+
+! Undefined control sequence.
+<argument> ...ies MEMOIRE DE STAGE DE MASTER 2\up 
+                                                  {e} ANNEE
+l.17 ... MEMOIRE DE STAGE DE MASTER 2\up{e} ANNEE}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (58.56912pt too wide) in paragraph at lines 17--18
+ []\OT1/cmr/bx/n/10 MEMOIRE 
+ []
+
+
+Overfull \hbox (16.37491pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 DE 
+ []
+
+
+Overfull \hbox (38.40256pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 STAGE 
+ []
+
+
+Overfull \hbox (16.37491pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 DE 
+ []
+
+
+Overfull \hbox (29.83318pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 MAS- 
+ []
+
+
+Overfull \hbox (24.18042pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 TER 
+ []
+
+
+Overfull \hbox (11.02078pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 2e 
+ []
+
+
+Overfull \hbox (21.52766pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 AN- 
+ []
+
+
+Overfull \hbox (24.11098pt too wide) in paragraph at lines 17--18
+ \OT1/cmr/bx/n/10 NEE 
+ []
+
+Missing character: There is no é in font cmr10!
+
+Overfull \hbox (28.61116pt too wide) in paragraph at lines 19--20
+ []\OT1/cmr/m/n/10 effectu 
+ []
+
+
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 19--20
+ \OT1/cmr/m/n/10 au 
+ []
+
+
+Overfull \hbox (22.63893pt too wide) in paragraph at lines 19--20
+ \OT1/cmr/m/n/10 LMT 
+ []
+
+
+Overfull \hbox (32.50006pt too wide) in paragraph at lines 19--20
+ \OT1/cmr/m/n/10 Cachan 
+ []
+
+Missing character: There is no é in font cmr10!
+
+Overfull \hbox (18.44447pt too wide) in paragraph at lines 20--21
+ []\OT1/cmr/m/n/10 sous 
+ []
+
+
+Overfull \hbox (7.7778pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 la 
+ []
+
+
+Overfull \hbox (11.66669pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 di- 
+ []
+
+
+Overfull \hbox (16.13889pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 rec- 
+ []
+
+
+Overfull \hbox (17.22227pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 tion 
+ []
+
+
+Overfull \hbox (10.00002pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 de 
+ []
+
+
+Overfull \hbox (29.61119pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 Prnom 
+ []
+
+
+Overfull \hbox (24.4445pt too wide) in paragraph at lines 20--21
+ \OT1/cmr/m/n/10 NOM 
+ []
+
+! Undefined control sequence.
+<argument> \bfseries \Large 
+                            Titre du mémoire de recherche
+l.23 ...eries\Large Titre du mémoire de recherche}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no é in font cmbx10!
+
+Overfull \hbox (25.6735pt too wide) in paragraph at lines 23--24
+ []\OT1/cmr/bx/n/10 Titre 
+ []
+
+
+Overfull \hbox (12.77771pt too wide) in paragraph at lines 23--24
+ \OT1/cmr/bx/n/10 du 
+ []
+
+
+Overfull \hbox (38.11787pt too wide) in paragraph at lines 23--24
+ \OT1/cmr/bx/n/10 mmoire 
+ []
+
+
+Overfull \hbox (11.65967pt too wide) in paragraph at lines 23--24
+ \OT1/cmr/bx/n/10 de 
+ []
+
+
+Overfull \hbox (47.64563pt too wide) in paragraph at lines 23--24
+ \OT1/cmr/bx/n/10 recherche 
+ []
+
+
+Overfull \hbox (16.71518pt too wide) in paragraph at lines 24--25
+ []\OT1/cmr/bx/n/10 par 
+ []
+
+! Undefined control sequence.
+<argument> \bfseries \Large 
+                            Prénom NOM
+l.25 ...cm}\textnormal{\bfseries\Large Prénom NOM}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no é in font cmbx10!
+
+Overfull \hbox (34.31927pt too wide) in paragraph at lines 25--26
+ []\OT1/cmr/bx/n/10 Prnom 
+ []
+
+
+Overfull \hbox (28.5554pt too wide) in paragraph at lines 25--26
+ \OT1/cmr/bx/n/10 NOM 
+ []
+
+Missing character: There is no à in font cmr10!
+
+Overfull \hbox (35.27786pt too wide) in paragraph at lines 29--30
+ []\OT1/cmr/m/n/10 Soutenu 
+ []
+
+
+Overfull \hbox (25.41673pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 l'ENS 
+ []
+
+
+Overfull \hbox (32.50006pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 Cachan 
+ []
+
+
+Overfull \hbox (7.22223pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 le 
+ []
+
+
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 27 
+ []
+
+
+Overfull \hbox (16.9445pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 juin 
+ []
+
+
+Overfull \hbox (20.00006pt too wide) in paragraph at lines 29--30
+ \OT1/cmr/m/n/10 2013 
+ []
+
+Missing character: There is no é in font cmr10!
+
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 30--31
+ []\OT1/cmr/m/n/10 61 
+ []
+
+
+Overfull \hbox (13.33336pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 av- 
+ []
+
+
+Overfull \hbox (19.72224pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 enue 
+ []
+
+
+Overfull \hbox (11.11115pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 du 
+ []
+
+
+Overfull \hbox (20.7778pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 Prsi- 
+ []
+
+
+Overfull \hbox (19.1667pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 dent 
+ []
+
+
+Overfull \hbox (19.1667pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 Wil- 
+ []
+
+
+Overfull \hbox (17.27782pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 son, 
+ []
+
+
+Overfull \hbox (9.86113pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 F- 
+ []
+
+
+Overfull \hbox (25.00008pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 94235 
+ []
+
+
+Overfull \hbox (32.50006pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 Cachan 
+ []
+
+
+Overfull \hbox (26.94449pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 cedex, 
+ []
+
+
+Overfull \hbox (29.0556pt too wide) in paragraph at lines 30--31
+ \OT1/cmr/m/n/10 France 
+ []
+
+! Undefined control sequence.
+l.32 \clearemptydoublepage
+                          
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+)
+! Emergency stop.
+<*> couverture.tex
+                  
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 12 strings out of 493921
+ 323 string characters out of 3147276
+ 52031 words of memory out of 3000000
+ 3404 multiletter control sequences out of 15000+200000
+ 3948 words of font info for 15 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 15i,1n,14p,134b,126s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!

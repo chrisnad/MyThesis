@@ -1,0 +1,1056 @@
+module interface_macro
+
+contains
+
+!********************************************************!
+
+  subroutine interf_macro_sig(vsig,vnle,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+
+  !********************************************************!
+  !     Calcul des contraintes pour le calcul fissure      !
+  !********************************************************!
+
+        use variables, only : dime, inict, irloc, iedng, ipas
+        use utilitaire, only : princ
+        use fissuration, only : fiss_changement_repere
+        implicit none
+
+        !--- Variables IN
+        real*8, dimension(:,:), intent(in) :: vh, vb
+        real*8, dimension(:), intent(in) :: vnl0, vdle, vprel
+        integer, intent(in) :: iloi, ie, ipg
+        
+        !--- Variables OUT
+        real*8, dimension(:), intent(inout) :: vsig
+        real*8, dimension(:), intent(out) :: vnle
+        
+        !--- Quantites globales
+        real*8, dimension(size(vh,1),size(vh,2)) ::  P, Q, vhloc
+        real*8 :: vcrit, dlam, V(dime,dime), vsp(dime)
+        real*8, dimension(size(vb,1)) :: vepspl, vsigm, vsigi, vsigmloc, vsigiloc, vepsplloc, vdepl, vdeploc
+        real*8, dimension(size(vh,1)) :: vdfdsigloc, vdgdsigloc
+
+        integer :: it, nc1
+        character(len=5) :: calcu
+                            
+!********************************************************!
+
+        vdfdsigloc = 0.d0
+        vdgdsigloc = 0.d0
+
+        !----- Recuperation des grandeurs de non-linearite
+        vepspl = vnl0(1:size(vb,1))            ! deformations plastiques initiales
+
+        !----- Calcul de sigma + dsigma    
+        vsigm = matmul(vh,(matmul(vb,vdle)-vepspl))
+
+        !----- Calcul et rangement par ordre decroissant des contraintes principales 
+        if (inict) then
+            vsigm = vsig + vsigm
+        end if
+        
+        V=reshape(irloc(ie,:),(/dime,dime/))
+        
+        !----- Recuperation de la matrice de changement de repere global --> local principal
+        P = fiss_changement_repere(V,nc1,1)
+        Q = fiss_changement_repere(V,nc1,2)
+        vsigi = 0.d0
+
+        ! Dans le repere principal...
+        vhloc = matmul(P,matmul(vh,Q))
+        vsigmloc = matmul(P,vsigm)
+        vsigiloc = matmul(P,vsigi)
+        vepsplloc = matmul(P,vepspl)
+        
+        vdepl = matmul(vb,vdle)
+        vdeploc = matmul(P,vdepl)
+
+        !----- Calcul des contraintes verifiant le critere
+        calcu = 'D1F'      
+        call interf_macro_crit(iloi,vprel,vsigmloc,ie,ipg,vcrit,calcu,vdeploc,vdfdsigloc,vdgdsigloc)
+        calcu = 'D0F'
+        
+        !----- Calcul du multiplicateur plastique (algo semi-implicite)
+        it = 0
+        vsigiloc = vsigmloc
+        dlam = 0.0d0
+
+        ! ajouter la modification de vh dans le cas de cisaillement
+
+         do while (vcrit > 1.d-20)
+            dlam = dlam + vcrit/dot_product(vdfdsigloc,matmul(vhloc,vdgdsigloc))
+            vsigmloc = vsigiloc - dlam*matmul(vhloc,vdgdsigloc)
+            call interf_macro_crit(iloi,vprel,vsigmloc,ie,ipg,vcrit,calcu,vdeploc)
+            it = it + 1
+            if (it > 50) exit
+        end do
+
+        vepsplloc = vepsplloc + dlam*vdgdsigloc
+
+        !----- On retourne dans le repere global...
+        vsigm = matmul(Q,vsigmloc)
+        vepspl = matmul(Q,vepsplloc)
+   
+        !----- Sorties :
+        vsig = vsigm
+        vnle = vepspl
+
+  end subroutine interf_macro_sig
+
+  !********************************************************!
+
+
+subroutine interf_macro_endo(vsig,vnle,vh,vb,vnl0,vprel,vdle,iloi,ie,ipg)
+
+!********************************************************!
+!     Calcul des contraintes pour le calcul fissure      !
+!********************************************************!
+
+        use variables, only : dime, inict, irloc, iedng, ietatma, inorm, ipas, endo, mode, varg0, vargs
+        use initialisation, only : init_vec, init_mat
+        use utilitaire, only : princ
+        use fissuration, only : fiss_changement_repere
+        implicit none
+
+        !--- Variables IN
+        real*8, dimension(:,:), intent(in) :: vb
+        real*8, dimension(:,:), intent(inout) :: vh
+        real*8, dimension(:), intent(in) :: vnl0, vdle, vprel
+        integer, intent(in) :: iloi, ie, ipg
+        
+        !--- Variables OUT
+        real*8, dimension(:), intent(inout) :: vsig
+        real*8, dimension(:), intent(out) :: vnle
+
+ !****************************************************************************
+        
+        !--- Quantites globales
+        real*8, dimension(size(vh,1),size(vh,2)) ::  P, Q
+        real*8, dimension(dime,dime) :: V 
+        real*8, dimension(dime) :: vsp 
+        integer :: nc1, nc2, id
+
+        !--- Quantites principales
+        real*8, dimension(size(vh,1),size(vh,2)) :: vhloc
+        logical :: vcrit
+                
+        ! Quantites principales
+        real*8, dimension(size(vb,1)) :: vepspl, vsigm, vsigi, veps
+        real*8, dimension(size(vh,1)) :: vsigmloc, vsigiloc, vepsloc
+        real*8, dimension(size(vh,1)) :: vdfdsigloc, vdgdsigloc
+
+        ! Variables por le modele d'endommagement 
+        real*8 :: Dini, eps_0, eps_s, eps_l, D, sigma1, epsilon1, vcrit1, varcrit, eps_c, F_var, RT, C, W, E, nu, &
+                 & eps_n, eps_t, tau, sigma, vcrit_ouv, vcrit_cis, D_t
+                            
+!********************************************************!
+ 
+        ! Endommagement initial 
+        Dini = endo(ie,ipg)
+        eps_0 = varg0(ie,ipg) ! seuil initial
+        eps_s = vargs(ie,ipg) ! seuil courant
+        eps_l = 1000. ! deformation limite
+
+        !----- Recuperation des parametres pour le critere
+        id = 6
+        if (dime == 3) id = id-1
+        RT = vprel(id)    ! Resistance
+        C  = vprel(id+1)  ! Cohesion
+        
+        W = 1.e-3          ! Energie de post-fissuration
+        if (C<0.01) W = 0.d0
+
+        E = vprel(id-2)
+        nu = vprel(id-1)
+
+        ! Etat de contrainte et deformation
+        vsigm = matmul((1.d0-D)*vh,(matmul(vb,vdle)))
+        veps = (matmul(vb,vdle))
+
+        V=reshape(irloc(ie,:),(/dime,dime/))
+        
+        !----- Recuperation de la matrice de changement de repere global --> local principal
+        P = fiss_changement_repere(V,nc1,1)
+        Q = fiss_changement_repere(V,nc1,2)
+        vsigi = 0.d0
+                  
+        ! Dans le repere principal...
+        vhloc = matmul(P,matmul(vh,Q))
+        vsigmloc = matmul(P,vsigm)
+        vsigiloc = matmul(P,vsigi)
+        vepsloc = matmul(P,veps)
+
+        !---- Mode rupture en ouverture pure ------
+        sigma = vsigmloc(1)
+        eps_n = vepsloc(1)
+        vcrit_ouv = sigma - RT
+
+        !----- Mode rupture en cisaillement -----
+        tau = vsigmloc(2)
+        eps_t = abs(vepsloc(2))    ! Positive
+        vcrit_cis = abs(tau) - C
+
+        ! Choix entre les deux modes de rupture
+        ! Verifier le critere au point central (pour la premiere fois de rupture)
+        ! Fixer le mode de rupture 
+
+        vcrit = .false.
+
+        !if (ietat(ie) == 0) then
+        if (ie==iedng .and. ietatma(ie,ipg)==0) then
+           if (vcrit_ouv > 0.) then
+
+              ietatma(ie,ipg) = 1
+              D = 1.d0
+
+              if (ipg==1) then
+                 ietatma(ie,:) = 1
+                 endo(ie,:) = 1.d0
+              end if
+
+           elseif (vcrit_cis > 0.) then
+
+              if (ipg==1) then
+                 !----- Changement etat de l'element 
+        
+                 ietatma(ie) = 3
+              end if
+           else
+              goto 1000                     ! element est encore elastique ou bien le critere de rupture
+           end if                           ! du point central n'atteint pas (sigma < Rt, tau < C)
+        end if
+
+        if (ie==iedng) then                 ! Seuil de deformation pour tous les points Gauss.
+          eps_0 = eps_t       
+          eps_s = eps_0
+        end if
+
+        if (ietat(ie)==3) then 
+          !if (ie==528) print*, vcrit_cis, ie, ipg, eps_t, eps_0
+          D = Dini
+          vcrit = .true.
+        end if
+
+        !----- Declanchement et evolution de l'endommagement
+        if (vcrit) then
+
+             !---- Valeur critique de la variable d'endommagement
+             eps_c = eps_0 + 2.*W/C
+             !varc = 2.*W/RT
+
+             !---- Variable de pilotage de l'endommagement
+             if (eps_t .ge. eps_s) then
+
+                  !---- Actualisation du seuil d'endommagement
+                  eps_s = eps_t
+
+                  !---- Loi d'evolution d'endommagement
+                  if (eps_c < eps_0)  eps_c = eps_0      ! Evident car tj eps_c > eps_0
+                  if (eps_0 == eps_c) D_t = 1.d0          ! Elastique fragile
+                  
+                  D_t = (eps_t - eps_0)/(eps_c - eps_0 + 1.d-20)
+
+                  if (D_t > 1.d0) D_t = 1.d0
+                  if (D_t < 0.d0) D_t = 0.d0
+
+             end if
+
+             !---- Calcul de l'endommagement (updated)
+             !D = 1.d0 - eps_0/eps_t * (1.d0 - D0)
+             D = D_t
+             if (D < 0.d0) D = 0.d0
+             D = max(Dini,D)
+             D = min(D,.9999d0)
+
+
+             if ((eps_t > eps_c) .or. (D .ge. 0.9999)) then
+                  if(eps_t > eps_c) pause
+                  D=.9999d0
+
+                  if (ipg==1 .and. ietat(ie)==3) ietat(ie) = 2
+             end if
+
+        end if
+
+        ! Actualisation de la contrainte et rigidite 
+1000    vsig = matmul((1.d0-D)*vh,(matmul(vb,vdle)))
+        vh = (1.d0-D)*vh
+
+        endo(ie,ipg) = D
+        varg0(ie,ipg) = eps_0
+        vargs(ie,ipg) = eps_s
+        
+        if (ipg==1 .and. ie == 528 .and. (ietat(ie)==3 .or. ietat(ie)==2)) print*, ie, Dini, D, ietat(ie)
+        
+end subroutine interf_macro_endo
+
+
+
+  subroutine interf_macro_crit(iloi,vprel,vsig,ie,ipg,vcrit,calcu,deprel,vdfdsig,vdgdsig)
+
+  !*****************************************************************!
+  !     Calcul des criteres de rupture et des derivees              !
+  !               pour le calcul fissure                            !
+  !         sorties :  vcrit, vdfdsig, vdgdsig                      !
+  !*****************************************************************!
+
+        use variables, only : dime, ktypel, nomtype, nelt, pi, &
+                           &  ietat, iedng, irloc, mode, iedng
+        use initialisation, only : init_vec, init_mat
+        implicit none
+
+        !--- Variables IN
+        real*8, dimension(:), intent(in) :: vsig, vprel
+        integer, intent(in) :: iloi, ie, ipg
+        character(len=5), intent(in), optional :: calcu
+        real*8, dimension(:), intent(in), optional :: deprel
+        
+        !--- Variables OUT
+        real*8, intent(out) :: vcrit
+        real*8, dimension(:), intent(out), optional :: vdfdsig, vdgdsig
+ 
+        !--- Variables locales procedure
+        real*8 :: RT, C, sigma, tau, V(dime, dime)
+        real*8 :: vcrit_cis, vcrit_ouv, vtau
+        integer :: id, i, j, k
+        logical :: ideriv, ipremf
+        real*8 :: depcrin, depcrit, depreln, deprelt
+        real*8 :: Dn, Dt, alpha, penal
+
+        !----- Test(s) de compatibilite des arguments d'entree
+        ideriv = .false.
+        if (calcu == 'D1F') then
+            ideriv = .true.
+            vdfdsig = 0.0d0
+            vdgdsig = 0.0d0
+        end if
+        
+        select case (iloi)
+            
+        case(201)     !----- Loi de l'interface macro (elastique fragile)
+
+           !----- Recuperation des parametres
+           id = 6
+           if (dime == 3) id = id-1
+           RT = vprel(id)                        ! Contrainte limite
+           C  = vprel(id+1)                      ! Cohesion
+
+           vcrit = -1.d0
+
+           !---- Mode rupture en ouverture pure ------
+           sigma = vsig(1)
+           vcrit_ouv = sigma - RT
+
+           !----- Mode rupture en cisaillement -----
+           tau = vsig(2)
+           vcrit_cis = abs(tau) - C
+
+           ! Choix entre les deux modes de rupture
+           ! Verifier le critere au point central (pour la premiere fois de rupture)
+           ! Fixer le mode de rupture (ouveture ou cisaille : deja plastifie au pas precedent t-1, .... )
+
+           if (mode(ie) == 'els' .and. ie==iedng) then
+              if (ipg==1 .and. vcrit_ouv > 0.) then      ! Plasticite en mode d'ouverture
+                 mode(ie) = 'ouv'
+
+              elseif (ipg==1 .and. vcrit_cis > 0.) then  ! Plasticite en mode de cisaillement
+                 mode(ie) = 'cis'
+
+              else
+                 goto 1000                     ! element est encore elastique ou bien le critere de rupture
+              end if                           ! du point central n'atteint pas (sigma < Rt, tau < C)
+           end if
+
+           !----- Calcul des criteres et des derivees
+           if (iedng==ie .or. ietat(ie) /=0) then
+              if (mode(ie)=='ouv') then
+              !----- Rupture en ouverture
+                    vcrit = vcrit_ouv
+                    if (ideriv) then
+                       ietat(ie) = 1
+                       if (dime == 2) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              elseif (mode(ie)=='cis') then
+              !----- Rupture en cisaillement           
+                    vcrit = vcrit_cis
+                    if (ideriv) then
+                       ietat(ie) = 3
+                       if (dime == 2) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              end if
+           end if
+          
+1000       continue
+
+        case(202)     !----- Loi de l'interface macro (elastique endommageable)
+
+           !----- Recuperation des parametres
+           id = 6
+           if (dime == 3) id = id-1
+           RT = vprel(id)                        ! Resistance en traction
+           C  = vprel(id+1)                      ! Resistance en cisaillement
+
+           !---- Mode rupture en ouverture pure ------           
+           sigma = vsig(1)
+           vcrit_ouv = sigma - RT
+
+           !----- Mode rupture en cisaillement -----
+           tau = vsig(2)
+           vcrit_cis = abs(tau) - C
+
+           ! Le cas elastique
+           vcrit = -1.d0
+           if (vcrit_ouv < 0.d0 .and. vcrit_cis < 0.d0)  goto 2000
+           
+           ! Sinon, l'element est endommage
+           
+           !----- Deplacement relatif critique en traction et en cisaillement
+           depcrin = vprel(id+2)
+           depcrit = vprel(id+3)
+        
+           !----- Calcul du deplacement relatif
+           depreln = deprel(1)                                        ! Deplacement normal
+          
+           if (dime==2) deprelt = deprel(2)                           ! Deplacement tangentiel 1
+           if (dime==3) deprelt = sqrt(deprel(2)**2 + deprel(3)**2)   ! Deplacement tangentiel 1, 2
+
+           penal = 0.d0
+           if (depreln <= 0.d0) penal = 1.d0
+           if (depreln < 0.d0) depreln = 0.d0
+
+           Dn = 0.d0
+           Dt = 0.d0
+
+           alpha = 0.d0
+           
+           ! Choix entre les deux modes de rupture
+           ! Verifier le critere au point central (pour la premiere fois de rupture)
+           ! Fixer le mode de rupture (ouveture ou cisaille : deja plastifie au pas precedent t-1, .... )
+
+           if (mode(ie) == 'els' .and. ie==iedng) then
+              if (ipg==1 .and. vcrit_ouv > 0.) then      ! Plasticite en mode d'ouverture
+                 mode(ie) = 'ouv'
+
+              elseif (ipg==1 .and. vcrit_cis > 0.) then  ! Plasticite en mode de cisaillement
+                 mode(ie) = 'cis'
+
+              else
+                 goto 2000                     ! element est encore elastique ou bien le critere de rupture
+              end if                           ! du point central n'atteint pas (sigma < Rt, tau < C)
+           end if
+
+           !----- Calcul des criteres et des derivees
+           if (iedng==ie .or. ietat(ie) /=0) then
+              if (mode(ie)=='ouv') then
+              !----- Rupture en ouverture
+                    vcrit = vcrit_ouv
+                    if (ideriv) then
+                       ietat(ie) = 1
+                       !print*, ietat(ie)
+                       if (dime == 2) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              elseif (mode(ie)=='cis') then
+              !----- Rupture en cisaillement
+                    vcrit = vcrit_cis
+                    if (ideriv) then
+                       ietat(ie) = 3
+                       if (dime == 2) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              end if
+           end if
+          
+2000       continue
+
+        case(203)     !----- Loi de l'interface macro (elasto-plastique)
+
+           !----- Recuperation des parametres
+           id = 6
+           if (dime == 3) id = id-1
+           RT = vprel(id)                        ! Resistance en traction
+           C  = vprel(id+1)                      ! Resistance en cisaillement
+
+           !---- Mode rupture en ouverture pure ------
+           sigma = vsig(1)
+           vcrit_ouv = sigma - RT
+
+           !----- Mode rupture en cisaillement -----
+           tau = vsig(2)
+           vcrit_cis = abs(tau) - C
+
+           ! Le cas elastique
+           vcrit = -1.d0
+           if (vcrit_ouv < 0.d0 .and. vcrit_cis < 0.d0)  goto 3000
+
+           ! Sinon, l'element est endommage
+
+           ! Choix entre les deux modes de rupture
+           ! Verifier le critere au point central (pour la premiere fois de rupture)
+           ! Fixer le mode de rupture (ouveture ou cisaille : deja plastifie au pas precedent t-1, .... )
+
+           !if (mode(ie) == 'els' .and. ie==iedng) then
+           if (mode(ie) == 'els') then
+              if (ipg==1 .and. vcrit_ouv > 0.) then      ! Plasticite en mode d'ouverture
+                 mode(ie) = 'ouv'
+
+              elseif (ipg==1 .and. vcrit_cis > 0.) then  ! Plasticite en mode de cisaillement
+                 mode(ie) = 'cis'
+
+              else
+                 goto 3000                     ! element est encore elastique ou bien le critere de rupture
+              end if                           ! du point central n'atteint pas (sigma < Rt, tau < C)
+           end if
+
+           !----- Calcul des criteres et des derivees
+           !if (iedng==ie .or. ietat(ie) /=0) then
+              if (mode(ie)=='ouv') then
+              !----- Rupture en ouverture
+                    vcrit = vcrit_ouv
+                    if (ideriv) then
+                       if (dime == 2) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              elseif (mode(ie)=='cis') then
+              !----- Rupture en cisaillement
+                    vcrit = vcrit_cis
+                    if (ideriv) then
+                       if (dime == 2) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0 /)
+                       elseif (dime == 3) then
+                          vdfdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /) 
+                          vdgdsig = (/ 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0 /)
+                       end if
+                    end if
+
+              end if
+           !end if
+          
+3000       continue
+
+        case default
+           stop "Interf_macro_vcrit : cas non encore implante"  
+          
+        end select
+
+  end subroutine interf_macro_crit
+
+   !********************************************************!
+
+
+subroutine interf_macro_pilot(imetpilo,vsol,vduI,vduII,dlam,alpham,MOTm,elefiss)
+
+!********************************************************!
+!  Pilotage du calcul : gestion du facteur de chargement !
+!********************************************************!
+
+        use variables, only : dime, nelt, idmax, ktypel, nomtype, infele, &
+                    & vprelg, kprop, kprop0, ietat, iedngma, interf_macro, pi,     &
+                    & mrtrav, vrtrav, inorm, irloc, kloce
+        use initialisation, only : init_vec, init_mat
+        use lib_elem, only : elem_B, elem_kloce2, elem_hooke
+        use fissuration, only : fiss_changement_repere
+        use math
+        use utilitaire, only : princ
+        implicit none
+
+        ! Variables IN
+        real*8, dimension(:), intent(in) :: vduII, vsol
+        integer, intent(in) :: imetpilo
+
+        ! Variables IN-OUT
+        real*8, dimension(:), intent(in) :: vduI
+        real*8, intent(in) :: dlam 
+        real*8, intent(out) :: alpham
+        character(len=8), intent(inout) :: MOTm
+        integer, intent(inout) :: elefiss
+
+        ! Variables locales 
+        real*8, dimension(:), allocatable :: vdle, vdl0, vsi0, vdsi, vsi, &
+                                        & vsi0loc, vdsiloc, vdlI, vdlII, ksigPG
+        real*8, dimension(:,:), allocatable :: vn, vb, vh, P        
+        real*8 :: vprel(idmax), alph(nelt), vbid(dime), vbid2(1,dime*dime), V(dime,dime)
+        real*8 :: alpc, sign0, C, RT, phi, psi, sigma, tau, &
+                  & vcrit1, vcrit2, vcrit3, detj, signe, coef, alpg(1)
+        character(len=5) :: typ
+        character(len=8) :: MOT, rupt(nelt)
+
+        integer :: i, j, k, ie, ipg, ipgd, npg, id, iloi, ndle
+        
+!----- Switch en fonction de la methode de pilotage
+
+select case(imetpilo)
+  
+    case(1)
+        !----- Pilotage sur element le plus dangereux par recalcul de vduI
+
+        !- Pour le cas du modele d'interface macro
+        if (interf_macro==1) then
+
+            !- Initialisations
+            alph = 1.d0
+            iedngma = 0
+
+            !- Boucle sur les elements
+            do ie = 1, nelt
+            
+               MOT = '  '
+               typ = nomtype(ktypel(ie))
+            
+               !----- Pour les elements d'interface macro vierges
+               if ((typ=='MBI4') .and. (ietat(ie)==0)) then
+
+                  !----- Proprietes elementaires
+                  vprel = vprelg(kprop(ie),1:idmax)
+
+                  !----- Recuperation des parametres de la loi
+                  iloi = int(vprel(1))
+
+                  if (iloi/=201) goto 10000
+
+                  alpg = 1.d0
+
+                  do ipg = 1, 1   ! Verifier les contraintes au centre de l'element
+
+                    !----- Vecteur kloce de localisation dans vecteur global
+                    call elem_kloce2( ie, ndle)
+                    allocate(vdl0(ndle));  allocate(vdle(ndle))
+                    allocate(vdlI(ndle));  allocate(vdlII(ndle))
+
+                    !----- Deplacements             
+                    vdl0  = vsol(kloce(1:ndle))
+                    vdlI  = vduI(kloce(1:ndle))
+                    vdlII = vduII(kloce(1:ndle))
+                    vdle  = vdlI + dlam*vdlII
+
+                    !----- Matrice d'elasticite vh, en fonction du type d'element
+                    call elem_hooke(vh,nomtype(ktypel(ie)),vprel)
+
+                    !----- Calcul des contraintes au centre de gravite de l'element
+                    call elem_B(vn,vb,detj,infele(ktypel(ie))%Q(ipg,:),ie)
+
+                    ! dans le repere global
+                    allocate(vsi0(size(vb,1)))
+                    allocate(vdsi(size(vb,1)))
+                    vsi0  = matmul(vh,matmul(vb,vdl0))
+                    vdsi  = matmul(vh,matmul(vb,vdle))
+
+                    allocate(vsi(size(vsi0,1)))
+                    vsi = vsi0+vdsi
+                    
+                    ! Recuperation du repere de l'acier
+                    V=reshape(irloc(ie,:),(/dime,dime/))
+
+                    !----- Recuperation de la matrice de changement de repere global --> local principal (repere de l'acier)
+                    call init_mat(P,size(vh,1),size(vh,2))
+                    P = fiss_changement_repere(V,size(vb,1),1)
+                              
+                    ! Dans le repere principal...
+                    allocate(vdsiloc(size(vh,1)))
+                    allocate(vsi0loc(size(vh,1)))
+                    vdsiloc = matmul(P,vdsi)
+                    vsi0loc = matmul(P,vsi0)
+                                      
+                    deallocate(vdl0,vdlI,vdlII,vdle,vh,vb,vn)
+                    deallocate(vsi0,vdsi,vsi,P)
+
+                    if (iloi==201) then
+
+                       !----- Recuperation des parametres de la loi
+                       id = 6
+                       if (dime == 3) id = id-1
+                                 
+                       RT = 1.001 * vprel(id)
+                       C  = 1.001 * vprel(id+1)
+
+                       !----- Recuperation de la contrainte normale et tangente
+                       sigma = vsi0loc(1) + vdsiloc(1)
+                       tau   = vsi0loc(2) + vdsiloc(2)
+
+                       !----- Critere de rupture
+                       vcrit1 = sigma - RT
+                       vcrit2 = abs(tau) - C
+
+                       if (vcrit1 > 0.d0) then            !----- Critere de rupture en ouverture pure
+                           !- Critere en traction pure
+                           MOT = 'ouvert'
+                           alpg(ipg) = (RT - vsi0loc(1)) / vdsiloc(1)
+                           !print*, sigma, RT, tau, C, ie
+
+                       elseif (vcrit2 > 0.d0) then        !----- Critere de rupture en cisaillement
+                           !- Critere en cisaillement
+                           MOT = 'cisaille'
+                           signe = tau/abs(tau)
+                           alpg(ipg) = (C - signe*vsi0loc(2)) / (signe*vdsiloc(2))
+                           !print*, sigma, RT, tau, C
+                       end if
+
+                    else
+                       stop 'FIDES_fiss_pilot : loi non encore programmee'
+                    end if
+
+                    deallocate(vsi0loc,vdsiloc)
+                    
+                  end do
+
+                  !----- On conserve 
+                  rupt(ie) = MOT
+                  alph(ie) = minval(alpg)
+
+           10000   continue                                    
+               end if 
+            end do   
+            ! Fin de la boucle sur les elements
+
+            alpham = minval(alph)
+         
+            if (alpham < 1.d0) then
+              !----- On stocke le numero de l'element le plus dangereux
+              iedngma = find_num(alph,alpham)               
+              elefiss = count(alph<=0)
+              MOTm = rupt(iedngma)
+           else
+              alpham = 1.d0
+           end if
+        end if
+        
+    case(2)
+        !----- Pilotage sur l'increment de contrainte avec recalcul de "dlam"
+        
+    case default
+        stop 'FIDES_interf_macro_pilot : cas non encore programme'
+    end select
+
+end subroutine interf_macro_pilot
+
+
+!********************************************************!
+
+
+subroutine interf_macro_init()
+
+!********************************************************!
+!  Initialisations liees a la gestion des etats de       !
+!               elements d'interface                     !
+!********************************************************!
+    
+    use variables, only : dime, nelt, infele, iedngma,ietatma, interf_macro, mode, &
+           & kconec, ktypel, kprop, vcor, inorm, irloc, Emax, ntypel, vprelg, imacro, nomtype
+
+    use initialisation
+    use math
+    implicit none
+
+    integer :: id, ie, i, j, k, l, m , n, ncote, icote, ino, nbg
+    integer, dimension(:,:), allocatable :: cote 
+    integer, dimension(:), allocatable :: noec
+    real*8, dimension(dime) :: vt, vn
+
+!********************************************************!
+
+
+    if (interf_macro==1) then
+
+       id = 4
+       if (dime==3) id = id - 1
+       nbg = maxval(kprop)
+
+       iedngma = 0
+       call init_vec(mode,nelt,3)
+       !call init_vec(ietatma,nelt)
+       !call init_vec(histetatma1,nelt)
+       !call init_vec(histetatma2,nelt)
+
+       ! Chercher les elements voisins d'un element         
+       do ie = 1, nelt
+
+         ! Construire la liste d'element entourne l'acier
+         if (vprelg(kprop(ie),id) >= Emax) then       ! Acier
+
+            allocate(cote(size(infele(ktypel(ie))%face,1),size(infele(ktypel(ie))%face,2)))
+            cote = infele(ktypel(ie))%face
+            ncote = size(cote,1)
+
+            allocate(noec(size(cote,2)))
+
+            do icote = 1, ncote
+              do i = 1, nelt
+                noec = 0
+                ino  = 0
+                if (i/=ie .and. nomtype(ktypel(i))=='MBI4') then
+                  k = 0 ; l = 0 ; m = 0 ; n = 0
+                  do j = 1, size(kconec,2)
+                    if (kconec(i,j)==kconec(ie,cote(icote,1))) then
+                       k = 1
+                       ino = ino + 1
+                       noec(ino) = kconec(i,j)
+                    end if
+                     
+                    if (kconec(i,j)==kconec(ie,cote(icote,2))) then
+                       l = 1
+                       ino = ino + 1
+                       noec(ino) = kconec(i,j)
+                    end if
+                  
+                    if (size(cote,2)==3) then
+                       if (kconec(i,j)==kconec(ie,cote(icote,3))) m = 1
+                    end if
+             
+                    if (size(cote,2)==4) then
+                       if (kconec(i,j)==kconec(ie,cote(icote,3))) m = 1
+                       if (kconec(i,j)==kconec(ie,cote(icote,4))) n = 1
+                    end if
+                  end do
+         
+                  if ((k==1.and.l==1.and.size(cote,2)==2).or.(k==1.and.l==1.and.m==1.and.size(cote,2)==3) &
+                      & .or. (k==1 .and. l==1 .and. m==1 .and. n==1 .and. size(cote,2)==4)) then
+
+                      ! Changer les proprietes pour cet element
+                      if (imacro .eqv. .false.) then  ! Si le groupe d'interface n'est pas encore declare
+                         kprop(i)  = nbg+1            ! Loi interface macro, pour ces elements, on ne calcule plus la normale
+                         ktypel(i) = ntypel           ! Changer le type d'element
+                      end if
+                      mode(i) = 'els'
+
+                      ! Definir la normale de cet element
+                      ! (la vecteur normale doit etre orientee vers l'element de beton)
+
+                      !         *-----------*-------*-----------*
+                      !         |           |       |           |
+                      !         |  Beton    |       |  Beton    |
+                      !         |      <----| Acier |---->      |
+                      !         |       n   |       |  n        |
+                      !         |           |       |           |
+                      !         *-----------*-------*-----------*
+
+                      vt = (vcor(:,noec(1))-vcor(:,noec(2)))/norme(vcor(:,noec(1))-vcor(:,noec(2)))
+                      vn = (/ -vt(2), vt(1)/)
+
+                      inorm(i,:) = vn
+                      irloc(i,:) = (/vn, vt/)
+                      !irloc(i,:) = (/vt, vn/)
+
+                      exit
+                  end if
+                end if
+              end do
+           end do
+
+           deallocate(cote,noec)
+         end if
+      end do
+
+    end if
+
+    if (interf_macro==0) then
+
+       id = 4
+       if (dime==3) id = id - 1
+       nbg = maxval(kprop)
+
+       iedngma = 0
+       call init_vec(mode,nelt,3)
+       !call init_vec(ietatma,nelt)
+       !call init_vec(histetatma1,nelt)
+       !call init_vec(histetatma2,nelt)
+
+       ! Chercher les elements voisins d'un element         
+       do ie = 1, nelt
+
+         ! Construire la liste d'element entourne l'acier
+         if (vprelg(kprop(ie),id) >= Emax) then       ! Acier
+
+            allocate(cote(size(infele(ktypel(ie))%face,1),size(infele(ktypel(ie))%face,2)))
+            cote = infele(ktypel(ie))%face
+            ncote = size(cote,1)
+
+            allocate(noec(size(cote,2)))
+
+            do icote = 1, ncote
+              do i = 1, nelt
+                noec = 0
+                ino  = 0
+                if (i/=ie .and. vprelg(kprop(i),id) < Emax) then
+                  k = 0 ; l = 0 ; m = 0 ; n = 0
+                  do j = 1, size(kconec,2)
+                    if (kconec(i,j)==kconec(ie,cote(icote,1))) then
+                       k = 1
+                       ino = ino + 1
+                       noec(ino) = kconec(i,j)
+                    end if
+                     
+                    if (kconec(i,j)==kconec(ie,cote(icote,2))) then
+                       l = 1
+                       ino = ino + 1
+                       noec(ino) = kconec(i,j)
+                    end if
+                  
+                    if (size(cote,2)==3) then
+                       if (kconec(i,j)==kconec(ie,cote(icote,3))) m = 1
+                    end if
+             
+                    if (size(cote,2)==4) then
+                       if (kconec(i,j)==kconec(ie,cote(icote,3))) m = 1
+                       if (kconec(i,j)==kconec(ie,cote(icote,4))) n = 1
+                    end if
+                  end do
+         
+                  if ((k==1.and.l==1.and.size(cote,2)==2).or.(k==1.and.l==1.and.m==1.and.size(cote,2)==3) &
+                      & .or. (k==1 .and. l==1 .and. m==1 .and. n==1 .and. size(cote,2)==4)) then
+
+                      ! Changer les proprietes pour cet element
+                      if (imacro .eqv. .false.) then  ! Si le groupe d'interface n'est pas encore declare
+                         kprop(i)  = nbg+1            ! Loi interface macro, pour ces elements, on ne calcule plus la normale
+                         ktypel(i) = ntypel           ! Changer le type d'element
+                      end if
+                      mode(i) = 'els'
+
+                      ! Definir la normale de cet element
+                      ! (la vecteur normale doit etre orientee vers l'element de beton)
+
+                      !         *-----------*-------*-----------*
+                      !         |           |       |           |
+                      !         |  Beton    |       |  Beton    |
+                      !         |      <----| Acier |---->      |
+                      !         |       n   |       |  n        |
+                      !         |           |       |           |
+                      !         *-----------*-------*-----------*
+
+                      vt = (vcor(:,noec(1))-vcor(:,noec(2)))/norme(vcor(:,noec(1))-vcor(:,noec(2)))
+                      vn = (/ -vt(2), vt(1)/)
+
+                      inorm(i,:) = vn
+                      irloc(i,:) = (/vn, vt/)
+                      !irloc(i,:) = (/vt, vn/)
+
+                      exit
+                  end if
+                end if
+              end do
+           end do
+
+           deallocate(cote,noec)
+         end if
+      end do
+
+    end if
+
+end subroutine interf_macro_init
+
+subroutine interf_macro_rupture(ie,ipg,vsig,vnle,wplael,vprel)
+
+!********************************************************!
+!           Fonction de detection de la rupture          !
+!                pour le calcul fissure                  !
+!********************************************************!
+
+        use variables, only : dime, ietat, iedng, mode
+        implicit none
+
+        real*8, dimension(:,:), intent(inout) :: vnle, vsig
+        integer, intent(in) :: ie, ipg
+        real*8, dimension(:), intent(in) :: vprel 
+        real*8, intent(in) :: wplael
+        real*8 :: wplamax
+        integer :: id
+
+!********************************************************!
+
+        if (vprel(1)==201 .or. vprel(1)==202) then
+            if (ietat(ie)==1) then ! Energie plastique maximale atteinte : l'element est fissure
+                ietat(ie)=1
+                vnle=0.0d0*vnle        ! Attention !!! UNIQUEMENT POUR ELASTIQUE FRAGILE
+                vsig=0.0d0*vsig
+            end if
+        end if
+
+end subroutine interf_macro_rupture
+
+!********************************************************!
+
+    subroutine interf_macro_modul(ie,ipg,vh,vprel)
+
+!********************************************************!
+!                Gestion de la raideur                   !
+!********************************************************!
+
+    use variables, only : dime, ietat
+    implicit none
+
+    real*8, dimension(:), intent(in) :: vprel
+    real*8, dimension(:,:), intent(inout) :: vh
+    integer, intent(in) :: ie, ipg
+    integer :: iloi
+
+!********************************************************!
+
+    iloi = vprel(1)
+
+    !***** Modification de la matrice pour element fissure
+    if (iloi==201) then
+       if (ietat(ie) == 1) then
+           vh = vh/1.d20
+       end if
+    end if
+
+    end subroutine interf_macro_modul
+
+!********************************************************!
+
+    subroutine interf_macro_loi(iloi,icomp,ie,ipg)
+
+!========================================================!
+!     Calcul des contraintes pour calcul fissure         !
+!========================================================!
+
+    use variables, only : ietat
+    implicit none
+
+    integer, intent(in) :: icomp, ie, ipg
+    integer, intent(inout) :: iloi
+
+!********************************************************!
+
+    if (iloi==201) then
+       if (ietat(ie)==1) then
+           iloi = 1
+       end if
+    end if
+    
+    end subroutine interf_macro_loi
+
+
+end module interface_macro

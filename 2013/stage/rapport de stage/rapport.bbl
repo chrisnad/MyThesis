@@ -1,0 +1,21 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname fonteauteurs\endcsname\relax
+\def\fonteauteurs{\scshape}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}%
+    \message{You should include the url package}\fi
+
+\bibitem[GIRY, 2011]{Giry11}
+\bgroup\fonteauteurs\bgroup GIRY\egroup\egroup{}, C. (2011).
+\newblock {\em Modélisation objective de la localisation des déformations et de
+  la fissuration dans les structures en béton armé}.
+\newblock Th\`ese de doctorat, Université de Grenoble.
+
+\bibitem[HILD et ROUX, 2008]{Hild08}
+\bgroup\fonteauteurs\bgroup HILD\egroup\egroup{}, F. et
+  \bgroup\fonteauteurs\bgroup ROUX\egroup\egroup{}, S. (2008).
+\newblock Correliq4: A software for finite-element displacement field
+  measurements by digital image correlation.
+\newblock {\em Notice interne au LMT}.
+
+\end{thebibliography}

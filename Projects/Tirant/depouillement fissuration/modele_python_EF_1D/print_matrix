@@ -1,0 +1,7 @@
+def printMatrix(testMatrix):
+        print ' ',
+        for i in range(len(matrix[1])):  # Make it work with non square matrices.
+              print i,
+        print
+        for i, element in enumerate(testMatrix):
+              print i, ' '.join(element)

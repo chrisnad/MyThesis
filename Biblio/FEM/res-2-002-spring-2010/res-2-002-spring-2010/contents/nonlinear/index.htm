@@ -1,0 +1,693 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<title>Nonlinear Analysis | Finite Element Procedures for Solids and Structures | MIT OpenCourseWare</title>
+<!-- Begin Automatic Metadata Insertion --><meta content="res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010" name="WT.cg_n">
+<meta content="Nonlinear Analysis" name="WT.cg_s">
+<meta content="" name="Description">
+<meta content="Bathe, Klaus-Jürgen" name="Author">
+<meta content="finite element method,statics,dynamics,linear analysis,nonlinear analysis,computer modeling,engineering design,solids,structures,wave propagation,vibration,collapse,buckling,Lagrangian formulation,truss,beam,plate,shell,elastic materials,plastic materials,creep,ADINA,numerical integration methods,mode superposition,Computational Modeling and Simulation,Solid Mechanics,Numerical Simulation" name="keywords">
+<meta content="RES.2-002 Finite Element Procedures for Solids and Structures | Nonlinear Analysis" name="Search_Display">
+<meta content="Computational Modeling and Simulation" itemprop="about">
+<meta content="Solid Mechanics" itemprop="about">
+<meta content="Numerical Simulation" itemprop="about">
+<!-- End Automatic Metadata Insertion --><link title="default" rel="stylesheet" type="text/css" href="../../common/styles/grid.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/base.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/menu.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/jquery.bubblepopup.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/courses.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/courses_new.css">
+<link title="default" rel="stylesheet" type="text/css" href="../../common/styles/media_tabs.css">
+<link href="http://ocw.mit.edu/xml/ocwcc.rdf" type="application/rdf+xml" rel="metadata">
+<link rel="canonical" href="http://ocw.mit.edu/resources/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/nonlinear">
+<link rel="apple-touch-icon" href="../../common/images/apple-touch-icon.png">
+<script type="text/javascript" src="../../common/scripts/common-utils-offline.js"></script><script type="text/javascript" src="../../common/scripts/ocw-offline.js"></script><script type="text/javascript" src="../../common/scripts/jquery.bubblepopup.min.js"></script><script type="text/javascript" src="../../common/scripts/bubble-popup-offline.js"></script>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+        
+	
+
+        <div id="top">
+			<div id="grid">
+				
+				
+					
+<div id="portletwrapper-6f63772e746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d686561646572" class="portletWrapper kssattr-portlethash-6f63772e746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d686561646572">
+<div class="portletStaticText portlet-static-site-header">
+<div id="banner" role="banner" class="grid_6 alpha"><a href="http://ocw.mit.edu/"><img src="../../common/images/ocw_mast.png" alt="MIT OpenCourseWare, Massachusetts Institute of Technology" class="logo"></a></div>
+<form action="http://ocw.mit.edu/subscribe/index.htm?utm_source=header" method="get">
+    <div id="subscribe" role="form toolbar" class="grid_6 omega">
+    <div class="module">
+    <table class="social"><tbody><tr>
+<td class="text">Subscribe to the<br>
+                OCW Newsletter</td>
+                <td class="black"><input type="text" onclick="clearEmailBox()" onblur="fillEmailBox()" value="Enter Email" class="greytext emailField" id="email" name="fromemail"></td>
+                <td class="black"><input type="image" src="../../common/images/button_subscribe.png" alt="Subscribe" class="sub_button"></td>
+                <td>
+<a href="http://facebook.com/mitocw"><img src="../../common/images/icon_fb.png" alt="Click to visit our Facebook page."></a><a href="http://twitter.com/mitocw"><img src="../../common/images/icon_tw.png" alt="Click to visit our Twitter feed."></a>
+</td>
+            </tr></tbody></table>
+</div>
+    <p class="helplinks"><a href="http://ocw.mit.edu/help">Help</a>   |   <a href="../../common/jsp/feedback.htm">Contact Us</a></p>
+    </div>
+    <div class="clear"> </div>
+</form>
+</div>
+
+</div>
+
+
+
+
+
+<div id="mega" role="navigation" class="grid_8 alpha">        
+	<ul id="menu">
+<li id="menu_home">
+            <a href="http://ocw.mit.edu/"><img src="../../common/images/top-nav_home.png" class="home_icon" alt="Click for site home page."></a><!-- Begin Home Item -->
+        </li>
+<!-- End Home Item -->        
+        <li class="selected">
+            <a href="#" class="drop">Courses</a><!-- Begin 5 columns Item -->
+            <div class="dropdown_5columns-a mega-courses">                    
+                <div class="col_1a">
+                    <div class="row_1a">
+                        <div class="quart">
+                            <h2 class="nav">Find courses by:</h2>
+                            <ul class="nav-bullet find_by">
+<li><a href="http://ocw.mit.edu/courses/find-by-topic/">Topic</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/find-by-number/">MIT Course Number</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/find-by-department/">Department</a></li>
+                            </ul>
+</div>
+                        <div class="quart">
+                            <h2 class="nav">Collections</h2>
+                            <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/audio-video-courses/">Audio/Video Lectures</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/new-courses/">New Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/most-visited-courses/">Most Visited Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/ocw-scholar/">OCW Scholar Courses</a></li>
+                                <li><a href="http://ocw.mit.edu/courses/this-course-at-mit/">This Course at MIT</a></li>
+                                <li><a href="http://ocw.mit.edu/resources/">Supplemental Resources</a></li>
+                            </ul>
+</div>
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="row_1b">
+                        <h2 class="nav">Cross-Disciplinary Topic Lists</h2>
+                        <div class="quart">
+                        <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/energy-courses">Energy</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/entrepreneurship">Entrepreneurship</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/environment-courses">Environment</a></li>
+                        </ul>
+</div>    
+                        <div class="quart">
+                        <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/intro-programming">Introductory Programming</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/life-sciences">Life Sciences</a></li>
+                            <li><a href="http://ocw.mit.edu/courses/transportation-courses">Transportation</a></li>
+                        </ul>
+</div>
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                <div class="col_1b">
+                    <h2 class="nav">Translated Courses</h2>
+                    <ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/courses/translated-courses/traditional-chinese">繁體字 / Traditional Chinese</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/simplified-chinese">简体字 / Simplified Chinese</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/spanish">Español / Spanish</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/portuguese">Português / Portuguese</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/thai">ภาษาเขียน / Thai</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/persian">فارسی / Persian</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/turkish">Türkçe / Turkish</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses/korean">(비디오)한국 / Korean</a></li>
+                        <li><a href="http://ocw.mit.edu/courses/translated-courses">More...</a></li>
+                    </ul>
+</div>
+            </div>
+        </li>
+        <li>
+            <a href="" class="drop">About</a>
+            <div class="dropdown_1column-a">
+                <div class="col_1">
+                    <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/about/">About MIT OpenCourseWare</a></li>
+                    </ul>
+<ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/about/site-statistics/">Site Stats</a></li>
+                        <li><a href="http://ocw.mit.edu/about/ocw-stories/">OCW Stories</a></li>
+                        <li><a href="http://ocw.mit.edu/about/ocw-consortium/">OpenCourseWare Consortium</a></li>
+                    </ul>
+<ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/about/media-coverage/">Media Coverage</a></li>
+                        <li><a href="http://ocw.mit.edu/about/newsletter/">Newsletter</a></li>
+                        <li><a href="http://ocw.mit.edu/about/media-coverage/press-releases/">Press Releases</a></li>
+                    </ul>
+<ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/about/next-decade/">OCW's Next Decade</a></li>
+                    </ul>
+</div>
+            </div>  
+        </li>    
+        <li>
+            <a href="" class="drop">Donate</a>        
+            <div class="dropdown_1column-a">
+                    <div class="col_1">
+                        <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/donate/">Make a Donation</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/why-donate/">Why Donate?</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/ocw-course-champions-program/">Become a Course Champion</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/our-supporters/">Our Supporters</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/other-ways-to-contribute/">Other Ways to Contribute</a></li>
+                            <li><a href="http://ocw.mit.edu/donate/shop-ocw">Shop OCW</a></li>
+                        </ul>
+<ul class="nav-bullet">
+<li><a href="http://ocw.mit.edu/support/">Become a Corporate Sponsor</a></li>
+                        </ul>
+</div>
+            </div>            
+        </li>        
+        <li>
+            <a href="" class="drop">Featured Sites</a>        
+            <div class="dropdown_1column-a">
+                <div class="col_1">
+                    <ul class="nav-bullet mega-div-bottom">
+<li><a href="http://ocw.mit.edu/high-school/">Highlights for High School</a></li>
+                    </ul>
+<ul class="nav-bullet mega-div-top">
+<li><a href="https://www.edx.org/school/mitx/allcourses">MITx</a></li>
+                        <li><a href="http://teachingexcellence.mit.edu/">Teaching Excellence at MIT</a></li>
+                    </ul>
+</div>
+            </div>            
+        </li>
+    </ul>
+</div>
+<div id="search" role="search" class="grid_4 omega">
+    
+    <form method="get" action="../../common/search/AdvancedSearch.htm">
+     	 <table class="search"><tbody><tr>
+<td class="black"><input type="text" onblur="fillSearchBox()" onfocus="clearSearchBox()" maxlength="255" value="Search" name="q" class="greytext searchField" id="terms"></td> 			 
+                    <td class="black"><input type="image" src="../../common/images/button_search.png" name="btnG" class="sub_button"></td>			 
+                    <td class="text2"><a href="../../common/search/AdvancedSearch.htm">Advanced<br>Search</a></td>
+                </tr></tbody></table>
+</form>
+</div>
+<div class="clear"></div>
+<!-- *end header* -->  
+
+				
+				
+			</div>
+<!-- top grid end -->
+		</div>
+<!-- top end -->
+			
+		<div id="center_media">
+         <div id="grid">
+		     <div id="left">
+                 <div id="breadcrumb_media">
+                      <p>
+
+    <a href="http://ocw.mit.edu/">Home</a>
+    
+        »
+        
+    
+    
+        
+            <a href="http://ocw.mit.edu/resources">Supplemental Resources</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            <a href="../../contents/index.htm">Finite Element Procedures for Solids and Structures</a>
+            
+                »
+                
+            
+            
+         
+    
+    
+        
+            
+            
+            Nonlinear Analysis
+         
+    
+</p>
+
+                 </div>
+                 <div class="clear"></div>
+                 <div id="media_title">
+           			<h1 class="title" itemprop="name" property="dct:title">
+        <span class="" id="parent-fieldname-title">
+            Nonlinear Analysis
+        </span>
+    </h1>
+           	     </div>
+           	     <div class="clear"></div>
+           	     <div id="course_wrapper_media">
+           	     	 <div id="course_nav">
+           			 	
+
+
+
+<script language="javascript" type="text/javascript">
+function toggleMenu(objID) {
+  if (!document.getElementById) return;
+  var ob = document.getElementById(objID);
+  ob.className = (ob.className == 'selected')?'': 'selected';
+}
+function toggleClass(id)
+{
+  var divtoggleClass= document.getElementById(id);
+  divtoggleClass.className = (divtoggleClass.className == 'mO')?'mC': 'mO';
+  return false;
+}
+function changeAlt(id)
+{
+  id.alt = (id.alt == 'Expand Menu')?'Collapse Menu' : 'Expand Menu';
+  id.title = (id.title == 'Expand Menu')?'Collapse Menu' : 'Expand Menu';
+}
+</script><!--Left Nav Starts --><ul>
+<li class="">
+			   			<a href="../../contents/index.htm">
+		                  Resource Home  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="">
+			   			<a href="../../contents/linear/index.htm">
+		                  Linear Analysis  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    <li class="selected">
+			   			<a href="../../contents/nonlinear/index.htm">
+		                  Nonlinear Analysis  			                
+	                    </a>
+		        </li>
+		    
+         	
+	
+	
+	    	
+	    	    
+		    
+         	
+	<!--second tal block close-->  
+	
+</ul>
+<!--Left Nav Ends -->
+</div>
+           		     <div id="course_inner_media_gallery">
+           		     	
+	                    <h2 class="subhead">Description</h2> <p>This video series presents effective finite element procedures for the nonlinear analysis of solids and structures. The finite element method is the ideal tool for solving complex static and dynamic problems in engineering and the sciences. Nonlinear analysis models kinematic and/or materially nonlinear effects.</p> <p>In these videos, Professor K. J. Bathe, a researcher of world renown in the field of finite element analysis, builds upon the concepts developed in his previous video course on <a href="../../contents/linear/index.htm">Linear Analysis</a>. General nonlinear analysis techniques are presented by emphasizing physical concepts. The mathematical foundation of nonlinear finite element techniques is given in light of these physical requirements. A wide range of questions in engineering and the sciences can be addressed with these methods. Upon completion of the course, participants will be able to simulate and analyze problems such as:</p> <ul>
+<li>Large displacement collapse or buckling of structures</li> <li>Progressive damage of structural components under high-temperature conditions</li> <li>Stresses and strains of structures under severe earthquake loads</li> <li>Accident conditions due to sudden overloads</li> <li>Construction and repair of structures</li> <li>Stability of underground openings</li> </ul>
+<h2 class="subhead">Prerequisites</h2> <p>An undergraduate degree in engineering or science, and completion of the previous video course on <a href="../../contents/linear/index.htm">Linear Analysis</a>.</p> <h2 class="subhead">Textbook</h2> <p><a href="http://www.amazon.com/exec/obidos/ASIN/097900490X/ref=nosim/mitopencourse-20"><img border="0" alt="Amazon logo" src="http://ocw.mit.edu/images/a_logo_17.gif"></a> Bathe, K. J. <em>Finite Element Procedures</em>. Cambridge, MA: Klaus-Jürgen Bathe, 2007. ISBN: 9780979004902. (Formerly published by Prentice Hall, 1996.)</p> <h2 class="subhead">Related Resources</h2> <p>Prof. Bathe currently teaches two courses at MIT focused on finite element analysis, both available on MIT OpenCourseWare:</p> <p><a href="http://ocw.mit.edu/courses/mechanical-engineering/2-092-finite-element-analysis-of-solids-and-fluids-i-fall-2009"><em>2.092/2.093 Finite Element Analysis of Solids and Fluids I</em></a></p> <p><a href="http://ocw.mit.edu/courses/mechanical-engineering/2-094-finite-element-analysis-of-solids-and-fluids-ii-spring-2011"><em>2.094 Finite Element Analysis of Solids and Fluids II</em></a></p> <p>Additional books co-authored by Prof. Bathe and relating to this course are:</p> <p><a href="http://www.amazon.com/exec/obidos/ASIN/3642164072/ref=nosim/mitopencourse-20"><img border="0" alt="Amazon logo" src="http://ocw.mit.edu/images/a_logo_17.gif"></a> Chapelle, D., and K. J. Bathe. <em>The Finite Element Analysis of Shells: Fundamentals.</em> New York, NY: Springer, 2011. ISBN: 9783642164071.</p> <p><a href="http://www.amazon.com/exec/obidos/ASIN/3540263314/ref=nosim/mitopencourse-20"><img border="0" alt="Amazon logo" src="http://ocw.mit.edu/images/a_logo_17.gif"></a> Bucalem, M. L., and K. J. Bathe. <em>The Mechanics of Solids and Structures: Hierarchical Modeling and the Finite Element Solution.</em> New York, NY: Springer, 2011. ISBN: 9783540263319.</p> <p><a href="http://www.amazon.com/exec/obidos/ASIN/3540227938/ref=nosim/mitopencourse-20"><img border="0" alt="Amazon logo" src="http://ocw.mit.edu/images/a_logo_17.gif"></a> Kojić, M., and K. J. Bathe. <em>Inelastic Analysis of Solids and Structures.</em> New York, NY: Springer, 2005. ISBN: 9783540227939.</p> <h2 class="subhead">About ADINA</h2> <p>This video course presents general theory and use of finite element procedures. However, the course refers in many parts to ADINA, a finite element program for general state-of-the-art linear and nonlinear, static and dynamic, and multi-physics analyses. Please see <a href="http://www.adina.com/">ADINA R&amp;D</a> for more information.</p> <h2 class="subhead">Study Guide Components</h2> <ul>
+<li>Complete Study Guide (<a href="../../contents/nonlinear/MITRES2_002S10_lec1_13.pdf">PDF 1 of 2 - 7.3MB</a>) (<a href="../../contents/nonlinear/MITRES2_002S10_lec14_22.pdf">PDF 2 of 2 - 7.2MB</a>)</li> <li>Preface (<a href="../../contents/nonlinear/MITRES2_002S10_preface.pdf">PDF</a>)</li> <li>Table of Contents (<a href="../../contents/nonlinear/MITRES2_002S10_toc.pdf">PDF</a>)</li> <li>Glossary (<a href="../../contents/nonlinear/MITRES2_002S10_glossary.pdf">PDF</a>)</li> </ul>
+<div class="media_rss_link">
+       
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-1/index.htm" title="Lecture 1: Introduction to Nonlinear Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/TJh7KPABk6I/default.jpg" alt="Lecture 1: Introduction to Nonlinear Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-1/index.htm">Lecture 1: Introduction to Nonlinear Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-2/index.htm" title="Lecture 2: Basic Considerations in Nonlinear Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/uVavsfJOsKc/default.jpg" alt="Lecture 2: Basic Considerations in Nonlinear Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-2/index.htm">Lecture 2: Basic Considerations in Nonlinear Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-3/index.htm" title="Lecture 3: Lagrangian Continuum Mechanics Variables for Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/iOilZsS_cnM/default.jpg" alt="Lecture 3: Lagrangian Continuum Mechanics Variables for Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-3/index.htm">Lecture 3: Lagrangian Continuum Mechanics Variables for Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-4/index.htm" title="Lecture 4: Total Lagrangian Formulation - Incremental Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/4-ehnTIyV0A/default.jpg" alt="Lecture 4: Total Lagrangian Formulation - Incremental Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-4/index.htm">Lecture 4: Total Lagrangian Formulation - Incremental Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-5/index.htm" title="Lecture 5: Updated Lagrangian Formulation - Incremental Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/_d27jyqzoKQ/default.jpg" alt="Lecture 5: Updated Lagrangian Formulation - Incremental Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-5/index.htm">Lecture 5: Updated Lagrangian Formulation - Incremental Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-6/index.htm" title="Lecture 6: Formulation of Finite Element Matrices">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/L27JVpZoz_Y/default.jpg" alt="Lecture 6: Formulation of Finite Element Matrices"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-6/index.htm">Lecture 6: Formulation of Finite Element Matrices</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-7/index.htm" title="Lecture 7: 2D &amp; 3D Solid Elements; Plane Stress/Strain Conditions">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/lsS2NysCVM4/default.jpg" alt="Lecture 7: 2D &amp; 3D Solid Elements; Plane Stress/Strain Conditions"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-7/index.htm">Lecture 7: 2D &amp; 3D Solid Elements; Plane Stress/Strain Conditions</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-8/index.htm" title="Lecture 8: 2-Noded Truss Element - Updated Lagrangian Formulation">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/ut04RoDL-gk/default.jpg" alt="Lecture 8: 2-Noded Truss Element - Updated Lagrangian Formulation"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-8/index.htm">Lecture 8: 2-Noded Truss Element - Updated Lagrangian Formulation</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-9/index.htm" title="Lecture 9: 2-Noded Truss Element - Total Lagrangian Formulation">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/ChYAqW_MnW0/default.jpg" alt="Lecture 9: 2-Noded Truss Element - Total Lagrangian Formulation"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-9/index.htm">Lecture 9: 2-Noded Truss Element - Total Lagrangian Formulation</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-10/index.htm" title="Lecture 10: Solution of Nonlinear Static FE Equations I">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/BekDicq9MdM/default.jpg" alt="Lecture 10: Solution of Nonlinear Static FE Equations I"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-10/index.htm">Lecture 10: Solution of Nonlinear Static FE Equations I</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-11/index.htm" title="Lecture 11: Solution of Nonlinear Static FE Equations II">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/N6rt_YxXuoA/default.jpg" alt="Lecture 11: Solution of Nonlinear Static FE Equations II"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-11/index.htm">Lecture 11: Solution of Nonlinear Static FE Equations II</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-12/index.htm" title="Lecture 12: Demonstrative Example Solutions in Static Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/4M-ijbL1gsk/default.jpg" alt="Lecture 12: Demonstrative Example Solutions in Static Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-12/index.htm">Lecture 12: Demonstrative Example Solutions in Static Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-13/index.htm" title="Lecture 13: Solution of Nonlinear Dynamic Response I">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/GyeJwReGKWg/default.jpg" alt="Lecture 13: Solution of Nonlinear Dynamic Response I"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-13/index.htm">Lecture 13: Solution of Nonlinear Dynamic Response I</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-14/index.htm" title="Lecture 14: Solution of Nonlinear Dynamic Response II">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/D_lVfCfGVao/default.jpg" alt="Lecture 14: Solution of Nonlinear Dynamic Response II"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-14/index.htm">Lecture 14: Solution of Nonlinear Dynamic Response II</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-15/index.htm" title="Lecture 15: Elastic Constitutive Relations in T. L. Formulation">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/BH06RODmHsc/default.jpg" alt="Lecture 15: Elastic Constitutive Relations in T. L. Formulation"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-15/index.htm">Lecture 15: Elastic Constitutive Relations in T. L. Formulation</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-16/index.htm" title="Lecture 16: Elastic Constitutive Relations in U. L. Formulation">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/ieV1yZ1l7-c/default.jpg" alt="Lecture 16: Elastic Constitutive Relations in U. L. Formulation"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-16/index.htm">Lecture 16: Elastic Constitutive Relations in U. L. Formulation</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-17/index.htm" title="Lecture 17: Modeling of Elasto-Plastic and Creep Response I">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/GpV_9EtObvs/default.jpg" alt="Lecture 17: Modeling of Elasto-Plastic and Creep Response I"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-17/index.htm">Lecture 17: Modeling of Elasto-Plastic and Creep Response I</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-18/index.htm" title="Lecture 18: Modeling of Elasto-Plastic and Creep Response II">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/Us2Myb5csu4/default.jpg" alt="Lecture 18: Modeling of Elasto-Plastic and Creep Response II"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-18/index.htm">Lecture 18: Modeling of Elasto-Plastic and Creep Response II</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-19/index.htm" title="Lecture 19: Beam, Plate, and Shell Elements I">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/-BYC6cNSO78/default.jpg" alt="Lecture 19: Beam, Plate, and Shell Elements I"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-19/index.htm">Lecture 19: Beam, Plate, and Shell Elements I</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-20/index.htm" title="Lecture 20: Beam, Plate, and Shell Elements II">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/EsiGSf2bt9k/default.jpg" alt="Lecture 20: Beam, Plate, and Shell Elements II"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-20/index.htm">Lecture 20: Beam, Plate, and Shell Elements II</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-21/index.htm" title="Lecture 21: Demonstration Using ADINA - Linear Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/Jfibd3L_E_o/default.jpg" alt="Lecture 21: Demonstration Using ADINA - Linear Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-21/index.htm">Lecture 21: Demonstration Using ADINA - Linear Analysis</a></p>        
+        </div>
+    </div>
+    <div class="medialisting">
+        <a href="../../contents/nonlinear/lecture-22/index.htm" title="Lecture 22: Demonstration Using ADINA - Nonlinear Analysis">
+            <img class="mediathumbnail" src="http://img.youtube.com/vi/NJUIkyavUD4/default.jpg" alt="Lecture 22: Demonstration Using ADINA - Nonlinear Analysis"></a>
+        <div class="mediatext">
+            <br><p class="mediatitle">
+            <a class="bullet medialink" href="../../contents/nonlinear/lecture-22/index.htm">Lecture 22: Demonstration Using ADINA - Nonlinear Analysis</a></p>        
+        </div>
+    </div> 
+
+	        			
+	                    
+	                    
+	                    	                    	
+	                                       
+            			
+    			    </div>
+<!--Course_inner_section tag close -->
+           		     <div class="clear"></div>
+ 				 </div>
+<!--Course_wrapper tag close -->             
+ 			 </div>
+<!--left tag close -->
+ 			 
+			     <div id="right">
+			     <!-- begin right column -->
+			     	<div>
+    
+<div id="portletwrapper-6f63772e7269676874746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a646f6e617465" class="portletWrapper kssattr-portlethash-6f63772e7269676874746f70706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a646f6e617465">
+<div class="portletStaticText portlet-static-donate"><p class="zero"><a href="http://ocw.mit.edu/donate"><img src="../../common/images/button_donate-now.png" alt="Donate Now." class="donate"></a></p></div>
+
+</div>
+
+
+
+
+</div>
+
+			    	<div>
+    
+
+
+
+</div>
+
+<!-- RSI google ad space-->
+
+
+<div id="google_ads">    
+    <script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js"></script><script type="text/javascript">GS_googleAddAdSenseService("ca-pub-6588555046597237");GS_googleEnableAllServices();</script><script type="text/javascript">GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDEX_SLOT_A_DL");GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDEX_SLOT_B_DL");GA_googleAddSlot("ca-pub-6588555046597237", "VIDEO_INDEX_SLOT_C_DL");</script><script type="text/javascript">GA_googleFetchAds();</script><script language="javascript" type="text/javascript">
+GA_googleAddAttr("TYPE","HOUSE");
+GA_googleAddAttr("DEPARTMENT","RES");
+GA_googleAddAttr("CRS_BEG2","2-");
+GA_googleAddAttr("CRS_END","002");
+GA_googleAddAttr("SESSION","S");
+GA_googleAddAttr("YEAR","10");
+</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDEX_SLOT_A_DL");</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDEX_SLOT_B_DL");</script><script type="text/javascript">GA_googleFillSlot("VIDEO_INDEX_SLOT_C_DL");</script>
+</div>
+
+<!-- End RSI ads--> 
+
+<div>
+    
+
+
+
+</div>
+
+			     </div>
+<!-- right ends -->
+			     <div class="clear"></div>
+			                
+         </div>
+<!--grid tag close --> 
+      </div>
+		
+		<div id="bottom">
+			<div id="grid">
+				
+<div id="portletwrapper-6f63772e626f74746f6d706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d666f6f746572" class="portletWrapper kssattr-portlethash-6f63772e626f74746f6d706f72746c65746d616e616765720a636f6e746578740a2f506c6f6e650a736974652d666f6f746572">
+<div class="portletStaticText portlet-static-site-footer"><div id="bottom">
+<div id="grid">
+<!-- *begin footer* -->
+<div role="navigation sitemap" id="footer">
+<div class="grid_2 alpha" id="foot-c1">
+<h4 class="footer">Courses</h4>
+<ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/courses/find-by-topic/">Find by Topic</a></li>
+    <li><a href="http://ocw.mit.edu/courses/find-by-number/">Find by Course Number</a></li>
+    <li><a href="http://ocw.mit.edu/courses/find-by-department/">Find by Department</a></li>
+    <li><a href="http://ocw.mit.edu/courses/audio-video-courses/">Audio/Video Courses</a></li>
+    <li><a href="http://ocw.mit.edu/courses/new-courses/">New Courses</a></li>
+    <li><a href="http://ocw.mit.edu/courses/most-visited-courses/">Most Visited Courses</a></li>
+    <li><a href="http://ocw.mit.edu/courses/ocw-scholar/">OCW Scholar Courses</a></li>
+    <li><a href="http://ocw.mit.edu/courses/this-course-at-mit/">This Course at MIT</a></li>
+    <li><a href="http://ocw.mit.edu/resources/">Supplemental Resources</a></li>
+    <li><a href="http://ocw.mit.edu/courses/translated-courses/">Translated Courses</a></li>
+</ul>
+</div>
+<div class="grid_2" id="foot-c2">
+<h4 class="footer">About</h4>
+<ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/about/">About OpenCourseWare</a></li>
+    <li><a href="http://ocw.mit.edu/about/site-statistics/">Site Stats</a></li>
+    <li><a href="http://ocw.mit.edu/about/ocw-stories/">OCW Stories</a></li>
+    <li><a href="http://ocw.mit.edu/about/ocw-consortium/">OCW Consortium</a></li>
+    <li><a href="http://ocw.mit.edu/about/media-coverage/">Media Coverage</a></li>
+    <li><a href="http://ocw.mit.edu/about/newsletter/">Newsletter</a></li>
+    <li><a href="http://ocw.mit.edu/about/media-coverage/press-releases/">Press Releases</a></li>
+    <li><a href="http://ocw.mit.edu/about/next-decade/">OCW's Next Decade</a></li>
+</ul>
+</div>
+<div class="grid_2" id="foot-c3">
+<h4 class="footer">Donate</h4>
+<ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/donate">Make a Donation</a></li>
+    <li><a href="http://ocw.mit.edu/donate/why-donate/">Why Donate?</a></li>
+    <li><a href="http://ocw.mit.edu/donate/ocw-course-champions-program/">Become a Course Champion</a></li>
+    <li><a href="http://ocw.mit.edu/donate/our-supporters/">Our Supporters</a></li>
+    <li><a href="http://ocw.mit.edu/donate/other-ways-to-contribute/">Other Ways to Contribute</a></li>
+    <li><a href="http://ocw.mit.edu/donate/shop-ocw/">Shop OCW</a></li>
+    <li><a href="http://ocw.mit.edu/support/">Become a Corporate Sponsor</a></li>
+</ul>
+</div>
+<div class="grid_2" id="foot-c4">
+<h4 class="footer">Featured Sites</h4>
+<ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/high-school/">Highlights for High School</a></li>
+    <li><a href="https://www.edx.org/school/mitx/allcourses">MITx</a></li>
+    <li><a href="http://teachingexcellence.mit.edu/">Teaching Excellence at MIT</a></li>
+</ul>
+<h4 style="margin-top: 14px;" class="footer">Tools</h4>
+<ul class="foot-bullet">
+<li><a href="http://ocw.mit.edu/help/">Help &amp; FAQs</a></li>
+    <li><a href="../../common/jsp/feedback.htm">Contact Us</a></li>
+    <li><a href="../../common/search/AdvancedSearch.htm">Advanced Search</a></li>
+    <li><a href="http://ocw.mit.edu/help/site-map/">Site Map</a></li>
+    <li><a href="../../common/terms/index.htm">Privacy &amp; Terms of Use</a></li>
+    <li><a href="http://ocw.mit.edu/help/rss/">RSS Feeds</a></li>
+</ul>
+</div>
+<div itemtype="http://schema.org/CollegeOrUniversity" itemscope="" itemprop="publisher" class="grid_4 omega" id="foot-c5">
+<h4 class="footer">About <span itemprop="name">MIT OpenCourseWare</span>
+</h4>
+<p itemprop="description" class="accent">MIT OpenCourseWare makes the materials used in the teaching of almost all of MIT's subjects available on the Web, free of charge. With more than 2,200 courses available, OCW is delivering on the promise of open sharing of knowledge.</p>
+</div>
+<div class="grid_8 alpha" id="foot-copy">
+<a href="http://web.mit.edu"><img style="width: 195px; height: 44px;" alt="Massachusetts Institute of Technology logo and name." src="../../common/images/logo_mit.png"></a>                 <a href="http://www.ocwconsortium.org/"><img style="width: 80px; height: 44px;" alt="OpenCourseWare Consortium logo." src="../../common/images/logo_ocwc.gif"></a>                 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US" itemprop="useRightsUrl" rel="license"><img style="width: 126px; height: 44px;" alt="Creative Commons logo with terms BY-NC-SA." src="../../common/images/cc_by-nc-sa.png"></a>
+<p class="copyright">© 2001–2014<br>
+Massachusetts Institute of Technology</p>
+<p style="font-size: 0.9em; margin-bottom: 15px;">Your use of the MIT OpenCourseWare site and materials is subject to our <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US">Creative Commons License</a> and other <a rel="cc:morePermissions" href="../../common/terms/index.htm">terms of use</a>.</p>
+</div>
+<div class="grid_4 omega" id="foot-support">
+<h4 class="footer">Our Corporate Supporters</h4>
+<!-- HOME_CORP_LOGO_1 -->
+<div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-0"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-0'); });
+</script></div>
+<!-- HOME_CORP_LOGO_2 -->
+<div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-1"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-1'); });
+</script></div>
+<!-- HOME_CORP_LOGO_3 -->
+<div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-2"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-2'); });
+</script></div>
+<!-- HOME_CORP_LOGO_4 -->
+<div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-3"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-3'); });
+</script></div>
+<!-- HOME_CORP_LOGO_5 -->
+<div class="sponsors_google_ads_even" id="div-gpt-ad-1388181177156-4"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-4'); });
+</script></div>
+<!-- HOME_CORP_LOGO_6 -->
+<div class="sponsors_google_ads_odd" id="div-gpt-ad-1388181177156-5"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1388181177156-5'); });
+</script></div>
+</div>
+</div>
+</div>
+</div></div>
+
+</div>
+
+
+
+
+
+                
+			</div> <!-- bottom grid end -->
+		</div>
+<!-- bottom end -->
+		
+		
+   </body>
+</html>

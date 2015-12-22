@@ -1,0 +1,175 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname fonteauteurs\endcsname\relax
+\def\fonteauteurs{\scshape}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}%
+    \message{You should include the url package}\fi
+
+\bibitem[Alam \emph{et~al.}, 2012]{alam2012}
+\bgroup\fonteauteurs\bgroup Alam\egroup\egroup{}, S.,
+  \bgroup\fonteauteurs\bgroup Loukili\egroup\egroup{}, A. et
+  \bgroup\fonteauteurs\bgroup Grondin\egroup\egroup{}, F. (2012).
+\newblock Monitoring size effect on crack opening in concrete by digital image
+  correlation.
+\newblock {\em European Journal of Environmental and Civil Engineering},
+  16(7)\string:\penalty500\relax 818--836.
+
+\bibitem[Bazant et Kazemi, 1990]{ba1990}
+\bgroup\fonteauteurs\bgroup Bazant\egroup\egroup{}, Z. et
+  \bgroup\fonteauteurs\bgroup Kazemi\egroup\egroup{}, M. (1990).
+\newblock Determination of fracture energy, process zone longth and brittleness
+  number from size effect, with application to rock and conerete.
+\newblock {\em International Journal of Fracture},
+  44(2)\string:\penalty500\relax 111--131.
+
+\bibitem[Bazant, 1984]{bazant1984}
+\bgroup\fonteauteurs\bgroup Bazant\egroup\egroup{}, Z.~P. (1984).
+\newblock Size effect in blunt fracture: concrete, rock, metal.
+\newblock {\em Journal of Engineering Mechanics},
+  110(4)\string:\penalty500\relax 518--535.
+
+\bibitem[Ba{\v{z}}ant et Yu, 2009]{bavzant2009universal}
+\bgroup\fonteauteurs\bgroup Ba{\v{z}}ant\egroup\egroup{}, Z.~P. et
+  \bgroup\fonteauteurs\bgroup Yu\egroup\egroup{}, Q. (2009).
+\newblock Universal size effect law and effect of crack depth on quasi-brittle
+  structure strength.
+\newblock {\em Journal of engineering mechanics},
+  135(2)\string:\penalty500\relax 78--84.
+
+\bibitem[Bazant \emph{et~al.}, 2004]{bazant2004}
+\bgroup\fonteauteurs\bgroup Bazant\egroup\egroup{}, Z.~P.,
+  \bgroup\fonteauteurs\bgroup Zuber\egroup\egroup{}, B. et
+  \bgroup\fonteauteurs\bgroup Pijaudier-Cabot\egroup\egroup{}, G. (2004).
+\newblock {\em Introduction aux effets d'{\'e}chelle sur la r{\'e}sistance des
+  structures}.
+\newblock Lavoisier.
+
+\bibitem[Chana, 1981]{chana1981}
+\bgroup\fonteauteurs\bgroup Chana\egroup\egroup{}, P. (1981).
+\newblock {\em Some aspects of modelling the behaviour of reinforced concrete
+  under shear loading}.
+\newblock Num\'ero  Monograph.
+
+\bibitem[Choi et Shah, 1997]{choi1997}
+\bgroup\fonteauteurs\bgroup Choi\egroup\egroup{}, S. et
+  \bgroup\fonteauteurs\bgroup Shah\egroup\egroup{}, S. (1997).
+\newblock Measurement of deformations on concrete subjected to compression
+  using image correlation.
+\newblock {\em Experimental Mechanics}, 37(3)\string:\penalty500\relax
+  307--313.
+
+\bibitem[Eligehausen et Ozbolt, 1992]{eligehausen1992}
+\bgroup\fonteauteurs\bgroup Eligehausen\egroup\egroup{}, R. et
+  \bgroup\fonteauteurs\bgroup Ozbolt\egroup\egroup{}, J. (1992).
+\newblock Size effect in concrete structures.
+\newblock {\em Applications of Fracture Mechanics to Reinforced Concrete},
+  pages 17--44.
+
+\bibitem[Hamouche, 2010]{hamouche2010}
+\bgroup\fonteauteurs\bgroup Hamouche\egroup\egroup{}, A. (2010).
+\newblock Etude des caractéristiques d’un mortier pour un essai
+  nooru-mohamed.
+\newblock {\em Rapport Stage M2 recherche, LMT Cachan}.
+
+\bibitem[Hild et Roux, 2008]{hild2008}
+\bgroup\fonteauteurs\bgroup Hild\egroup\egroup{}, F. et
+  \bgroup\fonteauteurs\bgroup Roux\egroup\egroup{}, S. (2008).
+\newblock Correli q4: A software for-finite-element-displacement field
+  measurements by digital image correlation.
+\newblock {\em Rapport interne LMT Cachan}, 269.
+
+\bibitem[Hillerborg, 1990]{hillerborg1990}
+\bgroup\fonteauteurs\bgroup Hillerborg\egroup\egroup{}, A. (1990).
+\newblock Fracture mechanics and the concrete codes.
+\newblock {\em ACI Special Publication}, 118.
+
+\bibitem[Kani, 1967]{kani1967}
+\bgroup\fonteauteurs\bgroup Kani\egroup\egroup{}, G. (1967).
+\newblock How safe are our large reinforced concrete beams?
+\newblock \emph{In} {\em ACI Journal Proceedings}, volume~64. ACI.
+
+\bibitem[Lawler \emph{et~al.}, 2001]{lawler2001}
+\bgroup\fonteauteurs\bgroup Lawler\egroup\egroup{}, J.~S.,
+  \bgroup\fonteauteurs\bgroup Keane\egroup\egroup{}, D.~T. et
+  \bgroup\fonteauteurs\bgroup Shah\egroup\egroup{}, S.~P. (2001).
+\newblock Measuring three-dimensional damage in concrete under compression.
+\newblock {\em ACI Materials Journal}, 98(6).
+
+\bibitem[Leonhardt, 1962]{leonhardt1962}
+\bgroup\fonteauteurs\bgroup Leonhardt\egroup\egroup{}, F. (1962).
+\newblock Beitrage zur behandlung der schubprobleme im stahlbetonbau.
+\newblock {\em J. BETON-UND STAHLBETONBAU}, 7\string:\penalty500\relax
+  161--173.
+
+\bibitem[Luo \emph{et~al.}, 1993]{luo1993}
+\bgroup\fonteauteurs\bgroup Luo\egroup\egroup{}, P.,
+  \bgroup\fonteauteurs\bgroup Chao\egroup\egroup{}, Y.,
+  \bgroup\fonteauteurs\bgroup Sutton\egroup\egroup{}, M. et
+  \bgroup\fonteauteurs\bgroup Peters~III\egroup\egroup{}, W. (1993).
+\newblock Accurate measurement of three-dimensional deformations in deformable
+  and rigid bodies using computer vision.
+\newblock {\em Experimental Mechanics}, 33(2)\string:\penalty500\relax
+  123--132.
+
+\bibitem[Ouglova, 2004]{ouglova2004}
+\bgroup\fonteauteurs\bgroup Ouglova\egroup\egroup{}, A. (2004).
+\newblock {\em Etude du comportement m{\'e}canique des structures en b{\'e}ton
+  arm{\'e} atteintes par la corrosion}.
+\newblock Th\`ese de doctorat.
+
+\bibitem[Reinhardt, 1981]{reinhardt1981}
+\bgroup\fonteauteurs\bgroup Reinhardt\egroup\egroup{}, H. (1981).
+\newblock Similitude of brittle fracture of structural concrete.
+\newblock {\em Advanced Mechanics of Reinforced Concrete}, pages 201--210.
+
+\bibitem[Richard \emph{et~al.}, 2010]{richard2010isotropic}
+\bgroup\fonteauteurs\bgroup Richard\egroup\egroup{}, B.,
+  \bgroup\fonteauteurs\bgroup Ragueneau\egroup\egroup{}, F.,
+  \bgroup\fonteauteurs\bgroup Cremona\egroup\egroup{}, C. et
+  \bgroup\fonteauteurs\bgroup Adelaide\egroup\egroup{}, L. (2010).
+\newblock Isotropic continuum damage mechanics for concrete under cyclic
+  loading: stiffness recovery, inelastic strains and frictional sliding.
+\newblock {\em Engineering Fracture Mechanics}, 77(8)\string:\penalty500\relax
+  1203--1223.
+
+\bibitem[R{\"u}sch \emph{et~al.}, 1962]{rusch1962}
+\bgroup\fonteauteurs\bgroup R{\"u}sch\egroup\egroup{}, H.,
+  \bgroup\fonteauteurs\bgroup Haugli\egroup\egroup{}, F.~R. et
+  \bgroup\fonteauteurs\bgroup Mayer\egroup\egroup{}, H. (1962).
+\newblock {\em Schubversuche an Stahlbeton-Rechteckbalken mit
+  gleichm{\"a}{\ss}ig verteilter Belastung}.
+\newblock Wilhelm Ernst \& Sohn.
+
+\bibitem[Shah, 1991]{rilem1991}
+\bgroup\fonteauteurs\bgroup Shah\egroup\egroup{}, S. (1991).
+\newblock Size-effect method for determining fracture energy and process zone
+  size of concrete.
+\newblock {\em rilem draft recommendations}, 23\string:\penalty500\relax
+  461--465.
+
+\bibitem[Tang \emph{et~al.}, 1992]{tang1992}
+\bgroup\fonteauteurs\bgroup Tang\egroup\egroup{}, T.,
+  \bgroup\fonteauteurs\bgroup Shah\egroup\egroup{}, S.~P. et
+  \bgroup\fonteauteurs\bgroup Ouyang\egroup\egroup{}, C. (1992).
+\newblock Fracture mechanics and size effect of concrete in tension.
+\newblock {\em Journal of structural engineering},
+  118(11)\string:\penalty500\relax 3169--3185.
+
+\bibitem[Taylor, 1972]{taylor1972}
+\bgroup\fonteauteurs\bgroup Taylor\egroup\egroup{}, H. (1972).
+\newblock Shear stength of large beams.
+\newblock {\em Journal of the Structural Division}, 98(St 11).
+
+\bibitem[Walsh, 1976]{walsh1976}
+\bgroup\fonteauteurs\bgroup Walsh\egroup\egroup{}, P. (1976).
+\newblock Crack initiation in plain concrete.
+\newblock {\em Magazine of Concrete Research}, 28(94)\string:\penalty500\relax
+  37--41.
+
+\bibitem[Weibull, 1939]{weibull1939}
+\bgroup\fonteauteurs\bgroup Weibull\egroup\egroup{}, W. (1939).
+\newblock Phenomenon on rapture in solids.
+\newblock {\em Ingenioersvetenskapsakad Handl}, 153\string:\penalty500\relax
+  1--55.
+
+\end{thebibliography}

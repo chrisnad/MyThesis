@@ -1,0 +1,67 @@
+\select@language {french}
+\contentsline {chapter}{Table des mati\`eres}{i}{chapter*.2}
+\contentsline {xchapter}{}{iii}{chapter*.2}
+\contentsline {chapter}{Table des figures}{v}{chapter*.3}
+\contentsline {xchapter}{}{vi}{chapter*.3}
+\contentsline {chapter}{Liste des tableaux}{vii}{chapter*.4}
+\contentsline {xchapter}{}{vii}{chapter*.4}
+\contentsline {chapter}{Introduction}{1}{chapter*.5}
+\contentsline {part}{I\hspace {1em}Etude bibliographique}{3}{part.1}
+\contentsline {xpart}{Etude bibliographique}{5}{part.1}
+\contentsline {chapter}{\numberline {1}Effet d'\'echelle}{5}{chapter.1}
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1.1}
+\contentsline {section}{\numberline {2}Loi en puissance}{6}{section.1.2}
+\contentsline {section}{\numberline {3}Analyse asymptotique dans les poutres entaill\'ees}{7}{section.1.3}
+\contentsline {section}{\numberline {4}Effet d'\'echelle \`a l'amorcage de la fissure}{8}{section.1.4}
+\contentsline {section}{\numberline {5}Validation des lois d'effet d'\'echelle}{8}{section.1.5}
+\contentsline {chapter}{\numberline {2}Energie de fissuration}{11}{chapter.2}
+\contentsline {section}{\numberline {1}Taux de restitution d'energie}{11}{section.2.1}
+\contentsline {section}{\numberline {2}M\'ethode de d\'etermination avec les effets d'\'echelle}{12}{section.2.2}
+\contentsline {chapter}{\numberline {3}Correlation d'image}{13}{chapter.3}
+\contentsline {section}{\numberline {1}Introduction}{13}{section.3.1}
+\contentsline {section}{\numberline {2}Principe}{13}{section.3.2}
+\contentsline {section}{\numberline {3}Discr\'etisation par \'el\'ements finis (Correli $Q4$)}{15}{section.3.3}
+\contentsline {part}{II\hspace {1em}Proc\'edure exp\'erimentale}{17}{part.2}
+\contentsline {xpart}{Proc\'edure exp\'erimentale}{19}{part.2}
+\contentsline {chapter}{\numberline {4}Les \'echantillons}{21}{chapter.4}
+\contentsline {section}{\numberline {1}Description du mat\'eriau}{21}{section.4.1}
+\contentsline {section}{\numberline {2}G\'eom\'etrie des \'eprouvettes}{22}{section.4.2}
+\contentsline {section}{\numberline {3}Coffrages}{22}{section.4.3}
+\contentsline {section}{\numberline {4}Mat\'eriel et \'equipement}{23}{section.4.4}
+\contentsline {chapter}{\numberline {5}Conception d'une g\^ach\'ee}{25}{chapter.5}
+\contentsline {section}{\numberline {1}pr\'eparation des coffres}{25}{section.5.1}
+\contentsline {section}{\numberline {2}Malaxage}{26}{section.5.2}
+\contentsline {section}{\numberline {3}Moulage}{26}{section.5.3}
+\contentsline {chapter}{\numberline {6}Essai F3P (flexion trois points)}{27}{chapter.6}
+\contentsline {section}{\numberline {1}Introduction}{27}{section.6.1}
+\contentsline {section}{\numberline {2}Machine d'essai: la MTS TTC \emph {Melo}}{28}{section.6.2}
+\contentsline {section}{\numberline {3}Pilotage}{29}{section.6.3}
+\contentsline {part}{III\hspace {1em}\'Etude num\'eriques}{31}{part.3}
+\contentsline {xpart}{\'Etude num\'eriques}{33}{part.3}
+\contentsline {chapter}{\numberline {7}Mod\'elisation}{35}{chapter.7}
+\contentsline {section}{\numberline {1}Mod\`ele de calcule}{35}{section.7.1}
+\contentsline {section}{\numberline {2}Param\`etres mat\'eriau}{35}{section.7.2}
+\contentsline {section}{\numberline {3}Maillages}{36}{section.7.3}
+\contentsline {section}{\numberline {4}R\'esultats}{38}{section.7.4}
+\contentsline {part}{IV\hspace {1em}R\'esultats et analyse exp\'erimentale}{43}{part.4}
+\contentsline {xpart}{R\'esultats et analyse exp\'erimentale}{45}{part.4}
+\contentsline {chapter}{\numberline {8}Identification des param\`etres m\'ecaniques}{45}{chapter.8}
+\contentsline {section}{\numberline {1}Proc\'edure}{45}{section.8.1}
+\contentsline {section}{\numberline {2}Mesures}{47}{section.8.2}
+\contentsline {chapter}{\numberline {9}Les essais}{49}{chapter.9}
+\contentsline {section}{\numberline {1}Montage}{49}{section.9.1}
+\contentsline {section}{\numberline {2}R\'esultats}{52}{section.9.2}
+\contentsline {section}{\numberline {3}Analyse par la loi d'effets d'\'echelle}{55}{section.9.3}
+\contentsline {subsection}{\numberline {3.1}La loi intrins\`eque d'effet d'\'echelle pour les poutres entaill\'ees}{55}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {3.2}La loi d'effet d'\'echelle pour les poutres non-entaill\'ees}{55}{subsection.9.3.2}
+\contentsline {subsection}{\numberline {3.3}La loi universelle d'effet d'\'echelle}{56}{subsection.9.3.3}
+\contentsline {section}{\numberline {4}Analyse par correlation d'image}{57}{section.9.4}
+\contentsline {section}{\numberline {5}Conclusion}{61}{section.9.5}
+\contentsline {part}{V\hspace {1em}Bibliographie et Annexe}{63}{part.5}
+\contentsline {xpart}{Bibliographie et Annexe}{65}{part.5}
+\contentsline {chapter}{Bibliographie}{65}{chapter*.9}
+\contentsline {chapter}{\numberline {A}}{67}{appendix.A}
+\contentsline {section}{\numberline {1}Les coffres}{67}{section.A.1}
+\contentsline {section}{\numberline {2}Les machines}{69}{section.A.2}
+\contentsline {section}{\numberline {3}Les capteurs}{71}{section.A.3}
+\contentsline {section}{\numberline {4}Code CASTEM de la poutre avec une erreur de conception}{72}{section.A.4}

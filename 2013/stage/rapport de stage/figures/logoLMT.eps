@@ -1,0 +1,81 @@
+%!PS-Adobe-1.0
+%%
+%%BoundingBox: 9 4 111 85
+/StartPage{/sv save def}def
+/EndPage{showpage sv restore}def
+1 setlinecap 1 setlinejoin
+0.1 setlinewidth
+%%/CM { 0.04 div } def
+%%/NP { newpath } def
+%%/MV { moveto } def
+%%/LN { lineto } def
+%%/SK { stroke } def
+%%/FI { fill   } def
+%%/S  { show   } def
+%%
+%% logo LMT
+%% """"""""
+/LogoLMT
+ { /taille exch def
+   /angle  exch def
+   /y      exch def
+   /x      exch def
+   /colLMT {1. setgray} def
+%%   /collabo { 0. 0. 1. setrgbcolor} def
+   /collabo {0. setgray} def
+   /colcachan {0. setgray} def
+   /Ox x  def
+   /Oy y def
+   /ang angle def
+/ux {taille mul 18.2 div} def
+/uy {ux} def
+.1 ux setlinewidth 1 setlinecap 1 setlinejoin
+/fleche {newpath 
+16.85 ux 8.6 uy moveto 
+13.2 ux 6.9 uy lineto
+13. ux 7.3 uy lineto 
+11.9 ux 5.35 uy lineto
+14. ux 4.9 uy lineto 
+13.8 ux 5.3 uy lineto
+17.6 ux 6.9 uy lineto
+closepath 
+gsave collabo fill
+grestore colLMT stroke} def
+/verti {3.6 ux 2.6 uy moveto 
+2.15 ux 1.9 uy lineto
+1.9 ux 1.8 uy 1.6 ux 1.9 uy 1.6 ux 2.2 uy curveto
+1.6 ux 9.8 uy lineto
+0 9.2 uy lineto 
+0 2.2 uy lineto 
+0 0 .85 ux -.5 uy 2.8 ux .3 uy curveto
+4.25 ux 1 uy lineto} def
+/pointe {4.45 ux .6 uy lineto 
+5.5 ux 2.5 uy lineto 
+3.4 ux 3 uy lineto 
+closepath gsave collabo fill grestore colLMT stroke} def
+/jambe {newpath 0 9.2 uy moveto
+-3.2 ux 11 uy -6.3 ux 7.5 uy -3.8 ux 2 uy curveto
+-2.7 ux -.15 uy -2.7 ux -.15 uy -1.2 ux .2 uy curveto 
+-4.3 ux 5.8 uy -3.7 ux 9.8 uy 0 8.4 uy curveto 
+3.7 ux 9.8 uy  4.3 ux 5.8 uy 1.2 ux .2 uy curveto 
+2.7 ux -.15 uy 2.7 ux -.15 uy 3.8 ux 2 uy curveto
+6.3 ux 7.5 uy 3.2 ux 11 uy 0 9.2 uy curveto
+gsave collabo fill
+grestore colLMT stroke} def
+Ox Oy translate ang rotate 8.2 ux 0 translate jambe
+5.8 ux 0 translate verti closepath gsave
+collabo fill grestore colLMT stroke
+-14 ux 0 translate fleche verti pointe
+0. ux -4. uy moveto 
+/Helvetica-Bold findfont 3.2 ux scalefont setfont
+colcachan (C A C H A N) show
+ } def
+%%EndProlog
+%%
+%% logo
+%%Page: 1 1
+StartPage
+0. setgray
+10. 30. 0. 100. LogoLMT
+0. setgray
+EndPage

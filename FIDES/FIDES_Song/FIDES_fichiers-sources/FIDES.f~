@@ -1,0 +1,789 @@
+program FIDES
+
+!****************************************************************************************
+!*      Programme pas simple d'elements finis stationnaire non lineaire parallelise     *
+!****************************************************************************************
+
+   use variables
+   use utilitaire
+   use initialisation
+   use math
+   use sparse_matrix
+   use lib_elem, only : elem_info
+   use element_interface
+   use fissuration
+   use interface_macro
+   use post_traitement
+   use depouil_lance
+   use aiguillage
+   use assemblage
+   use mumps
+   use Maillage
+   use FormatCSRC 
+   use Assemblage_CSRC           
+   implicit none
+   
+!------------------- MPI (car MUMPS est ici compile en version parallele -----------------------------!
+   include 'mpif.h'
+   
+   !---------------------------------------------------------------------------!
+   !                          Declaration variables                            !
+   !---------------------------------------------------------------------------!
+
+   ! Algorithme
+   integer :: icalc, icalc_iter, i, j, ic, pasini = 0
+   real*8 :: time0, time, time_it, time_kg, time_rs, time1, time2, timep1, timep2      ! Temps cpu
+   integer, dimension(8) :: values
+   character(len = 50) :: nomfichier, nomlist
+
+   character(len = 5), dimension(2) :: nmcalc
+
+   real*8, dimension(:), allocatable :: vdu, vdut, vduI, vduII
+   real*8, dimension(:), allocatable :: vfg ! sollicitation globale
+   real*8, dimension(:), allocatable :: daval, aval0
+   real*8, dimension(:), allocatable :: vimpII, vresI, vresII 
+
+   ! Matrice vkg au format sparse
+   type(sparse) :: vkg 
+   real*8 :: p_nzmax, valll = 1. ! valeur a inserer pour conditions aux limites methode directe
+   integer :: nzmax
+
+   ! Pour les conditions aux limites
+   integer :: ncond
+   integer, dimension(:), allocatable :: condi
+   integer, dimension(:), allocatable :: condj
+   real*8, dimension(:), allocatable :: val, v1
+                  
+   real*8 :: normvcd ! Norme de vcond
+   real*8 :: normvfg ! Norme de vfg
+   real*8 :: lam, dlam, dlam0, dlmin, lamini = 0.d0
+   real*8 :: ndu, ndf, denou, denof, realise ! norme relative du sol increm
+   logical :: nconv, bpas
+
+   ! Pilotage indirect en force avec controle des deplacements (npilot=2)
+   integer, dimension(:), allocatable :: kdimp
+   real*8 :: dlnum, dlden, normimp, dlam1
+   integer :: ndimp, k
+   
+   ! Pour le pilotage du calcul
+   integer :: imetpilo
+
+   ! Variables
+   integer :: compt, ie, ierr
+
+!---------------- Initialisation de MPI (car MUMPS est ici compile en version parallele -------------------!
+   call mpi_init(ierr)
+
+   !----------------------------- Quelques initialisations --------------------!
+   nrep     = .false.
+   indirect = .false.
+   ievtp    = .false.
+   nconv    = .false.
+   !--- gestion de l'alea
+   alea = .false.
+   redu = .false.
+   !--- auto contraintes
+   inict = .false.
+   
+   compt = 0
+
+   do while (.not.nconv)
+        compt = compt +1
+        
+        
+         print*,' Numero ', compt 
+
+         !---------------------------------------------------------------------------!
+         !                         initialisation variables                          !
+         !---------------------------------------------------------------------------!     
+    
+              call date_and_time(VALUES=values)
+
+              ! Lecture des informations necessaires
+              call lecture_info(nomfichier, nomlist, p_nzmax) 
+
+              imetpilo = 1                 ! Pour le pilotage du calcul des elements d'interface
+         
+              ! Indicateur du temps cpu
+              call CPU_TIME(time0)
+          
+         !---------------------------------------------------------------------------!
+         !                                    Affichage                              !
+         !---------------------------------------------------------------------------!
+          
+              if(iprint>0) then
+                   print*; print*; print*;
+                   print*, '                ****************************************'
+                   print*, '                *      PROGRAMME FIDES NON LINEAIRE    *'
+                   print*, '                ****************************************'
+                   print*; print*; print*
+              end if
+        
+         !---------------------------------------------------------------------------!
+         !                                lecture des donnees                        !
+         !---------------------------------------------------------------------------!
+          
+              print*, 'Le fichier choisi est : ',  dirdata//nomfichier  
+              call lecture(dirdata//nomfichier)
+
+          if (CHOIX==1) then
+               print*,'FIDES avec la version CSR-MUMPS et CL directe'
+               print*,' '
+               call init_sparse(vkg, ndlt, ndlt, per = p_nzmax)
+          end if 
+          
+          if (CHOIX==2) then
+               print*,'FIDES avec la version CSRC-MUMPS Cl-directe'
+               print*,' '
+    
+               ta_max = ndlt*100 !taille max de ja dans creation du fichier csrc
+               print*,'creation du fichier csrc. .  '                        
+               call Maillage_CSRC(nomfichier,ta_max)
+         end if
+         
+         !---------------------------------------------------------------------------!
+         !                   Reduction homothetique du maillage                      !
+         !                   Reduction en consequence du chargement                  !
+         !---------------------------------------------------------------------------! 
+         call PROB_reducmail()
+
+         !---------------------------------------------------------------------------! 
+         !                 Initialisation et dimensionnement des tableaux            !
+         !-----------------------------------------------------------------------------------------------!
+    
+              call initva(vcont, kcont, 'GRAD')
+              call initva(vnoli, knoli, 'NOLI') 
+
+         !---------------------------------------------------------------------------!
+         !                   Initialisation pour algo non-lineaire                   !
+         !---------------------------------------------------------------------------!
+          
+              call init_vec(detoscill,nelt) ! compte le nombre de fois ou chaque eleme change d'etat, (doit etre remis a zero a chaque pas de calcul)         
+              call init_vec(vsol,ndlt); call init_vec(vdu, ndlt); call init_vec(vdu0, ndlt);
+              call init_vec(v1,ndlt)
+              call init_vec(vfg,ndlt); 
+              vfg = vfcg
+              
+         !---------------------------------------------------------------------------!
+         !         Initialisations liees au calcul des elements d'interface          !
+         !         et au calcul beton fissurant                                      !
+         !---------------------------------------------------------------------------! 
+
+              call interf_init
+              call fiss_init
+              call interf_macro_init
+
+         !---------------------------------------------------------------------------!
+         !                  Partie de la distribution aleatoire                      !
+         !---------------------------------------------------------------------------!
+
+          if (ipost==0) then
+              if (.not.nrep) then
+                  call CPU_TIME(time1)
+                  call distal
+                  call CPU_TIME(time2)
+                  print*, 'Temps de distribution : ', time2 - time1
+              
+                  !----- Sauvegarde de la distribution
+                  !  iopt = 2 : sauvegarde de la distribution de proprietes meca
+                 
+                  call ecriture_resu(nomfichier,lam)
+                 
+                  !----- Initialisation des auto-contraintes du beton
+                  if (inict) call inicont
+              end if
+           end if
+
+         !---------------------------------------------------------------------------!
+         !                         Reprise d'un calcul                               !
+         !  iopt = 1 : reprise complete                                              !
+         !  iopt = 2 : reprise de la distribution de proprietes mecaniques seulemt   !
+         !---------------------------------------------------------------------------!
+
+              if (nrep) then
+                  call lecture_resu(nomfichrep,pasini,lamini,2)
+              end if
+    
+         !---------------------------------------------------------------------------!
+         !           Initialisation pour prise en compte de l'evolution              !
+         !                des proprietes materiau (algo implicite)                   !
+         !---------------------------------------------------------------------------!
+
+              if (ievtp) then
+                  call init_mat(vprelg0,size(vprelg,1), size(vprelg,2))
+                  call init_mat(vprelg1,size(vprelg,1), size(vprelg,2))
+                  call init_vec(tps,npas)
+                  vprelg0 = vprelg
+              end if
+                    
+        !---------------------------------------------------------------------------!
+        !                     Creation des vecteurs unitaires de pilotage           !
+        !---------------------------------------------------------------------------!
+
+               call init_vec(daval,npas);call init_vec(aval0,npas+1)
+               daval(1) = 0.d0
+               daval(2:npas) = aval(2:npas) - aval(1:(npas-1)) 
+               aval0 =(/0.d0, aval/)
+
+               !--- On cherche l'increment non nul minimal (en valeur absolue)
+               
+               dlmin = min_abs_rea_vec(daval)
+               call init_vec(vimpII,size(vcond))
+
+               !--- Pilotage direct en forces imposees
+               if (npilot == 0) then
+                     normvfg = norme(vfg)
+                     vfg = vfg/normvfg
+                     vimpII = vcond
+                     daval = daval*normvfg
+                     aval0 = aval0*normvfg
+
+               !--- Pilotage direct en deplacements imposes
+               else if(npilot == 1) then
+                     normvcd = norme(vcond)
+                     vcond = vcond/normvcd
+                     vimpII = vcond
+                     daval = daval*normvcd
+                     aval0 = aval0*normvcd
+
+               !--- Pilotage indirect en force imposee par controle du deplacement
+               else if (npilot == 2) then
+                     vfg = vcond
+                     normvfg = norme(vfg)
+                     vfg = vfg/normvfg                                          
+                     vimpII = vfg
+                     daval = daval*normvfg
+                     aval0 = aval0*normvfg
+
+               end if
+          
+         !----------------------------------------------------------------------------!
+         !                  Affichage de l'entete avant calcul sur ecran               !
+         !----------------------------------------------------------------------------!
+         if (ipost==0) then
+               if (iprint>0) then
+                    print*
+                    print*, '    ============= MODULE NLIN MATERIAU, FIDES  ============= '
+                    print*
+                    print*, '----- Mode de pilotage : Npilot 0 = SOLLIC, 1 = CL -----'
+                    print'(a15,1x,i5,4x,a18,i5)', 'Nombre de pas =', npas, 'Mode de pilotage = ', npilot
+                    print*
+               end if
+          end if
+        
+
+          !----------------------------------------------------------------------------!
+          !                                boucle sur les pas                          !
+          !----------------------------------------------------------------------------!
+          print*,'Affichage de ndlt',ndlt
+          ! Allocation et initialisation
+              
+          call init_vec(vdut, ndlt); call init_vec(vduI,ndlt); call init_vec(vduII,ndlt)  
+          call init_vec(vresI, ndlt); call init_vec(vresII, ndlt)
+              
+
+
+         !----------------------------------------------------------------------------!
+         !                      Initialisation du parametre de chargement             !
+         !----------------------------------------------------------------------------!
+
+         if (pasini==0) then
+             ipas = 1
+             lam = 0.d0
+         else
+             ipas = pasini   ! Pour reprendre le calcul
+             lam = lamini
+         end if
+
+         icalc = 1       
+         icalc_iter = 1
+         bpas = .true.
+
+         !---------------------------------------------------------------------------!
+         !                       Post-traitement  (ipost = 1)                        !
+         !---------------------------------------------------------------------------! 
+         if (ipost==1) then           
+             call FIGID(nomfichier,nomlist)  
+             bpas = .false.         
+             nconv = .true.
+         elseif (ipost==2) then
+             call depouill(nomfichier)
+             bpas = .false.         
+             nconv = .true.
+         end if
+
+         do while (bpas)
+
+             nconv = .false.
+             !----- Affichage du pas de temps et du numero de calcul
+             print'(a12,1x,i5,5x,a8,1x,i5,4x,a1,i5,a1)',' Pas_numero: ', ipas,  &
+                 &       'Calcul: ', icalc_iter ,'(',icalc,')'
+             
+             ! mise a 0 du compteur d'oscillations
+             
+             detoscill = 0 
+             
+             !**************************** boucle sur les iterations *********************
+
+             do iter = 1, niter
+                  
+                      call CPU_TIME(time_it)
+                          
+                    !----------------- Modification des proprietes mecaniques ----------------
+                      if (ievtp) then
+                          if (iter==1) then
+                              vprelg1 = vprelg
+                              tps = tps + dtps
+                          end if
+                          call interf_resichute(ipas) !--- chute de resistance pour fluage des elements d'interface
+                      end if
+
+                    !-------------------- Assemblage : construire vkg et vres -----------------
+                      call CPU_TIME(time_kg)
+                      vresI = vfg*lam
+                      vresII = vfg
+
+                    !---------- Arret de prise en compte des contraintes initiales -----------
+                      if (.not.((iter==1).and.(ipas==1).and.(icalc==1))) inict=.false.
+
+                    !-------------------- Assemblage des vecteurs globaux --------------------
+              
+                      if (CHOIX==1) call assem(vkg,vresI, ipas) 
+                      if (CHOIX==2) call Assem_CSRC(supervkg,vresI) 
+                         
+                      call CPU_TIME(time)
+                      time_kg = time - time_kg
+                      !print*,'temps reel d assemblage' ,time_kg    
+                  !-------------------- Prise en compte d'une precontrainte -----------------
+                          
+                      if (precont) vresI = vresI+vfpg
+                      call CPU_TIME(time1)
+                  !-------------------- Introduction conditions aux limites ------------------
+                      if (CHOIX==1) then  
+                          ndimp = count(vcond/=0.)
+                          ncond = count(kcond)
+                          !--- Pilotage indirect : pour ne tenir compte que des blocages
+                          if (npilot==2) ncond = count(kcond)-ndimp
+
+                          call init_vec(condi, ncond);  call init_vec(val, ncond)
+                          call init_vec(kdimp, ndimp)
+                          
+                          j = 1
+                          k = 1
+                          v1 = 1.d0
+                          do ic = 1,ndlt
+                           
+                               if (kcond(ic)) then
+                               
+                                   !--- Pilotage direct en deplacements imposes
+                                   if (npilot==1) then
+                                   
+                                       v1(ic) = 0.0d0
+                                       
+                                       do i = 1, ndlt
+                                           vresII(i) = vresII(i) - get_sparse(vkg,i,ic)*vimpII(ic)
+                                       end do
+
+                                       vresII(ic) = vimpII(ic) !JLT On remplacera vimpII par 0.d0
+                                       vresI(ic) = 0.0d0
+ 
+                                       call del_row(vkg, ic) ! On efface la ligne ic
+                                       call del_col(vkg, ic) ! On efface la colonne ic
+                                                                  
+                                       ! On determine a quel endroit on doit modifier la valeur de vkg
+                                       condi(j) = ic
+                                       j = j + 1
+                                       
+                                   !--- Pilotages en forces imposees (direct ou indirect)
+                                   else if ((npilot==0).or.(npilot==2)) then
+                               
+                                       if(vcond(ic)==0.d0) then ! On ne travaille que sur les blocages
+                                   
+                                           v1(ic) = 0.0d0
+                                           vresII(ic) = 0.d0
+                                           vresI(ic) = 0.0d0
+ 
+                                           call del_row(vkg, ic) ! On efface la ligne ic
+                                           call del_col(vkg, ic) ! On efface la colonne ic
+                           
+                                           ! On determine a quel endroit on doit modifier la valeur de vkg
+                                           condi(j) = ic
+                                           j = j + 1
+
+                                       else ! On comptabilise (eventuellement) les depl imposes non nuls
+                                           kdimp(k) = ic
+                                           k = k+1
+
+                                       end if
+
+                                   end if
+                               end if
+                               
+                          end do
+
+                          val = 1.0d0
+                          call insert_values(vkg,condi,condi,val)
+
+                          deallocate(condi,val)
+                      end if ! CHOIX==1
+
+                   ! Methode directe avec le format CSRC
+                      if (CHOIX==2) then
+                          
+                          ndimp = count(vcond/=0.)
+                          ncond = count(kcond)
+                          !--- Pilotage indirect : pour ne tenir compte que des blocages
+                          if (npilot==2) ncond = count(kcond)-ndimp
+
+                          call init_vec(condi, ncond);  
+                          call init_vec(kdimp, ndimp)
+
+                          j = 1
+                          k = 1
+                          v1 = 1.d0
+                          do ic = 1,ndlt
+                           
+                               if (kcond(ic)) then
+                               
+                                   !--- Pilotage direct en deplacements imposes
+                                   
+                                   if (npilot==1) then
+                                  
+                                       v1(ic) = 0.0d0
+                                       
+                                       do i = 1, ndlt
+                                           vresII(i) = vresII(i) - CSRC_val(supervkg,i,ic)*vimpII(ic)
+                                       end do
+
+                                       vresII(ic) = vimpII(ic) !JLT On remplacera vimpII par 0.d0
+                                       vresI(ic) = 0.0d0
+         
+                                       call CSRC_lig_col_zero(supervkg,ic)
+                                       call CSRC_set(supervkg,ic,ic,valll)
+                                       ! On determine a quel endroit on doit modifier la valeur de vkg
+                                       condi(j) = ic
+                                       j = j + 1
+                                       
+                                   !--- Pilotages en forces imposees (direct ou indirect)
+                                   else if ((npilot==0).or.(npilot==2)) then
+                               
+                                       if(vcond(ic)==0.d0) then ! On ne travaille que sur les blocages
+                                   
+                                           v1(ic) = 0.0d0
+                                           vresII(ic) = 0.d0
+                                           vresI(ic) = 0.0d0
+                                           call CSRC_lig_col_zero(supervkg,ic)
+                                           call CSRC_set(supervkg,ic,ic,valll)
+                                           ! On determine a quel endroit on doit modifier la valeur de vkg
+                                           condi(j) = ic
+                                           j = j + 1
+
+                                       else ! On comptabilise (eventuellement) les depl imposes non nuls
+                                           kdimp(k) = ic
+                                           k = k+1
+
+                                       end if
+
+                                   end if
+                               end if
+                               
+                          end do
+                     
+                          deallocate(condi)                         
+                          
+                      end if ! fin choix = 2    
+                 call CPU_TIME(time2)
+                 !print*,'temps dinsertion des CL',time2-time1
+               !------------------------------- Resolution ------------------------------!
+
+                call CPU_TIME(time_rs)
+                if (CHOIX==1) call Solve_MUMPS(vkg, vresI, vresII, vduI, vduII) 
+                if (CHOIX==2) then   
+                  !call  MUMPS_CSRC222(supervkg, vresI, vresII, vduI, vduII)  
+                  call  MUMPS_CSRC(supervkg, vresI, vresII, vduI, vduII)  
+                end if
+
+                call CPU_TIME(time)
+                time_rs = time - time_rs  
+                                   
+                !----------------- Calcul de l'increment de facteur de charge -------------
+                     
+                !--- Pilotage direct en forces imposees
+                if (npilot==0) then
+                   if (iter == 1) then
+                      vdut = 0.d0
+                      dlam  = aval0(ipas) - lam + daval(ipas)
+                      if (icalc_iter ==1) dlam0 = daval(ipas)
+                      if (.not.((iter==1).and.(ipas==1).and.(icalc==1))) &
+                       & call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                   else
+                      iedng=0
+                      dlam = 0.0d0
+                      !call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                   end if
+                          
+                !--- Pilotage direct en deplacements imposes
+                elseif (npilot==1) then     
+                   if (iter == 1) then
+                      vdut = 0.d0
+                      dlam  = aval0(ipas) - lam + daval(ipas)
+                      if (icalc_iter ==1) dlam0 = daval(ipas)
+                      if (.not.((iter==1).and.(ipas==1).and.(icalc==1))) &
+                          & call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                   else
+                      iedng=0
+                      dlam = 0.0d0
+                      !call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                   end if
+                              
+                !--- Pilotage indirect en forces imposees par controle du deplacement
+                elseif (npilot==2) then
+                   if (iter == 1) then
+                       vdut = 0.d0
+                       normimp = norme(vduII(kdimp))
+                       dlam1 = aval0(ipas) - lam * normimp + daval(ipas)
+                       if (icalc_iter ==1) dlam0 = daval(ipas)
+                       dlnum = dot_product(vimpII(kdimp),dlam1*vimpII(kdimp)-vdut(kdimp)-vduI(kdimp))
+                       dlden = dot_product(vimpII(kdimp),vduII(kdimp))
+                       dlam  = dlnum/dlden
+                       if (.not.((iter==1).and.(ipas==1).and.(icalc==1))) &
+                           & call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                            dlam1 = dot_product(vimpII(kdimp),vdut(kdimp)+vduI(kdimp)+dlam*vduII(kdimp))
+                   else
+                       iedng=0
+                       dlnum = dot_product(vimpII(kdimp),dlam1*vimpII(kdimp)-vdut(kdimp)-vduI(kdimp))
+                       dlden = dot_product(vimpII(kdimp),vduII(kdimp))
+                       dlam  = dlnum/dlden
+                   end if
+
+                !--- Pilotage indirect particulier
+                elseif (npilot==3) then
+                   deallocate(kdimp)
+                   call init_vec(kdimp, 2)
+                   vimpII=0.d0
+                   kdimp = (/dime*2618-1,dime*5018-1/)
+                   vimpII(kdimp)=(/-1.d0,1.d0/)
+                   if (iter == 1) then
+                      vdut = 0.d0
+                      dlam1 = .0001/2.
+                      if (icalc_iter ==1) dlam0 = dlam1
+                      dlnum = dot_product(vimpII(kdimp),dlam1*vimpII(kdimp)-vdut(kdimp)-vduI(kdimp))
+                      dlden = dot_product(vimpII(kdimp),vduII(kdimp))
+                      dlam  = dlnum/dlden
+                      call pilot(imetpilo, vsol, vduI, vduII, dlam)
+                      dlam1 = dot_product(vimpII(kdimp),vdut(kdimp)+vduI(kdimp)+dlam*vduII(kdimp))
+                   else
+                      iedng=0
+                      dlnum = dot_product(vimpII(kdimp),dlam1*vimpII(kdimp)-vdut(kdimp)-vduI(kdimp))
+                      dlden = dot_product(vimpII(kdimp),vduII(kdimp))
+                      dlam  = dlnum/dlden
+                   end if
+                end if
+
+                !------- Calcul de l'increment de deplacement et du deplacement total -----
+                vdu = vduI + dlam*vduII
+                vdut = vdut + vdu
+                vdu0 = vdu
+                vsol = vsol + vdu
+                lam = lam + dlam
+
+                deallocate(kdimp)
+
+                !----- Verification du changement d'etat         
+                call change_etat
+
+                !----------------------- Test de convergence ------------------------------
+                if (iter == 1) then
+                   denou = norme((vduI + dlmin*vduII)*v1) + 1.D-20          
+                   denof = norme((vresI + dlmin*vresII)*v1) + 1.D-20
+                   !if (dlam0==0.d0) dlam0 = dlmin
+                   !denou = norme((vduI + dlam0*vduII)*v1) + 1.D-20          
+                   !denof = norme((vresI + dlam0*vresII)*v1) + 1.D-20
+                end if
+
+                ndu = norme(vdu*v1)/denou
+                ndf = norme((vresI + dlam*vresII)*v1)/denof
+
+                call CPU_TIME(time)   
+                time_it = time - time_it
+           
+                if (iprint > 0) then 
+                     if (CHOIX==1) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CSR_Iter =', iter, & 
+                         &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (s) ',time_it
+
+                     if (CHOIX==2) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CRC_Iter =', iter, &
+                         &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (s) ',time_it
+                end if ! fin iprint=0
+
+                !if (ipas==1 .or. iter/=1) then
+                  if ((ndu < 1.d-06) .and. (ndf <1.d-04)) nconv = .true.
+
+                  if (iter>35) then
+                     if ((ndu < 1.d-04) .and. (ndf <1.d-02)) nconv = .true.
+                  end if
+                  
+                  if (iter>50) then
+                      nconv = .true.
+                      print*,'Attention: convergence forcee !'
+                  endif
+
+                  if ((ndu > 1.d50) .and. (ndf > 1.d50)) goto 1000
+                  if (isnan(ndu) .or. isnan(ndf)) goto 1000
+                !end if
+                
+                if (nconv) exit ! On verifie la convergence (tous les processus doivent la verifier)
+
+             end do
+                 
+           !                                  Fin boucle d'iteration
+           !******************************************************************************!
+                 
+1000       if (.not.nconv) exit 
+
+           !----- Affichage du pourcentage de pas de chargement relise
+           if (npilot==2) then
+                  realise = abs(lam * normimp)/abs(aval0(ipas)+daval(ipas))
+           else
+                  realise = abs(lam) / abs(aval0(ipas)+daval(ipas))
+           end if
+   
+           realise = realise * 100
+           if (iprint>0) then
+                      print'(a35,i3,a3,f6.2,a2,/)',' (Pourcentage realise pour le pas ', &
+                     &          ipas,' : ',realise,'%)'
+                end if
+
+                icalc = icalc + 1
+                icalc_iter = icalc_iter+1
+
+                !----- stockage des resultats propres au modele de fissuration ------
+                call stock()
+
+                if (npilot==2) then
+                     if (abs(aval0(ipas)+daval(ipas)-lam * normimp )<1.D-10) then
+                         ipas = ipas+1
+                         icalc_iter = 1
+                     end if
+                else
+                     if (abs(aval0(ipas)+daval(ipas)-lam)<1.D-10) then
+                         ipas = ipas+1
+                         icalc_iter = 1
+                         !------------- Sauvegarde des resultats a chaque pas de temps ----------!
+
+                         call evolglob()
+                         call ecriture(nomfichier,ipas-1)
+                         
+                         !------------- Sauvegarde du dernier pas de calcul pour reprise --------!
+                         call ecriture_resu(nomfichier,lam)
+                         call CPU_TIME(timep1)
+                         print*, 'Temps realise du pas ',ipas-1, 'est ', timep1 - timep2
+                         print*;
+                         call CPU_TIME(timep2)
+                     end if
+                end if
+
+                !----- Incrementation du compteur de pas de calcul
+                if (ipas == npas + 1) bpas = .false.
+
+                !---------------- Sauvegarde des resultats a chaque pas de temps --------------
+                !call evolglob()
+                !call ecriture(nomfichier,icalc-1)
+
+           end do       
+
+           !                                   Fin boucle de pas        
+           !**********************************************************************************!
+
+           if (ipost /= 1) then
+
+             if(iprint>0) then
+
+                print*;
+
+                if(iprint>1) then
+                    print*, '---------------- Impression de la solution ddl valeur ----------------'
+                    do i = 1, nnt
+                       print*, vsol(infnoe(i)%dln)
+                    end do
+                end if
+
+                call CPU_TIME(time)
+                print'(2x,a10,f20.6,1x,a8)', 'Temps cpu = ', time - time0, 'secondes'
+                print '(2x,a,i2,a,i2,a,i2,a,i2,a,i4))', 'Le calcul a ete lance a ',values(5),'h', & 
+                    & values(6),', le ', values(3),'/',values(2),'/',values(1)
+                print*;
+                      print*, 'nombre oscillations', comptoscill
+                      print*;
+                      
+             end if
+
+             call ecriture_evgb(nomfichier,ipas-1)
+               
+           end if
+           
+           if ((ipas > 210).or.(nconv)) stop
+
+           !----------------------------------------------------------------------------------!
+           !                                   Desallocation                                  !
+           !----------------------------------------------------------------------------------!
+
+           !----------------------------- Desallocation de infele -----------------------------!
+             
+           do i = 1, ntypel
+               deallocate(infele(i)%Q,infele(i)%W,infele(i)%ksin,infele(i)%face)
+           end do
+          
+           deallocate(infele)
+             
+           do i = 1, nnt
+             deallocate(infnoe(i)%dln)
+           end do
+           deallocate(infnoe,limels,limrup,ecroui)
+             
+           !------------------------------- Autre desalocation -------------------------------!
+           if (CHOIX==1) call free_sparse(vkg);
+           if (CHOIX==2) call CSRC_free(supervkg)
+           deallocate(vsol,vdu,vfg,daval,vfcg,aval,aval0); 
+           deallocate(vcont,vnoli,kcond,vcond,kcont,knoli)
+           deallocate(vimpII,vresI,vresII,vdut,vduI,vduII,vdu0)
+           deallocate(vcor,ktypel,kconec,nomtype)
+           deallocate(vprelg,kprop,kprop0)
+           deallocate(knddl)
+
+           if (CHOIX==2) then
+              do i = 1, nnt
+                deallocate(listelemautour(i)%el)
+              end do
+              deallocate(listelemautour)
+           end if
+
+           if (ievtp) deallocate(vprelg0)             
+             
+           if (alea) then
+              if (allocated(young)) deallocate(young)
+              if (allocated(resist)) deallocate(resist)
+              if (allocated(interfa)) deallocate(interfa)
+              if (allocated(enerj)) deallocate(enerj)
+           end if
+             
+           if (precont) then
+               if (allocated(vfpg)) deallocate(vfpg)
+           end if
+             
+           deallocate(detoscill)
+                          
+           deallocate(v1)
+
+           if (interf==1) deallocate(ietatpg,histetatpg1,histetatpg2,endo)
+           if (fiss==1) deallocate(iouver1,iouver2,histetat1,histetat2,inorm,irloc)
+           if (interf_macro==1) deallocate(mode)
+           deallocate(ietat)
+
+           nconv = .true.
+
+end do
+
+!------------------- Fin de MPI (car MUMPS est ici compile en version parallele -----------------------------!
+ call MPI_FINALIZE(ierr)
+ 
+end program FIDES

@@ -1,0 +1,19 @@
+\select@language {french}
+\contentsline {part}{I\hspace {1em}1st half}{2}
+\contentsline {chapter}{\numberline {1}intro}{3}
+\contentsline {section}{\numberline {1.1}demo}{3}
+\contentsline {subsection}{\numberline {1.1.1}first of all:}{3}
+\contentsline {subsection}{\numberline {1.1.2}second of all:}{3}
+\contentsline {section}{\numberline {1.2}apparatus}{3}
+\contentsline {subsection}{\numberline {1.2.1}one:}{3}
+\contentsline {subsection}{\numberline {1.2.2}two:}{4}
+\contentsline {chapter}{\numberline {2}results}{5}
+\contentsline {section}{\numberline {2.1}demo}{5}
+\contentsline {subsection}{\numberline {2.1.1}first of all:}{5}
+\contentsline {subsection}{\numberline {2.1.2}second of all:}{5}
+\contentsline {section}{\numberline {2.2}apparatus}{5}
+\contentsline {subsection}{\numberline {2.2.1}one:}{5}
+\contentsline {subsection}{\numberline {2.2.2}two:}{6}
+\contentsline {part}{II\hspace {1em}2st half}{7}
+\contentsline {chapter}{\numberline {A}some picture}{8}
+\contentsline {chapter}{\numberline {B}some graph}{9}

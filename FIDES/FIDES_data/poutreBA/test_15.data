@@ -1,0 +1,61 @@
+$EXEC
+$COMT
+------------------------------------------------------------------------
+-                                                                      -
+-                       CESAR-LCPC Version 4.1.x                       -
+-                                                                      -
+-                                                                      -
+-                                                                      -
+-  Nom du MAILLAGE : mail                                              -
+-  Nom du CALCUL   : calcu                                             -
+-                                                                      -
+-  Familles        : 1                                                 -
+-                                                                      -
+-  Module          : MCNL                                              -
+-                                                                      -
+-   .   4 noeuds                                                  -
+-   .   1 groupe                                                  -
+-   .   1 elements                                                -
+-   .   0 elements triangulaires                        -
+-   .   1 elements quadrilateres                   -
+-                                                                      -
+------------------------------------------------------------------------
+COOR
+  2 0
+4 2
+             1            0              0            0              1            1              0            1 
+ELEM
+ 2 0
+1 1
+1 5 
+ 1 3 4 2 
+  MBQ4 
+ 1 
+Beton El
+15 3 .23 35000. 0.2
+4.e-3 0.
+0.8
+COND
+2
+NUL
+2
+1
+2 
+1
+2
+2
+1 2 
+2
+0
+IMP
+2 
+2
+1 3 
+1
+       2.e-05        2.e-05 
+0
+MCNL
+2
+20 500 0.0001
+  1
+  0 1 2 3 4 5 6 7 8 9 10 20 30 40 50 60 70 80 90 100

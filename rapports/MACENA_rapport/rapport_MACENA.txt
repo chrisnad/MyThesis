@@ -1,0 +1,91 @@
+﻿Stratégie multi-échelles de modélisation probabiliste de la fissuration des structures en béton
+
+
+Contexte
+
+Il n’existe pas aujourd’hui d’approche modélisatrice satisfaisante de la fissuration des structures en béton de grandes dimensions, capable d’apporter à la fois des informations sur son comportement global et local. Il s’agit pourtant d’un enjeu important pour la maîtrise de la durée de vie des structures, qui s’inscrit pleinement dans le cadre du développement durable.
+
+
+Description du sujet
+
+Depuis quelques années, l'équipe dont je fais partie, développe des outils de modélisation probabiliste du comportement non linéaire des structures en béton tenant compte des effets de volumes caractéristiques des matériaux hétérogènes.
+Ces outils s’enrichissent progressivement par la prise en compte de divers mécanismes (comportements différés, couplages thermo-hydro-mécaniques) etc. ... Globalement, ils participent tous d’une même stratégie multi-échelles de modélisation probabiliste des comportements permettant d’envisager ces phénomènes aussi bien à l’échelle du matériau béton qu’à celle d’éléments structuraux (poutres, dalles, etc. ...).
+Cependant, pour passer à l’échelle de structures complètes de grande taille (constructions urbaines), il reste à prendre en compte, dans cette approche multi- échelles, le comportement des renforcements actifs et passifs, qui seront intégrés dans une formulation type macro-élément, et d’une stratégie de calcul globale/locale combinant différentes échelles d’information.
+
+
+Organisation du travail
+
+Le sujet de ma thèse porte sur l'élaboration d'une stratégie multi-échelle de modélisation  probabiliste de la fissuration des structures en béton. Il consiste en deux aspects principaux:
+
+-	Le développement dans le cadre de la méthode des éléments finis, de macro-éléments intégrant le comportement non linéaire du béton et du béton précontraint, ainsi que la mise en place d'une méthodologie d'identification (par expérimentation numérique) de ce comportement.
+
+-	Développer une stratégie multi-échelle de calcul des structures du génie civil, utilisant des techniques de sous-structuration et de calcul parallèle.
+L'objectif final de la thèse étant de calculer intégralement une structure du génie civil.
+		
+
+Point sur les travaux effectues
+
+Dans ce contexte, et au cours de ma première année, j'ai tout d'abord démarré une étude bibliographique sur les trois axes suivants:
+
+-1-	Modélisation probabiliste de la fissuration des structures en béton armé. L'équipe d'accueil développe depuis plusieurs années des modèles probabilistes de la fissuration des bétons. Ces modèles, basés sur une analyse fine des processus physiques à l'origine de la fissuration, tiennent compte du caractère hétérogène du matériau et de sa forte sensibilité aux effets d'échelle. Différents modèles, développés à différentes échelles, permettent aussi bien la caractérisation de la micro-fissuration que celle de la macro-fissuration du béton de structure. Cette étude bibliographique a permis de me familiariser avec ces approches qui sont le point de départ de mon travail de thèse.
+		
+-2-	Sur le développement de macro-éléments dans le cadre de la MEF et pour une application aux problématiques du génie civil...
+		
+	-3- Techniques de calculs intensifs...
+	
+
+Modèles de fissuration
+
+Comme le précise le titre de la thèse, l'objectif est de mettre en place des stratégies multi-échelles de modélisation. La notion de multi-échelle fait référence à plusieurs choses:
+- 	Pour le modèle de comportement : il s'agit d'avoir à disposition un ensemble de modèles adaptés à différentes échelles de calculs et différentes échelle de représentation de la fissuration
+- 	Pour les stratégies de calcul : il s'agit principalement d'être capable d'alimenter l'échelle de modélisation globale de la structure par de l'information provenant d'une description des phénomènes à une échelle inférieure
+- 	Adapter les outils numériques pour traiter des calculs complexes et coûteux (parallélisassions ou sous-structuration)
+
+Pour les modèles de comportement: 
+	On développe déjà des modèles à différents échelles, deux familles de modèles sont représenter ici, le modèle de fissuration explicite (ou simplement éléments de contact) à l'échelle fine, qui donne de l'information sur la micro et la macro fissuration, et le modèle de fissuration semi-explicite (ou simplement éléments massifs) à une échelle plus grande, notamment l'échelle d'un élément de structure, qui donne de l'information sur la macro fissuration.
+	
+	-	Le modèle de fissuration explicite (éléments de contact): prendre en compte deux caractéristiques majeures du béton : son hétérogénéité, d'une part et sa sensibilité aux effets d'échelle, d'autre part. L'hétérogénéité du béton provient de sa composition, donc de la nature même du matériau. Les caractéristiques mécaniques locales (module d'Young Eb, résistance à la traction ft) sont aléatoires et dépendent du volume de matériau sollicité. 
+
+       m(X) = FmX(Vs/Vg, fc) et (X) = FX(Vs/Vg, fc)
+
+Le critère de fissuration de Rankine en traction et de Tresca-Coulomb en cisaillement et Une fois l'élément d'interface rompu, son comportement respecte la loi de frottement de Mohr-Coulomb.
+	
+	-	Le modèle de fissuration semi-explicite (modèle macro) :
+	Elément dissipe l'énergie, représentant implicitement le processus de fissuration, j'jusqu’à un moment où toute l'énergie est dissipée, à ce moment-là la résistance et la rigidité de l'élément disparaissent du calcul. Physiquement, il apparaît donc un "trou" au sein du maillage.
+	
+	Finalement je souhait arriver, à une échelle d'une structure complète, d'identifier le comportement des macro éléments béton armés, déduire une loi macro de cette élément pour après injecter cette loi dans le calcul de la structure et obtenir ainsi une description de la fissuration à l'échelle de la structure
+	
+
+Présentation de la méthode
+
+Dans la littérature, les approches multi-échelle se divisent en deux familles:
+
+Décomposition en sous-domaines: Pierre Ladeveze, algorithme LATIN (homogénéisation espace-temps). Décomposition en sous structures et sous-domaines qui assurent la continuité des champs de déplacements (équations de comptabilités)
+
+Sous-structuration: élément maillé finement, calcule intégrer dans l’algorithmie, puis extrapolation des champs de déplacements aux nœuds principaux par un champ de multiplicateurs de Lagrange
+
+Dans notre cas, on va chercher à identifier le comportement du macro éléments de notre structure, indépendamment du reste de la structure, et puis venir injecter cette loi dans le calcul (donc approche de type homogénéisation en premier lieu)
+
+Avantages de cette approche: l'implémentation du modèle est simple par rapport aux autres approches
+Inconvénients: dans un premier temps, l'identification des paramètres du modèle peut s'avérer un travail long et parfois difficile.
+
+
+Etude de faisabilité
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+

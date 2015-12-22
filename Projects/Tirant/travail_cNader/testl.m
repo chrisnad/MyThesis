@@ -1,0 +1,267 @@
+%-------------------------------------------------------------------------%
+%          MODELISATION PAR LA METHODE DES ELEMENTS FINIS                 %
+%          DU COMPORTEMENT D'UNE BARRE SOUMISE A UNE TRACTION             %
+%-------------------------------------------------------------------------%
+clear all;
+%
+% Données du problème :
+% ---------------------
+%
+% Définition de la géométrie du tirant
+%  - Longueur du tirant   (m)                           <= Donnée d'entrée
+L = 1.750;
+%  - Densité de fissures au m lineaire
+den_fiss = 30/L;
+%  - Section du tirant    (m x m)                       <= Donnée d'entrée
+h = .072;
+ep = .8;
+A  = h*ep;
+%-------------------------------------------------------------------------
+%  - Section totale d'acier de diametre D (n_s aciers)  <= Donnée d'entrée
+D_s = .012;
+n_s = 5;
+A_s = n_s*1/4*pi*D_s^2;
+%-------------------------------------------------------------------------
+% Chargement appliqué
+%  - Déplacement imposé en x=L (m)                      <= Donnée d'entrée
+Uimp = .00005;
+UimpEvol = [0:.1:1,1:1:200]*Uimp;
+%
+% Discrétisation de la géométrie :
+% -------------------------------
+%
+% Nombre d'éléments sur la longueur                     <= Donnée d'entrée
+nelt = 50;
+nno = nelt+1;%           Nombre de noeuds du maillage
+Le  = L/nelt;%              Longueur de l'élément
+xe  = (0:1:nelt)*Le;%       Coordonnées des noeuds du maillage
+%-------------------------------------------------------------------------
+%  - Résistance à la traction des éléments
+
+dataExp1 = importdata('./n_fiss.txt');
+iddata = find(dataExp1(:,2)<den_fiss*L);
+Xf = dataExp1(iddata,1);
+Yf = dataExp1(iddata,2);
+
+v = random('Unif',0,1,nelt,1);
+id = find(Yf~=0);
+
+id1 = id(1);
+id0 = id1-1;
+id = [id0;id];
+
+xp =Xf(id);
+yp = Yf(id) / max(Yf(id));
+for i=1:length(v)
+    F(i,1) = interp1(yp,xp,v(i));
+end
+
+% m = .11;
+% v = .001;
+% mu = log((m^2)/sqrt(v+m^2));
+% sigma = sqrt(log(v/(m^2)+1));
+% for ie=1:nelt
+%      F(ie,1)=0;
+%      while (F(ie,1)<.1)
+%          F(ie,1) = wblrnd(.15,2,1,1);
+%      end
+% end
+RT = F/A;
+RTmin = min(RT);
+RTmax = max(RT);
+alp = (RT-RTmin)/(RTmax-RTmin);
+
+%-------------------------------------------------------------------------
+%  - Probabilité d'avoir un élément qui fissure
+p_fiss = den_fiss * Le;
+rupt_el = binornd(1,p_fiss,nelt,1);
+RT = (1-rupt_el)*1.e10 + rupt_el.*RT;
+n_fiss = sum(rupt_el);
+pn_fiss = n_fiss/nelt;
+%-------------------------------------------------------------------------
+% Propriétés "matériau"
+%  - Module acier (MPa)                                 <= Donnée d'entrée
+E_s = 200000;
+%  - Module béton (MPa)                                 <= Donnée d'entrée
+E_b = 35000;
+%  - Module équivalent béton armé non fissuré
+E_m  = (A_s*E_s+(A-A_s)*E_b)/A;
+%  - Module équivalent béton armé fissuré
+E_ms = (A_s*E_s)/A;
+%E_mfmoy = n_fiss*E_m*E_ms/(nelt*E_m-(nelt-n_fiss)*E_ms);
+E_mfmoy = pn_fiss*E_m*E_ms/(E_m-(1-pn_fiss)*E_ms);
+pn_fissmin = n_fiss/nelt;
+E_min = pn_fissmin*E_m*E_ms/(E_m-(1-pn_fissmin)*E_ms);
+%
+% lambd = 1/(E_mfmoy-E_min);
+% v = random('Unif',0,1,nelt,1);
+
+for i=1:length(v)
+    E_mf(i,1) = 1/(1/E_min+alp(i)*(1/E_mfmoy-1/E_min));
+%     E_mf(i,1) = 0 ;
+%     while (E_mf(i,1)<E_min)
+%         E_mf(i,1) = E_min-1/lambd*log(1-v(i));
+%     end
+end
+E_mf = rupt_el.*E_mf;
+
+%
+% Initialisations pour algorithme non-linéaire :
+% ---------------------------------------------
+ndlt = 1*nno;%           Nombre de degrés de liberté total
+U = zeros(ndlt,1);%      Vecteur global des déplacements nodaux
+%
+% Boucle sur le nombre de pas de calculs :
+% ---------------------------------------
+disp(' ');
+npas = length(UimpEvol);
+lam=ones(npas,1);
+Dini(1:nelt) = 0.;
+D(1:nelt) = 0.;
+
+for ipas=1:npas
+    %
+    % Initialisation pour chaque pas
+    % ------------------------------
+    nconv = 'false';
+    %lam(ipas) = ipas;%            Facteur multiplicateur de la charge
+    dUt = zeros(ndlt,1);%         Incrément total de chargement
+    disp(['Pas de calcul n°: ',num2str(ipas),'  Coefficient de charge ',num2str(lam(ipas))]);
+    %
+    % Boucle sur le nombre de pas de calculs :
+    % ---------------------------------------
+    for iter=1:5000
+        %
+        % Initialisation du système matriciel :
+        % -------------------------------------
+        K = zeros(ndlt,ndlt);%     Matrice de rigidité
+        R = zeros(ndlt,1);%        Vecteur résidu
+        Fint = zeros(ndlt,1);%     Vecteur d'efforts intérieurs
+        sig  = zeros(nelt,1);%     Vecteur contenant les contraintes sur les éléments
+        %
+        % Boucle sur le nombre d'éléments :
+        % ---------------------------------
+        for ie=1:nelt
+            %
+            % Calcul et intégration des contraintes sur l'élément
+            % ---------------------------------------------------
+            eps = (U(ie+1,1)-U(ie,1))/Le;%   Déformation sur l'élément
+            S = A;
+            E = E_m;
+            %
+            D(ie) = Dini(ie);
+            if (eps>RT(ie)/E_m)
+                 D(ie) = 1 - RT(ie)/(E_m*eps);
+                 if (eps>RT(ie)/E_mf(ie))
+                    D(ie) = 1 - E_mf(ie)/E_m;
+                 end
+                D(ie) = max(Dini(ie),D(ie));
+                D(ie) = min(1.d0,D(ie));
+            end
+            sig(ie) = (1-D(ie))*E * eps ;%      Contrainte finale dans l'élément
+%             sig(ie) = E*eps;%                  Prédicteur élastique des contraintes
+%             if sig(ie) > RT(ie)%               Calcul de la déformation plastique
+%                 E = E_mf(ie);
+%                 sig(ie) = E*eps;%                  Prédicteur élastique des contraintes
+%             end
+            Fint_e = sig(ie)*S*[-1;1];%             Vecteur élémentaire d'effort intérieur
+            Fint(ie:ie+1,1) = Fint(ie:ie+1,1) + Fint_e;%  Vecteur global d'effort intérieur
+            %
+            % Calcul et assemblage du vecteur résidu
+            % --------------------------------------
+            R(ie:ie+1,1) = R(ie:ie+1,1) + (Fint_e );
+            %
+            % Calcul et assemblage de la matrice de rigidité
+            % ----------------------------------------------
+            K(ie:ie+1,ie:ie+1) = K(ie:ie+1,ie:ie+1) + (1-D(ie))*E*S/Le*[1,-1;-1,1];
+        end
+        %
+        % Prise en compte des conditions aux frontières en x=0 et x=L
+        % -----------------------------------------------------------
+        if iter == 1
+            R = R - K(:,ndlt)*lam(ipas)*(-Uimp);
+            R(ndlt,1) = -lam(ipas)*Uimp;
+        else
+            R(ndlt,1) = 0;
+        end
+        K(1,:) = zeros(1,ndlt);
+        K(:,1) = zeros(ndlt,1);
+        K(1,1) = 1;
+        R(1,1) = 0;
+        %
+        K(ndlt,:) = zeros(1,ndlt);
+        K(:,ndlt) = zeros(ndlt,1);
+        K(ndlt,ndlt) = 1;
+         
+        %
+        % Résolution du système matriciel :
+        % --------------------------------
+        dU = -inv(K)*R;
+        dUt = dUt + dU;
+        U  = U + dU;
+        %
+        % Test de convergence :
+        % ---------------------
+        ndu= norm(dU)/(norm(dUt)+1.D-20);
+        disp(['Itération ',num2str(iter),'  -  Critère : ',num2str(ndu)]);
+        if(ndu < 1.e-04),
+            nconv = 'true';
+            disp(' ');
+            break;
+        end
+    end%----- Fin de boucle sur les itérations internes
+    if strcmp(nconv,'false'),break;end;
+    %
+    % Stockage des résultats à chaque pas de temps
+    %---------------------------------------------
+    resu(ipas).depl = U; %    déplacements : ux   (noeuds)
+    resu(ipas).cont = sig;%   contraintes  : sxx  (pt de Gauss : centre élément)
+    resu(ipas).fiss = nnz(D);
+    %
+    % Stockage de la courbe globale
+    %------------------------------
+    FX(ipas) = U(ndlt,1);
+    FY(ipas) = Fint(ndlt,1);
+end%----- Fin de boucle sur le nombre de pas de calculs
+%
+% Post-traitement :
+% ----------------
+%
+% Tracés
+
+break
+
+figure(1);
+plot([0,FX],[0,FY],'g-*');title('Courbe globale effort / déplacement');
+hold on
+plot([0,FX],[0,E_s*A_s/L*FX])
+
+dataExp2 = importdata('./c_glob.txt');
+Fexp_X=dataExp2(:,1);
+Fexp_Y=dataExp2(:,2);
+plot(Fexp_X,Fexp_Y,'r-');
+
+legend('Solution éléments finis',4);
+%
+ for ipas=1:npas
+     U = resu(ipas).depl;
+     ouv(ipas) = mean(nonzeros(rupt_el.*(U(2:nelt+1,1)-U(1:nelt,1))));     
+     n_fiss(ipas) = resu(ipas).fiss;
+     eff_fiss(ipas) = FY(ipas);
+ end
+
+ % Nombre de fissures
+figure(2)
+plot(eff_fiss,n_fiss,'g-*')
+hold on
+plot(Xf,Yf,'r')
+
+ % Ouvertures de fissures
+figure(3)
+plot(eff_fiss,ouv,'g-*')
+hold on
+dataExp3 = importdata('./ouv_fiss.txt');
+ouv_X=dataExp3(:,1);
+ouv_Y=dataExp3(:,2);
+plot(ouv_X,ouv_Y,'r-');
+hold on

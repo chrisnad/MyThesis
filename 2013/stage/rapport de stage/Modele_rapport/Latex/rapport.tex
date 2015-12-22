@@ -1,0 +1,1891 @@
+\documentclass{DGC_M2_report}
+
+% Codage des caractères
+\RequirePackage[latin1]{inputenc}  % latin1 pour Unix/Windows
+
+\usepackage{charter}
+%\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[francais]{babel}
+%\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{color} 
+\usepackage{colortbl}
+\usepackage{slashbox}
+
+
+% Le texte et les maths en times
+\RequirePackage{pslatex}
+
+% Titre de bas de page
+\foottitle{FISSURATION D'ELEMENTS EN BETON ET EFFETS D'ECHELLE}
+
+% Où trouver les figures
+\graphicspath{{figures/}}
+
+% Style de biblio
+\bibliographystyle{apalike-fr}
+%\bibliographystyle{unstr}
+
+% Informations sur le pdf
+\hypersetup{%
+   pdftitle    = {Rapport de stage M2},
+   pdfsubject  = {Rapport},
+   pdfauthor   = {christian NADER},
+   pdfkeywords = {mots, clés}}
+
+% ---------------------------------------------> Début du document <---
+\begin{document}
+% ---------------------------------------------------------------------
+
+% ----------------------------------------------------> Couverture <---
+\include{couverture}
+
+% -------------------------------------------------> Remerciements <---
+\chapter*{\emph{Remerciements}}
+\emph{Je tiens à remercier dans un premier temps, toute l'équipe pédagogique de l'ENS-Cachan et les intervenants professionnels responsables de la formation SOMGC. Cette année de M2 recherche était très enrichissante au niveau personnel, due principalement au standard d'excellence de cet établissement prestigieux.}\\\\ 
+
+\emph{Deuxièmement, je tiens à remercier le maître du stage, Mr. Frédéric Ragueneau, Professeur à l'ENS-Cachan et Responsable du Secteur Génie Civil \& Environnement au Laboratoire Mécanique et Technologies LMT-Cachan, pour la confiance qu'il m'a accordée en acceptant d'encadrer ce stage, ainsi que pour son aide et ses précieux conseils au cours de ces quartes mois. Je remercie également Madame Cecile Oliver pour sa sympathie, sa disponibilité, ses idées et conseils, ainsi que pour son aide précieuse de tous les jours. Je souhaiterais surtout exprimer ma gratitude à monsieur Cédric Giri pour son aide, sa gentillesse et son soutien tout au long de ce stage.}\\\\
+\emph{Je sais infiniment gré aux monsieurs Xavier Pinelli (LMT, secteur mécanique) et Olivier Rateau (ENS, département génie civil) de s'être rendus disponible pour une grande partie de ce stage, notamment leurs grandes connaissance expérimentale.}\\\\ 
+\emph{Je tiens aussi à mentionner le plaisir que j'ai eu à travailler au sein du LMT, et j'en remercie ici tous les membres.}
+
+% --------------------------------------------------------> Tables <---
+\frontmatter
+\dominitoc 
+\tableofcontents
+\listoffigures
+\listoftables
+
+% -----------------------------------------------------> Chapitres <---
+\mainmatter
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Introduction} 
+Dans ce stage on se propose d'étudier les phénomènes de fissuration dans le cadre d'essais mettants en évidence les effets d'échelle en termes de fissuration.
+Nous allons devoir en premier temps présenter un protocole expérimental qui expose les effets d'échelle sur des structures cimentaires.
+Dans le cadre de ce stage on propose une pré-étude numérique qui va servir comme une première identification des paramètres matériau, la validité du modèle numérique vis à vis des effets d'échelle sera également mise en lumière.
+La campagne expérimentale menée au Laboratoire Mécanique et Technologies (LMT-cachan), consiste en une identification des paramètres expérimentaux, et éventuellement, de tester les éprouvettes. L'idée principale est de récupérer les résultats de l'étude faite sur des poutres en mortier, entaillées et non entaillées,
+chargées en flexion trois points.
+Une étude statistique sera faite sur l'ensemble des échantillons, une première approche pour montrer l'éffet d'échelle dans les structures consiste en une comparaison directe des résultats expérimentaux, ensuite, nous effectuerons une analyse par les lois
+d'effet d'échelle de Ba\v{z}ant. 
+Finallement, une analyse par la méthode de correlation d'image sera réalisée, car cette méthode présente un aspect intéressant vis à vis de la détection de la fissure.
+L'effet d'échelle dans les structures demeure toujours un phénomène difficile à décrire, on espère que notre étude apportera sa contribution pour lever l'ambiguïté entourant l'effet d'échelle.
+\\\\
+Mots-clés: Flexion trois points, Béton, Fissure, Effet d'échelle
+
+
+\part{Etude bibliographique}
+\chapter{Effet d'échelle}
+\section{Introduction}
+L'effet d'échelle dans les matériaux quasi fragiles comme le béton est un phénomène bien connu
+et il existe un certain nombre d'études expérimentales et théoriques (\cite{rusch1962}; \cite{chana1981}; \cite{kani1967}; \cite{taylor1972}; \cite{walsh1976}; \cite{eligehausen1992}; \cite{leonhardt1962}; \cite{reinhardt1981}; \cite{hillerborg1990}) qui confirment l'existence de celui-ci. Il y a deux aspects de l'effet d'échelle : statistique et
+déterministe. Dans le passé, l'effet d'échelle a été
+principalement traiter du point de vue statistique \cite{weibull1939}. Cependant, il y a suffisamment de preuves qui montrent que la
+raison principale de l'effet d'échelle est en partie causée par la libération de l'énergie de déformation due à la
+croissance de la rupture.\\\\
+Selon \cite{bazant1984}, l'effet d'échelle pour des poutres entaillées, peut être approximativement décrit par la loi d'effet
+d'échelle:
+\begin{equation}
+\sigma_{N}=Bf_{t}(1+\beta)^{-1/2}  ; \beta=d/d_0
+\end{equation}
+Où '$d$' est une mesure d'une taille caractéristique de la structure (par exemple hauteur de la
+poutre), $f_t =$ résistance à la traction du béton, $B$ et $d_0$ sont deux constantes à déterminer, soit
+expérimentalement, soit par une analyse plus sophistiquée ($d_0$ est déterminé expérimentalement, $B$ est déterminé analytiquement à partir de la mécanique de la rupture en fonction des caractéristiques géométriques et du type de chargement). Selon l'équation au dessus, la
+résistance nominale $\sigma_N$ dans les grandes structures tend vers zéro.\\\\
+En supposant que les propriétés du matériau sont constantes (le même béton), la
+dérivation de la loi d'effet d'échelle repose sur quatre hypothèses de base: (1) La propagation d'une
+fissure ou rupture nécessite une alimentation presque constante en énergie par unité de longueur
+et largeur ($G_F$, énergie de fissuration du béton, indépendante de la taille de l'échantillon) (2)
+l'énergie libérée par la structure en raison de croissance de la rupture est une fonction à la fois de
+la longueur de rupture et la surface de la zone de fissuration (FPS, Fracture Process Zone) en pointe de fissure. Si la libération d'énergie potentielle est une fonction de la longueur de la
+fissure seulement, l'effet d'échelle est celui de la LEFM (Linear Elastic Fracture Mechanics), et
+si on est dans le cadre de la résistance des matériaux pour des petites tailles, il n'y a pas d'effet d'échelle, car la zone de fissuration est dans les mêmes ordres de taille que la taille de la structure. (3) À la charge
+limite, les formes et longueurs des fissures dans les structures géométriquement semblables de
+différentes tailles sont également géométriquement semblables, et (4) la structure ne casse pas à
+l'amorçage de la fissure, en d'autre termes, la propagation de la fissure doit être possible.
+
+\section{Loi en puissance}
+C'est la base mathématique qui va nous donner la forme des équations qui gèrent les effets d'échelle, \cite{bazant2004}\\\\   
+Cherchons à déduire une réponse $Y$ comme fonction de la dimension
+caractéristique $D$ d'une structure. Imaginons maintenant des structures de trois dimensions $D_0$, $D_1$ et $D$, avec les réponses correspondantes $Y_0$,$Y_1$ et $Y$. Etant donné qu'il n'y a pas de longueur
+caractéristique, on cherche la fonction adimensionnelle $f(\lambda)$ avec $\lambda = \frac{D}{D_0}$, et $\frac{Y}{Y_0} = f(\lambda)$ ; $D_0$ est pris comme dimension de référence, cela implique que $\frac{Y_1}{Y_0} = f(\frac{D_1}{D_0})$.
+Ainsi, \[\frac{Y}{Y_1} = \frac{f(\lambda)}{f(\frac{D_1}{D_0})}\]
+Et si il n'y a pas de longueur caractéristique, on peut écrire ce qui suit: $\frac{Y}{Y_1} = f(\frac{D}{D_1})$, ce qui implique la condition:
+\[\frac{f(\frac{D}{D_0})}{f(\frac{D_1}{D_0})} = f(\frac{D}{D_1})\]
+On doit la différencier par rapport à $D$ (la seul variable dans le système), ce qui donne:\[\frac{1}{f(\frac{D_1}{D_0})}.\frac{df}{dD}(\frac{D}{D_0}).\frac{1}{D_0} = \frac{df}{dD}(\frac{D}{D_1}).\frac{1}{D_1}\]
+Pour $D_1 = D$ et $\frac{dD}{dD} = \frac{d\lambda}{d\lambda}$ on obtient:
+\[\frac{1}{f(\frac{D}{D_0})}.df(\frac{D}{D_0}) = \frac{df}{dD}(\frac{D}{D}).\frac{dD}{D_1}D_0\]
+Par suite \[\frac{df(\lambda)}{f(\lambda)} = m.\frac{d\lambda}{\lambda}\text{  ; avec  }m = \frac{df(1)}{d\lambda}\]
+Finalement, sa primitive, avec la condition $f(1) = 1$, donne: \[\ln(f(\lambda)) = m.\ln(\lambda) = \ln(\lambda^m)\]
+D'où l'effet d'échelle en puissance: $f(\lambda) = \lambda^m$ (on démontre par intégrale $J$ que $m = -1/2$ pour des grandes tailles)
+
+
+
+\section{Analyse asymptotique dans les poutres entaillées}
+La fissuration peut être caractérisée
+par les variables adimensionnelles $\alpha_0 = \frac{a_0}{D}$, $\alpha = \frac{a}{D}$, $\theta = \frac{c_f}{D}$, dans lesquelles \og$a$\fg{} est la longueur équivalente de fissure correspondant à la hauteur d'entaille plus la hauteur du ligament fissuré et avec sa zone d'élaboration ; $c_f=a-a_0$ taille effective de la zone d'élaboration de la fissuration.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{figure1.png}
+\caption{Modèle de poutre entaillée, montage en flexion trois points}
+\end{center}
+\end{figure}
+\\
+L'énergie restituée par la structure peut être analysée sur la base de la variation de
+l'énergie complémentaire de la structure: $\Pi^* = \sigma_{N}^{2}.b.D^2/E.f(\alpha_0, \alpha, \theta)$ ; ici '$f$' est une fonction adimentionnelle caractérisant la géométrie de la structure. D'autre part, la résistance à la
+fissuration peut être caractérisée comme $R=G_f.r(\alpha_0, \alpha, \theta)$, à partir de la mécanique de la rupture, où '$r$' est une autre fonction adimentionnelle ayant la propriété: $\lim_{\alpha \to \alpha_0} r = 1$.\\\\
+On déduit ainsi le taux de restitution d'énergie $G = (\frac{d\Pi^*}{d\alpha})/b$, et pour un $\sigma_N$ constant on peut écrire la relation suivante: $\frac{dG}{d\alpha} = \frac{dR}{d\alpha}$
+\\\\
+On peut montrer à partir des équations précédentes que la résistance nominale de la
+structure est donnée sous la forme: \[\sigma_N = \sqrt{\frac{E.G_f}{D.g(\alpha_0, \theta)}}\]
+où '$g$' est une fonction adimensionnelle
+exprimée en termes des fonctions '$f$' et '$r$' et leurs dérivées.
+\\\\
+La fonction '$g$' doit être régulière, et donc par développement en série de Taylor jusqu'au $2^{nd}$ ordre au voisinage de $(\alpha_0, 0)$ on aura:
+\[\sigma_N = \sqrt{\frac{E.G_f}{D}}.(g(\alpha_0, 0)+g_1(\alpha_0, 0).\frac{c_f}{D}+...)^{-1/2}\]
+Par conséquent, l'analyse de l'effet d'échelle à l'aide du taux de restitution d'énergie est possible par l'introduction de l'approximation $g(\alpha_0, \theta) = g(\alpha_0 + \theta)$, on obtient ainsi:
+\begin{equation}
+\sigma_N = \sqrt{\frac{E.G_f}{c_f.g'(\alpha_0)+D.g(\alpha_0)}} = B.f'_{t}(1+\frac{D}{D_0})^{-1/2}
+\end{equation}
+Dans laquelle les paramètres sont donnés par: $D_0 = c_f.\frac{g'(\alpha_0)}{g(\alpha_0)}$, $B.f'_{t}=\sqrt{\frac{E.G_f}{c_f.g'(\alpha_0)}}$
+Cette forme de la loi d'effet d'échelle pour les poutres entaillées sera utiliser dans la suite pour identifié $G_f$ et $c_f$ sur les résultats expérimentaux. 
+
+
+\section{Effet d'échelle à l'amorcage de la fissure}
+En dehors des éprouvettes entaillées,
+l'analyse précédente ne s'applique qu'aux structures qui contiennent, à la charge maximale, une
+grande fissure. La ruine à l'amorçage de la fissuration à partir d'une surface plane (éprouvette
+non entaillée) peut aussi être analysée sur la base des développements à partir des équations
+précédentes, avec, cependant, une modification. Puisque les développements sont faits par
+rapport à une valeur nulle de la taille de la zone d'élaboration relative, l'argument de la fonction
+de restitution d'énergie $g(\alpha)$ est $\alpha=0$, ce qui signifie que le taux de restitution d'énergie
+$g(\alpha)=g(0)=0$. Dès lors, le premier terme du développement aux grandes tailles disparait, il faut
+dans ce cas inclure le troisième terme du développement asymptotique aux grandes tailles. Ce
+qui conduit à l'approximation suivante de la résistance nominale de structures dont la ruine
+apparait dès l'amorçage de la fissuration à partir d'une surface plane:
+\begin{equation}
+\sigma_N = \sqrt{\frac{E.G_f}{c_f.g'(\alpha_0)+\frac{1}{2}.g''(\alpha_0).c_{f}^{2} .D^{-1}}}
+\end{equation}
+Pour présenter l'effet d'échelle de façon plus détaillée, le comportement des poutres en
+micro-béton, entaillées et non entaillée, chargées en flexion trois points, sera étudié.
+Les résultats de la campagne expérimentale seront analysés avec loi d'effet d'échelle afin de déterminer $G_f$ et $c_f$ sur les poutres non-entaillées.
+
+
+\section{Validation des lois d'effet d'échelle}
+Dans la littérature, un certain nombre de résultats d'essai pour des poutres avec et sans entaille,
+testées en flexion trois points, ont été rapportés. Dans la Fig. 1.2, les résultats d'essais pour
+trois spécimens de poutres entaillées mis à l'échelle (ratio taille d'entaille / hauteur de la poutre,
+$\frac{a_0}{d} = \frac{1}{6}$), réalisées à Northwestern University \cite{ba1990}, sont présentés.
+Dans la même figure on compare ces résultats avec la loi d'effet d'échelle et les résultats numériques \cite{eligehausen1992}. La profondeur des poutres a été modifié dans une plage de taille
+assez faible, soit de $d = 76 mm$ à $305 mm$ avec une épaisseur constante $b = 38 mm$. La résistance
+nominale à la rupture est calculée en utilisant la formule de la théorie des poutres $\sigma_N = \frac{15P_u}{4b.d}$
+avec $P_u$ étant la charge ultime. D'après la Fig. 1.2, un effet d'échelle significatif est observé, la
+résistance nominale '$\sigma_N$' diminue avec l'augmentation de la taille. La loi d'effet d'échelle est en
+accord avec les résultats expérimentaux.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.49]{figure2.png}
+\caption[Effet d'échelle en flexion trois points sur des poutres entaillées]{Effet d'échelle en flexion trois points sur des poutres entaillées ($a_0/d=1/6$), \cite{ba1990}}
+\end{center}
+\end{figure}
+\\
+Les résultats des essais pour des échantillons non entaillés en béton ordinaire en flexion trois points sont représentés sur
+la Fig. 1.3. La plage de hauteur de la poutre s'étendait jusqu'à $1 m$. Comme on peut le voir sur la
+Fig. 1.3, les résultats des tests jusqu'à une hauteur de la poutre d'environ $d = 0.5 m$, on trouve que la loi d'effet d'échelle est en accord sur cette plage avec les résultats expérimentaux. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.49]{figure3.png}
+\caption[Effet d'échelle en flexion trois points sur des poutres non entaillées]{Effet d'échelle en flexion trois points sur des poutres non entaillées, \cite{ba1990}}
+\end{center}
+\end{figure}
+\\
+Cependant, pour les plus grands spécimens, la résistance nominale tend à la résistance en traction
+uniaxiale.
+\\\\
+Dans la Fig. 1.4 les résistances nominales des poutres avec une taille constante d'entaille,
+testées par \cite{tang1992} sont tracées en fonction de la hauteur. Comme dans le cas des
+éprouvettes non entaillées, la résistance nominale des grandes poutres tend vers une valeur
+constante différente de $0$.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.49]{figure4.png}
+\caption[Effet d'échelle sur la contrainte nominale]{Effet d'échelle sur la contrainte nominale en flexion trois points sur des poutres entaillées (même taille d'entaille), \cite{ba1990}}
+\end{center}
+\end{figure}
+
+
+\chapter{Energie de fissuration}
+\section{Taux de restitution d'energie}
+\og La puissance mécanique disponible pour ouvrir une fissure de surface $A$ est égale à la variation de l'énergie totale $V$, appelée \emph{taux de restitution d'énergie}\fg{}(unité: $joule/m^2$):
+\[G=\frac{\partial V}{\partial A}\]
+\begin{itemize}
+\item Propagation de la fissure si: $G-2\gamma^s \geq 0$
+\item Arrêt si: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} $G-2\gamma^s \leq 0$
+\end{itemize}
+Avec $\gamma^s$ énergie spécifique de rupture par unité de surface.\\
+Après son amorçage, la fissure s'arrête, nécessitant plus d'énergie pour reprendre sa propagation (en déplacement imposé, la propagation de la fissure est presque toujours stable).\\
+Dans le cas linéaire, l'énergie stockée est égale à : $V=\frac{1}{2}CF^2$ où $F$ est la force appliquée et $C$ la souplesse de la structure. On déduit que à force imposée:
+\[G=-\frac{1}{2}\frac{\partial C}{\partial A}F^2\]
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.265]{figure5.png}
+\caption[Taux de restitution d'énergie]{Taux de restitution d'énergie : (a) cas linéaire, (b) cas non linéaire}
+\end{center}
+\end{figure}
+
+\section{Méthode de détermination avec les effets d'échelle}
+L'énergie de rupture Gf qui est obtenu par cette méthode est définie comme l'énergie spécifique
+(énergie par unité de zone plane de fissuration) nécessaire pour la croissance de la fissure dans un
+échantillon d'essai infiniment grand. La méthode est décrite ici pour le mode I de rupture
+uniquement. Les résultats des tests dont on a besoin pour déterminer l'énergie de rupture ne sont
+que les valeurs de la charge maximale $P_1$, $P_2$, $P_3$ pour les spécimens de différents tailles, $D_1$,
+$D_2$, $D_3$, et le module de Young du béton, $E$. Le module de Young peut être obtenu en utilisant
+toute autre méthode conventionnelle, par exemple, essais de compression sur des échantillons cylindriques.
+La technique qu'on présente ici s'applique initialement à la loi d'effet d'échelle donnée par l'équation (1.1). 
+\\\\
+Procédure de calcul, \cite{rilem1991}: Les charges maximales corrigées qui prennent le poids de
+l'échantillon en compte: $P_{j}^{0} = P_j + \frac{1}{2}m_j.g$, ici $m_j$ c'est la masse du spécimen $j$, $g$ c'est l'accélération de la pesanteur.
+\\\\
+On effectue maintenant une régression linéaire, compte tenu du tracé des ordonnées $Y_j$ contre les abscisses $X_j$ où: $Y_j = (b.d_j/P_{j}^{0})^2$, $X_j = d_j$
+\\
+Interception de la droite de régression : $Y = AX + C$, avec
+\[A=\frac{\sum_{j} (X_j-\overline{X})(Y_j-\overline{Y})}{\sum_{j} (X_j-\overline{X})^2} \text{{  };{  }} C=\overline{Y}-A\overline{X} \text{{  };{  }} \overline{X}=\frac{1}{n}\sum_{j}X_j \text{{  };{  }} \overline{Y}=\frac{1}{n}\sum_{j}Y_j\]
+Calcul des valeurs auxiliaires pour l'extrapolation : pour $l/d = 4$ (comme notre cas)
+\[F_4(\alpha)=\frac{1.99-\alpha(1-\alpha)(2.15-3.93\alpha+2.7\alpha^2)}{\pi^{1/2}(1+2\alpha)(1-\alpha)^{3/2}}\]
+Energie libérée:
+\[g(\alpha)=(\frac{l}{d})^2\pi\alpha(1.5F(\alpha))^2\]
+Energie de fissuration:
+\[G_f=\frac{g(\alpha_0)}{E_cA}\]
+Statistique:
+\[S_{x}^{2}=\frac{1}{n-1}\sum_{j} (X_j-\overline{X})^2\text{ ; }S_{y}^{2}=\frac{1}{n-1}\sum_{j} (Y_j-\overline{Y})^2\text{ ; }S_{y|x}^{2}=\frac{1}{n-2}\sum_{j} (Y_{j}-Y'_j)^{2}=\frac{n-1}{n-2}(S_{y}^{2}-A^2S_{x}^{2})\]
+\[w_{y|x}=S_{y|x}\overline{Y}\text{ ; }w_x=S_x\overline{X}\text{ ; }w_A=\frac{S_{y|x}}{AS_x(n-1)^{1/2}}\]
+\[w_C=\frac{S_{y|x}}{C(n-1)^{1/2}}(1+\frac{1}{w_{x}^{2}})^{1/2}\text{ ; }m=\frac{w_{y|x}}{w_x}\]
+On prend comme approximation : $w_{G}^{2}=w_{A}^{2}+w_{E}^{2}$, avec $w_E$: coef de variation de $E_c$
+
+
+
+\chapter{Correlation d'image}
+\section{Introduction}
+La méthode de corrélation d'images numériques a été créé comme un outil stable et fiable pour la
+mesure des fissures / endommagements (\cite{lawler2001}; \cite{luo1993}%; \cite{shah1995}
+). La méthode de corrélation d'images a été fréquemment
+utilisée pour l'étude du mode d'ouverture de la fissure dans les matériaux quasi-fragiles comme le
+béton. Dans les travaux de \cite{choi1997}, la précision de mesure du
+déplacement a été estimée à l'aide de trois procédures différentes et l'erreur maximale a été
+trouvée à environ $1/20$ pixels. Il a été constaté que la corrélation d'images est efficace pour
+déterminer la longueur des fissures et l'emplacement des petites fissures.
+Contrairement aux méthodes plus traditionnelles, la corrélation d'images est une
+technique robuste avec un degré élevé de précision de mesure, et elle est beaucoup plus facile à
+appliquer expérimentalement. Le processus de corrélation consiste à capturé la surface de
+l'échantillon selon des modes distribués de niveau de gris. L'efficacité du mouchetis peut
+être déterminée à partir de la quantité de pixels par point noir. Ces schémas, l'un avant et
+l'autre après la mise en charge, sont imagés par un appareil photo numérique et stocké dans un
+ordinateur sous un format digital. Pendant le processus de formation d'image, l'intensité de la
+configuration aléatoire est transformée en un nombre fini d'échantillons sur une grille
+rectangulaire. Chaque capteur, ou pixel, dans une caméra typique moyenne l'intensité de la
+lumière incidente sous la forme d'une valeur d'intensité de gris, qui est normalement dans
+l'intervalle de $0-256$ (on peut allez plus loin dans la précision en partant avec des photos de haute qualités en \emph{RAW} (image brute) et les convertir de façon à conserver une précision des niveaux de gris, on obtient dans ce cas un spectre qui peut contenir $16000$ valeurs! ; cette méthode est bien sûre plus compliqué et prend trop de temps).
+
+\section{Principe}
+Traitons deux images, qui caractérisent la surface initiale et déformée d'un
+matériau soumis à une charge connue. Une image est une fonction scalaire de la coordonnée
+spatiale qui donne le niveau de gris de chaque point discret (ou pixel) de coordonnée $X$ (vecteur position). Les
+fonctions de l'image de référence et celle déformée sont appelés respectivement $f(X)$ et $g(X)$. Soit $u(X)$ le
+champ de déplacement. Ce champ permet de relier les deux images en exigeant la conservation
+du flux optique
+\[g(X)=f(X+u(X))\]
+En supposant que l'image de référence est différentiable, un développement de Taylor au premier
+ordre donne
+\[g(X)=f(X)+u(X).\bigtriangledown f(X)\]
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{figure6.png}
+\caption[Correlation d'images]{(a) Zoom sur un motif moucheté. Le modèle speckle est d'environ $15\times 20$ pixels. (b) Représentation schématique de la déformée et l'image de référence situés sur une photo instantanée, \cite{alam2012}}.
+\end{center}
+\end{figure}
+\\
+Ensuite, par minimisation on obtient une fonction objective, et en considérant $u(X)$ comme
+la somme de fonctions scalaires, la minimisation nous donne alors un system linéaire qui
+ressemble à la relation suivante:
+\[M.a=b\]
+Avec
+\[u(X)=\sum_{\alpha,n} a_{\alpha n}\psi_n(X)e_\alpha \]
+\[M_{\alpha n \beta m}=\int{\int_{\Omega} {[\psi_m(X)\psi_n(X)\partial_\alpha f(X)\partial_\beta f(X)]\ dX}}\]
+\[b_{\alpha n}=\int{\int{[g(X)-f(X)]\psi_n(X)\partial_\alpha f(X)\ dX}}\]
+
+
+\section{Discrétisation par éléments finis (Correli $Q4$)}
+Puisque l'image est naturellement divisée en pixels, il
+convient de choisir une forme carrée ou rectangulaire pour chaque élément. Ce qui nous amène
+au choix d'éléments finis type $Q4$ comme base la plus simple. Chaque élément est associé sur le
+carré $[0 ; 1]^2$, où les quatre fonctions de base sont $(1-x)(1-y)$, $x(1-y)$, $(1-x)y$ et $xy$ dans un repère
+$(x ; y)$ local. La décomposition de déplacement est donc particularisée pour tenir compte des
+fonctions de forme d'une discrétisation par éléments finis, \cite{hild2008}. Le but est surtout d'obtenir un champ de déplacement du même type que celui généré lors d'un calcul EF. On obtient ainsi:
+\[u^e(x)=\sum_{n=1}^{n_e} \sum_{\alpha} a_{\alpha n}^{e}N_n(x)e_\alpha\]
+Où $n_e$ est le nombre de noeuds (ici $n_e = 4$), $N_n(x)$ les fonctions de forme, et '$a$', les déplacements nodaux inconnus. La
+fonction objective est alors reformulée, on obtient la forme discrétisé de la matrice $M$ et du
+vecteur $b$
+\[M_{\alpha n \beta m}^{e}=\int{\int_{\Omega_e} {[N_m(x)N_n(x)\partial_\alpha f(x)\partial_\beta f(x)]\ dx}}\]
+\[b_{\alpha n}^{e}=\int{\int{[g(x)-f(x)]N_n(x)\partial_\alpha f(x)\ dx}}\]
+Ainsi, il devient possible de calculer pour chaque élément '$e$' les contributions élémentaires
+de $M$ et $b$.
+
+
+\part{Procédure expérimentale}
+
+\chapter*{}
+\begin{center}
+Cette section est consacrée à la présentation de la campagne expérimentale\\
+menée sur des poutres homothétiques,\\
+entaillées et non-entaillées\\conçuent avec le même matériau.\\\\
+Nous avons considérés trois géométries différentes\\
+afin de prendre en compte les effets d'échelle et les effets
+de bord.
+\end{center}
+
+\chapter{Les échantillons}
+\section{Description du matériau}
+Dans notre étude on test des éprouvettes de petites dimensions, on a décidé alors d'utiliser un
+micro-béton (mortier), comme celui utilisé dans le stage de \cite{hamouche2010}. 
+\\\\
+La composition du micro-béton pour $1m^3$ est présenté dans le tableau 1. Le ciment utilisé
+est un CEM1 $52,5 N$ (HOLCIM), et le sable normalisé est conforme $ISO  679$, sa granulométrie
+est $0/2 mm$, donnée dans le tableau 2. Le rapport $e/c$ est de $0,46$. Cette formulation est tirée de
+la thèse de \cite{ouglova2004}.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+\begin{bf}                   Sable(Kg)         \end{bf} & \begin{bf}                   Eau(Kg)         \end{bf} & \begin{bf}                   Ciment(Kg)           \end{bf} \\
+\hline 
+\begin{bf}\rowcolor{cyan}1342\end{bf} & \begin{bf}294\end{bf} & \begin{bf}631\end{bf} \\
+\hline 
+\end{tabular}
+\end{center}
+\caption{Composition du micro-béton}
+\label{micro-béton}
+\end{table}
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cc}
+\hline
+\begin{bf}Tamis ouverture des mailles (mm)\end{bf}   &   \begin{bf}refus cummulés (\%)\end{bf} \\
+\hline 
+\begin{bf}\rowcolor{cyan}0.08\end{bf}   &   \begin{bf}99 \pm{}1 \end{bf} \\ 
+\begin{bf}0.16\end{bf}   &   \begin{bf}87 \pm{}5\end{bf} \\
+\begin{bf}\rowcolor{cyan}0.50\end{bf}   &   \begin{bf}67 \pm{}5\end{bf} \\
+\begin{bf}1.00\end{bf}   &   \begin{bf}33 \pm{}5\end{bf} \\
+\begin{bf}\rowcolor{cyan}1.60\end{bf}   &   \begin{bf}7 \pm{}5\end{bf} \\
+\begin{bf}2.00\end{bf}   &   \begin{bf}0\end{bf} \\
+\hline 
+\end{tabular}
+\end{center}
+\caption{Granulométrie du sable normalisé}
+\label{sable}
+\end{table}
+
+
+
+\section{Géométrie des éprouvettes}
+Les essais de flexion seront réalisés sur des poutres de dimensions $B\times D\times L{} cm^3 (largeur \times{} hauteur
+\times{} longueur)$ avec un rapport $L/D=5$ constant et $B$ une dimension fixe (restriction du type de test,
+ici $B=4 cm$).
+\\
+Trois tailles différentes sont considérées, toutes ayant un rapport $L/D = 5$, où $L$ est la
+longueur et $D$ est la hauteur de la poutre. La profondeur, quant à elle, a été choisie constante et
+égale à $B (4 cm)$. Les entailles centrales seront taillées après coulage et non moulées sur les
+éprouvettes. Trois longueurs d'entaille ont été considérées avec une épaisseur d'entaille
+constante de $2 mm$ pour tous les échantillons (voir Fig. 4.1).
+\\\\
+On propose alors les dimensions suivantes :
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c|c|c|c|c}
+\hline
+\backslashbox{\begin{bf}taille\end{bf}}{\begin{bf}dimension\end{bf}}   &   \begin{bf}épaisseur\end{bf}   &   \begin{bf}hauteur\end{bf}   &   \begin{bf}longueur\end{bf}   &   \begin{bf}distance entre appuis\end{bf}\\
+\hline
+ 
+\begin{bf}\rowcolor{cyan}$n_1$\end{bf}   &   \begin{bf}$B_1=4cm$\end{bf}   &   \begin{bf}$D_1=4cm$\end{bf}   &   \begin{bf}$L_1=20cm$\end{bf}   &   \begin{bf}$I_1=16cm$\end{bf} \\
+
+\begin{bf}$n_2$\end{bf}   &   \begin{bf}$B_2=4cm$\end{bf}   &   \begin{bf}$D_2=8cm$\end{bf}   &   \begin{bf}$L_2=40cm$\end{bf}   &   \begin{bf}$I_2=32cm$\end{bf} \\
+
+\begin{bf}\rowcolor{cyan}$n_3$\end{bf}   &   \begin{bf}$B_3=4cm$\end{bf}   &   \begin{bf}$D_3=8cm$\end{bf}   &   \begin{bf}$L_3=80cm$\end{bf}   &   \begin{bf}$I_3=64cm$\end{bf} \\
+
+\hline 
+\end{tabular}
+\end{center}
+\caption{Les dimensions des éprouvettes}
+\label{dimensions}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.36]{figure7.png}
+$D_n=\frac{D_0}{2^{n-1}}$ {} ; {} $D_0=16cm$ {} ; {} $(\alpha_1, \alpha_2, \alpha_3)=(0.5; 0.2; 0)$ {} ;  {} épaisseur$=4cm$
+\caption[Géométrie des éprouvetter]{Détails de la géométrie des éprouvettes testées pour la construction d'une base des données expérimentales}
+\end{center}
+\end{figure}
+
+
+\section{Coffrages}
+Types de bois :\\
+\begin{itemize}
+\item[\textbullet] bois standard (BS, joue le rôle de support)
+\item[\textbullet] bois de coffrage (BC, en contact avec le béton)\\
+\end{itemize}
+Pour concevoir le coffrage on utilise des planches de bois standard de $2,5m \times{} 1,25m$
+(épaisseur $1,5 cm$), ainsi que des planches de bois de coffrage de $2,5m \times{} 1,22m$ (épaisseur $1,8 cm$), on admet $4 mm$ comme trait de coupe.
+Les coffres seront conçus d'une façon à être réutilisables, on aura besoin alors de serres joints ($2$ par coffre).
+\\\\
+$3$ coffrages par taille sont réalisés afin d'avoir plusieurs éprouvettes avec la même gâchée de mortier, alors $9$ coffres en total mais les coffres des éprouvettes qui ont une même dimension seront exactement pareils.
+\\
+\begin{itemize}
+\item[\textbullet] Pour les éprouvettes de dimension $4\times 4\times 20$ on peut faire un seul coffre de la manière
+suivante : (N.B. : masse du coffre avec béton environ $6,5Kg$)
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{figure8.png}
+\caption[plan du coffre]{plan du coffre réutilisable qui va contenire $3$ poutres de dimension $4\times 4\times 20$ et les parties qui le composent, ainsi qu'une vue en espace du coffre}
+\end{center}
+\end{figure}
+
+\begin{itemize}
+\item[\circ] $(0)\times 3$ : BC $ 20\times 4cm$
+\item[\circ] $(1)\times 6$ : BC $ 5.8\times 4cm$
+\item[\circ] $(2)\times 4$ : BC $ 23.6\times 5.8cm$
+\item[\circ] $(3)\times 4$ : BC $ 5.8\times 2cm$
+\item[\circ] $(4)\times 2$ : BC $ 27.2\times 5.8cm$
+\item[\circ] $(5)\times 1$ : BC $ 47.2\times 46.6cm$\\
+\end{itemize}
+
+\begin{itemize}
+\item[\textbullet] Vous retrouvez les plans pour les autres coffres dans l'ANNEXE A. 
+\end{itemize}
+
+
+\section{Matériel et équipement}
+Composants du micro-béton (perte 15\%) :\\
+Calcule du volume total de béton nécessaire pour toute la campagne expérimentale :\\
+\begin{itemize} 
+\item[\triangleright] $27$ éprouvettes (poutres) : $v_1 = 60480 cm^3$
+\item[\triangleright] $12$ échantillons cylindriques ($11\times 22$) pour définir les caractéristiques du béton (9 pour le
+   test de compression uni-axial dont 3 testés avec un extensomètre, 3 pour l'essai brésilien) : $v_2 = 25090 cm^3$
+\item[\triangleright] $+5L$ (cône d'Abrams) $+1L$ (Aréomètre) : $v_3 = 6000 cm^3$
+\item[\triangleright] Volume total : $V = 91570 cm^3$
+\item[\triangleright] $+pertes$ : $V_{final} = 0.1053055 m^3$\\
+\end{itemize}
+Ainsi, d'après le Tableau 4.1 on peut calculer les quantités des composants du béton:\\
+\begin{itemize}
+\item[\textbullet] Sable : $141.32 Kg$
+\item[\textbullet] Eau : $30.96 Kg$
+\item[\textbullet] Ciment : $66.45 Kg$\\
+\end{itemize}
+Matériels pour le coffrage :\\
+\begin{itemize}
+\item[\textbullet] Une plaque de bois standard
+\item[\textbullet] Une plaque de bois de coffrage
+%\item[\textbullet] 16 écrous
+\item[\textbullet] Serres joints : $10$ ($2$ par coffre)
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.2]{figure20.jpg}
+\caption{état final des coffres}
+\label{figure20}
+\end{center}
+\end{figure}
+
+
+\chapter{Conception d'une gâchée}
+Cette partie de mon stage se montre très critique et très consommante en termes de temps et d'énergie, pour toute l'équipe. Je pense alors qu'il faut au moins parler des traits principaux de cette 'épisode'. Je vais présenter la procédure comme elle se déroule chronologiquement sur une durée d'une journée.
+
+\section{préparation des coffres}
+Les coffres, comme illustrés dans la Fig. 4.3 page \pageref{figure20}, ne sont pas encore près pour contenir le mortier, pour cela, on a recours aux serres joints (Fig. 6.1) pour être sûr que les coffres peuvent tenir le mortier de s'échapper et le bois de se déformer, ce qui peut produire des échantillons érronés.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.18]{figure21.jpg}
+\caption{Préparation des coffres}
+\label{figure21}
+\end{center}
+\end{figure} 
+\\\\   
+
+\section{Malaxage}
+Les 'ingrédients' sont pesés puis introduits dans le malaxeur (Fig. 6.2), d'une manière distincte selon le manuel.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.06]{figure22.jpg}
+\caption{Le malaxeur, département génie civil}
+\end{center}
+\end{figure} 
+\section{Moulage}
+Pour les poutres, comme pour les échantillons $11\times 22$, les coffres sont remplis à moitié, vibrés pour 30 sec sur la table vibrante, ensuite ils sont remplis entièrment, puis vibrés encore une fois. Après une long journée de travail, voici le résultat (Fig. 6.3), nous devrions attendre une semaine avant de démouler pour pouvoir lancer la préparation de la seconde gâchée : 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.12]{figure23.jpg}
+\caption{Moulage des poutres et des échantillons cylindriques (pour éviter l'évaporation d'eau de surface on couvre le béton frais d'une 
+feuille de plastique)}
+\end{center}
+\end{figure} 
+\\
+
+
+\chapter{Essai F3P (flexion trois points)}
+\section{Introduction}
+La flexion provoque une distribution de contraintes présentant à la fois un gradient et une répartition de contraintes de traction et de compression de part et d'autre de la fibre neutre.\\
+L'essai de flexion détermine l'aptitude à la déformation d'une structure posée sur deux appuis avec une application de l'effort à mi-distance.\\
+On impose à une éprouvette normalisée une déformation, ou flèche, à vitesse de déformation constante, et on mesure la force qu'oppose l'éprouvette à cette déformation.\\
+L'essai de flexion trois points peut nous fournire les valeurs du module d'élasticité en flexion '$E_f$', contrainte de flexion '$\sigma_f$', déformation en flexion '$\epsilon_f$' et de la réponse contrainte-déformation du matériau. L'avantage principal d'un essai de flexion trois points est la facilité de la préparation et du test du spécimen.\\
+Cependant, cette méthode présente aussi quelques inconvénients: les résultats du test sont sensibles à l'échantillon (matériau et géométrie), le chargement et la vitesse de déformation.
+\\
+Dans le cas d'un comportement fragile, il existe une charge limite que la structure ne peut pas dépasser. Dans le cas d'un chargement en force, il y a rupture brutale par
+instabilité plastique (Fig. 5.1).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.30]{figure9.png}
+\caption{Charge limite et mode de pilotage du chargement}
+\end{center}
+\end{figure}
+\\\\
+On distingue plusieurs modes de chargement des structures :
+\begin{itemize}
+\item[-] Chargement monotone
+\item[-] Chargement cyclique
+\item[-] Chargement constant
+\end{itemize}
+On s'interresse particulièrement dans notre étude au mode de chargement monotone puisqu'on cherche en premier lieu le comportement adoucissant après la charge limite.\\\\
+Pour un essai sous chargement monotone d'une éprouvette, on peut
+distinguer differents types de mode de rupture, dans le cas du mortier ça sera un mode de rupture quasi-fragile : Le comportement global est non linéaire. On observe une non linéarité globale à cause de la micro-fissuration qui se déclenche en pré-pic. Ensuite, il y a une perte de raideur et de charge en post-pic liée à la macro fissure.
+
+\section{Machine d'essai: la MTS TTC \emph{Melo}}
+Machine d'essai servohydraulique $4$ colonnes:
+\begin{itemize}
+\item[-] Bâtis MTS $311.11$ $100KN$ avec verin hydraulique MTS monté sur la traverse ; montée et blocage hydraulique de la traverse
+\item[-] $2$ Servovalves MTS ; Servo $15l/min$ \& $9l/min$
+\item[-] Pilotage : contrôleur MTS FLEXTEST 40,  logiciel multiusage TestWare (MPT) ; pilotage du système en force, déplacement verin ou déformation éprouvette ; fréquence de la boucle de pilotage 6kHz
+\item[-] Type de sollicitations : traction, torsion, compression (TTC)\\
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.43]{figure10.png}
+\caption[La MTS TTC \emph{Melo}]{Modèle simplifié du système de fonctionnement mécanique du verrin / Photo du montage (LMT-cachan)}
+\label{figure10}
+\end{center}
+\end{figure} 
+\\\\
+Le mécanisme de fonctionnement du système hydraulique (en traction/compression) est facile à saisir, et c'est le même utilisé sur les nouvelles machines que celles qui datent des années 70', seul le logiciel et le matériel électronique changent. Le groupe hydraulique consiste d'un piston cylindrique et de $2$ chambres indépendantes de part et d'autre, reliées chacune à une servovalve et une fuite qui gèrent éléctroniquement le débit d'huile entrant et sortant des chambres ce qui permet de déplacer le verin à une vitesse précise qu'on indique au programme MPT (Fig. 5.2 page \pageref{figure10}).
+
+
+\section{Pilotage}
+Comme on a déja indiqué, les essais seront réalisées sous un mode de chargement monotone, dans ce cas la charge appliqué croît de façon continue, et elle est gérée par le déplacement du vérin, sauf que ce déplacement à son tour peut consister d'un déplacement imposé, ou une charge imposée (ce genre de pilotage ne nous convient pas parce qu'il ne permet pas de mesuré le post-pic d'une courbe force/flèche ou force/CMOD dans le cas des poutres en béton testées en FP3).
+\\\\
+En réalité, durant l'essai, on enregistre trois valeurs de déplacements différents :
+\begin{itemize}
+\item[-] Déplacement du vérin
+\item[-] LVDT (capteur flèche)
+\item[-] Capteur CMOD
+\end{itemize}
+\\\\
+On pourrait alors, théoriquement, piloter en ouverture de fissure à vitesse constante (en ce servent du capteur CMOD), ce qui va nous permettre de bien voir la propagation de la fissure. Sauf que le cas réel s'avère plus compliqué. Due à de différentes raisons, principalement parce que la valeur du CMOD (ainsi que la flèche) ne commencent a variés d'une manière constante que après avoir appliquer $\approx 10\%$ de la force ultime,
+on est alors amené a piloté en déplacement vérin jusqu'à $\approx 85\%$ de $F_{ultime}$ (en raison d'aller rapidement à travers la phase élastique ; la valeur est décidée en ce basent sur des calculs analytiques ou simulations numériques (chap. 7)), après on passe en pilotage en ouverture de fissure ou pilotage en flèche.
+
+
+
+
+\part{Étude numériques}
+\chapter*{}
+\begin{center}
+Le matériau utiliser dans notre étude est le mortier.\\
+On sait bien que le comportement du mortier est fragile en traction, l'expérimentation sur le mortier est à sont tour alors, difficile à géré.\\
+%surtout qu'on souhait mesuré l'énergie de fissuration à travers la corrélation d'images.\\\\
+On a alors recours à modéliser nos essais pour pouvoir prédire le comportement lors du test expérimental,\\
+de cette façon on peut aspiré à des résultats expérimentaux plus fiables\\
+(surtout sur la première campagne, les résultats numériques vont nous permettre de calibrer les machines d'essai)\\
+de même ça servira comme outil de vérification pour le modèle de calcule utilisé pour la résolution numérique.
+\end{center} 
+
+\chapter{Modélisation}
+\section{Modèle de calcule}
+Pour modéliser la réponse des poutres au chargement statique, on va utilisé  un logiciel de simulation numérique utilisé en mécanique des structures : Cast3M (Castem)\\
+CAST3M utilise la méthode des éléments finis pour résoudre différents types de problèmes scientifiques, il est à la fois un programme de maillage, un programme de calcul et un programme de visualisation des résultats.\\\\
+Une fois on a défini le maillage, les paramètres matériaux et les conditions aux limites, on peut choisir le mode de calcul le plus convenable à notre problème.\\
+Les modèles RICRAG \cite{richard2010isotropic} / RICBET sont tout à fait adaptés dans ce cas vue que Les équations constitutives de ces modèles sont formulées dans le cadre de la thermodynamique des processus irréversibles (afin de satisfaire la conservation et les principes d'évolution) et consistent à la base d'un potentiel d'état compatible avec l'élasticité, l'endommagement, le glissement entre les surfaces fissurées et l'écrouissage.
+En utilisant alors le modèle RICRAG \emph{non local}\footnote{Une particularité importante qui doit être pris en considération afin d'assurer la robustesse numérique du modèle proposé. son objectif est d'éviter toute localisation de la déformation due à écrouissage négatif.} on aura équitablement le mode de comportement de nos échantillons et on pourra ainsi prédire de la meilleure façon possible le comportement lors de l'expérience.
+
+
+\section{Paramètres matériau}
+Pour bien prédire numériquement
+les résultats de l'expérience, on a besoin d'introduire les paramètres qui correspondent à ce
+matériau, or par manque de données sur certains de ces paramètres (principalement la fragilité en
+traction) on a recours à une identification par rapport aux essais expérimentaux de \cite{hamouche2010}, car il utilise le même mortier. Pour cela on a
+lancé plusieurs calculs sur des échantillons similaires aux échantillons de l'expérience en
+géométrie et chargement et on a changé les paramètres d'une façon intuitive pour obtenir au final
+une courbe force/déplacement similaire aux courbes trouvées expérimentalement (Fig. 7.1).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.43]{figure11.png}
+\caption[Courbe expérimentale / Courbe numérique]{Les résultats expérimentaux et la courbe obtenue numériquement pour des poutres 4x4x16
+entaillés testés en flexion 3 points}
+\end{center}
+\end{figure}
+\\
+Les paramètres qu'on introduira alors dans le modèle numérique seront:
+\begin{itemize}
+\item[-] Module de Young : $38 GPa$
+\item[-] Coefficient de poisson : $0.24$
+\item[-] Résistance en traction : $5 MPa$
+\item[-] Fragilité en traction : $7.9e^{-3}$
+\item[-] Fragilité en compression : $3.5e^{-4}$
+\item[-] Module d'écrouissage 1 : $1.5e^7$
+\item[-] Module d'écrouissage 2 : $7e^{-7}$
+\item[-]Longueur de corrélation : $4 mm$
+\end{itemize}
+
+
+\section{Maillages}
+On peut utiliser la géométrie des poutres dans notre intérêt, en profitant des symétries, une poutre en $2D$ avec les conditions au limites correspondants suffira pour modélisé la réponse d'une poutre réel.\\
+Notons qu'on pourrait même prendre une demi-poutre comme modèle valide à cause des symétries, il faudrait par contre faire attentions au conditions au limites à l'interface.
+\\\\
+L'option de calcul sera donc en mode 'plan' avec des éléments $qua4$ comme éléments de base, on a bien sûr l'intention de densifier le maillage au centre de la poutre, là ou on aura la zone endommagé (l'endroit le plus probable d'amorçage de la fissure) et au contraire, un maillage grossier loin du centre :
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure12.png}
+\caption[Maillage poutre entaillée]{Maillage d'une poutre $4\times 4\times 20$ entaillée à $0.2\times hauteur$}
+\end{center}
+\end{figure}
+\\
+\subsection*{Erreur de conception :}
+Une exactitude parfaite en géométrie de nos poutres moulées au laboratoire est un trait difficile a
+achevé surtout quand on prend en considération l'erreur sur les coffrages en bois sciés et
+assembler manuellement, ainsi que différentes difficultés au niveau expérimentale.
+\\\\
+En effet, une fois démoulée, on a remarqué des erreurs en mesurant les dimensions des
+poutres, parmi ces défauts, un à ne pas prendre à la légère : on a mesuré une largueur de $3.6 cm$
+à la place de $4 cm$ au milieu d'une poutre $4\times 16\times 80$ et seulement sur la face supérieure comme
+le montre la figure suivante :
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure13.png}
+\caption{Poutre avec une erreur de conception}
+\label{figure13}
+\end{center}
+\end{figure}
+\\
+Ceci était causé par les serres jointes (utilisés pour maintenir le coffrage de façon à ne pas
+permettre au mortier d'évader) et par une surestimation de notre part de la force hydrostatique
+exercée par le mortier sur le bois.
+\\\\
+
+\section{Résultats}
+Pour mieux voir l'effet de l'erreur de conception sur notre poutre on a décidé de calculer la
+différence entre les rigidités d'une poutre aux dimensions exactes et une poutre déformée.
+Compte tenu de la géométrie spéciale de notre poutre déformée, un calcul analytique de ça
+rigidité en flexion trois points peut s'avérer compliqué, pour cela on crée un modèle pour cette
+poutre avec un maillage spécifique en prenant des paraboles pour gérer les segments déformées,
+et on étudie la réponse élastique de ce modèle sous un chargement en flexion trois points.
+Une même étude faite sur deux poutres, l'une altérée, l'autre non, mais à part cela elles sont
+identiques à tous les niveaux, révèle une diminution de 7.7\% (supposé négligeable, à ne pas prendre en considération dans ce qui suit) de la rigidité de la poutre quand elle
+est déformée, comme le montre le graphe Force/Flèche suivant :
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{figure14.png}
+\caption{Comparaison des rigidités entre une poutre correcte et une poutre erronée}
+\end{center}
+\end{figure}
+\\
+On a aussi lancé un calcul dans CAST3M, en utilisant RICBET (ricbet3D) cette fois, modifié pour utiliser la régularisation en $G_f$(régularisation Hillerborg), sur deux poutres de mêmes géométries, non entaillées, mais dont l'une des deux est 'déformée' (Fig. 6.3 page \pageref{figure13}):
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{figure17.png}
+\caption[Résultats numériques sur une poutres non entaillées -modèle RICBET-]{Résultats numériques sur une poutres $4\times 16\times 80$ non entaillées -modèle RICBET-}
+\end{center}
+\end{figure}
+\\
+
+Dans le but d'estimer les résultats expérimentaux on a calculé la réponse des poutres suite à un
+chargement en déplacement uniforme, en flexion trois points, en utilisant le modèle RICRAG avec du calcul non local.
+\\\\
+Ce modèle nous a permis de lancer les calculs et d'obtenir les résultats sur les poutres de
+différents dimensions, entaillées ($0.2 \times hauteur$) et non entaillées. Voici les graphes comparatifs :
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.49]{figure15.png}
+\caption{Résultats numériques sur des poutres entaillées -modèle RICRAG-}
+\end{center}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.49]{figure16.png}
+\caption{Résultats numériques sur des poutres non entaillées -modèle RICRAG-}
+\end{center}
+\end{figure}
+\\
+\clearpage
+
+On peut ainsi mener une analyse des effets d'échelle en comparant, pour chaque poutre, la résistance du ligament au pic. La résistance du ligament $\sigma$ est définie ici comme étant la contrainte maximale dans le ligament (la longueur du ligament c'est la hauteur de la poutre moin l'entaille initiale):
+\[\sigma=\frac{3}{2}\frac{FS}{bh^{2}}\]
+où $F,S,b,h$ et $D$ sont respectivement, le chargement, la portée, la profondeur, la longueur du ligament et la hauteur de la poutre.
+ainsi pour une poutre entaillé à $0.2$ de ca hauteur (sachant que $S=4D$ et $h=0.8D$):
+\[\sigma_e=\frac{75}{8}\frac{F}{bD}\]
+pour une poutre non entaillé:
+\[\sigma_{ne}=\frac{6F}{bD}\]
+On peut alors comparer les résultats avec les lois de Ba\v{z}ant:
+\\\\
+\emph{Loi classique de Ba\v{z}ant pour des structures entaillées}:
+Pour des échantillons homothétiques entaillés, la loi classique de Ba\v{z}ant est donnée par :
+\[\sigma_{N}=\frac{Bf'_t}{\sqrt{1+\frac{D}{D_0}}} \text{ avec } \sigma=\frac{3}{2}\frac{FS}{bD^{2}}\]
+où $B$ est une constante adimensionnelle liée à la géométrie, $D_0$ est une longueur caractéristique, 
+$f'_t$ est la résistance à la traction du matériau. Ainsi, pour un rapport entaille/hauteur égale à $0.2$ %on a: $\alpha_0=\frac{a_0}{D}$
+%%%%%%%%%%\[B(\alpha_0)=\sqrt{\frac{g'(0)}{g'(\alpha_0)}} \text{{} ; {}} D_0(\alpha_0)=\frac{g'(\alpha_0)}{g(\alpha_0)}c_f\]
+les paramètres de fissuration sont estimés à partir de l'ajustement linéaire:
+\[\frac{1}{\sigma^2}=aD+c \text{,  avec  } D_0=\frac{c}{a} \text{  et  } Bf'_t=\frac{1}{\sqrt{c}}\]
+%%%%%%%%%on obtient alors, pour $\alpha_0=0.2$: $B(\alpha_0)=1.04$ {}et{} %%%%%%%%%$D_0(\alpha_0)=24.24 cm$
+L'une des grandes limitations de la loi classique d'effet d'échelle est que les paramètres
+$B$ et $D_0$ dépendent fortement de la géométrie de la structure et plus particulièrement
+du rapport $a_0/D$. Ces paramètres ne peuvent pas être utilisés pour la détermination
+directe de la résistance ou de l'énergie de fissuration du matériau avec précision. On aura alors recours à \emph{la loi intrinsèque d'effet d'échelle.}
+Au lieu d'identifier
+les paramètres d'effet d'échelle à partir de l'équation précédente, les paramètres de fissuration
+$G_f$ et $c_f$ , ou d'une façon équivalente $K_{Ic}$ et $c_f$ , sont directement identifiés à l'aide d'une
+représentation intrinsèque donné par l'équation:
+\[\overline{\sigma_N}=\frac{K_{Ic}}{\sqrt{c_f+\overline{D}}}\]
+\[\text{avec } \overline{\sigma_N}=\frac{\sigma_N}{c_N}\sqrt{g'(\alpha_0)} \text{ , } \overline{D}=D\frac{g(\alpha_0)}{g'(\alpha_0)} \text{ et } c_N=\frac{3}{2}\frac{S}{D}\]
+L'avantage principal de cette formulation intrinsèque est qu'elle ne dépend pas de la
+géométrie, ainsi différents échantillons avec des rapports $a_0/D$ différents peuvent être postraités
+ensembles. On peut maintenant estimer $K_{Ic}$ et $c_f$ par régression linéaire, en utilisant MATLAB oubien manuellement en ce référent aux équations du Chapitre.2, section.2, avec $\frac{1}{\overline{\sigma^2_N}}=\frac{1}{K_{Ic}}\overline{D}+\frac{c_f}{K_{Ic}}$ comme droite de regression.
+\\\\
+\emph{Loi de Ba\v{z}ant pour des structures non-entaillées}:
+Pour des échantillons homothétiques non-entaillés la loi d'effet d'échelle de Ba\v{z}ant
+est donnée par l'expression suivante :
+\[\sigma_N=\sigma_B(1+\frac{1}{\gamma+\frac{D}{2.l_{f_0}}}) \text{, avec } \sigma_N=\sigma_{ne}=\frac{6F}{bD}\]
+$\sigma_B$ représente la résistance à la flexion, $l_{f0}$ est un
+paramètre de longueur lié à la taille de la FPZ, $\gamma$ est une constante positive qui doit
+être calibrée expérimentalement (on va tester numériquement plusieurs valeurs pour $\gamma$ afin d'estimer laquelle est la plus adéquate).
+\\\\
+Tous calculs fait, les résultats obtenus sont les suivants:
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c c c c c}
+ 
+\hline
+\multicolumn{2}{|c|}{\begin{bf}Poutres entaillées\end{bf}} & \multicolumn{3}{c|}{pic} & \multicolumn{3}{c|}{Paramètres, Ba\v{z}ant} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{maillage} & \multicolumn{1}{c|}{dimension} & \multicolumn{1}{c|}{force($KN$)} & \multicolumn{1}{c}{$\sigma_N$($MPa$)} & \multicolumn{1}{|c|}{$\overline{\sigma_N}$} & \multicolumn{1}{c}{$K_{Ic}$} & \multicolumn{1}{|c}{$C_f$} & \multicolumn{1}{|c|}{$\sigma_N$} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{{}} & $4\times 4\times 20$ & $0.875$ & 5.17 & 10.733 & 0.8365 & 0.001634 & \multicolumn{1}{c|}{4.7051} \\
+
+\multicolumn{1}{|c|}{qua4 entaillée} & $4\times 8\times 40$ & $1.2645$ & 3.696 & 7.673 & 0.8365 & 0.001634 & \multicolumn{1}{c|}{3.5294} \\
+
+\multicolumn{1}{|c|}{{}} & $4\times 16\times 80$ & $1.97$ & 2.886 & 5.991 & 0.8365 & 0.001634 & \multicolumn{1}{c|}{2.5793} \\
+\hline
+%\multicolumn{1}{|c|}{{}} & 4\times 4\times 20 & $0$ & 1.91 & 0.022 & 7.1625 & \multicolumn{1}{c|}{8.25} \\
+%\multicolumn{1}{|c|}{qua4 non-entaillé} & 4\times 8\times 40 & $0$ & 3.85 & 0.046 & 7.218 & \multicolumn{1}{c|}{8.625} \\
+%\multicolumn{1}{|c|}{{}} & 4\times 16\times 80 & $0$ & 6.475 & 0.083 & 6.07 & \multicolumn{1}{c|}{7.78125} \\
+%\hline
+\end{tabular}
+\end{center}
+\caption{Détermination des paramètres d'effet d'échelle pour les échantillons entaillés}
+\label{tableau}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.65]{figure18.png}
+\caption{Postraitement, poutres entaillées avec la loi intrinsèque de ba\v{z}ant}
+\end{center}
+\end{figure}
+\\\\
+De même, pour les poutres non entaillées, on estime les paramètres :\\
+%\[\sigma_B=3.86623 MPa  \text{ ; }  l_{f0}=53.2736 mm  \text{ ; }  \gamma=0.55 \]
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c c c c}
+ 
+\hline
+\multicolumn{2}{|c|}{\begin{bf}Poutres non entaillées\end{bf}} & \multicolumn{2}{c|}{pic} & \multicolumn{3}{c|}{Paramètres, Ba\v{z}ant} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{maillage} & \multicolumn{1}{c|}{dimension} & \multicolumn{1}{c|}{force($KN$)} & \multicolumn{1}{c|}{$\sigma_N$($MPa$)} & \multicolumn{1}{c}{$\gamma}$} & \multicolumn{1}{|c}{$l_{f0}(mm)$} & \multicolumn{1}{|c|}{$\sigma_B$} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{{}} & $4\times 4\times 20$ & $2.37$ & 8.978 & 0.55 & 53.2736 & \multicolumn{1}{c|}{3.86623} \\
+
+\multicolumn{1}{|c|}{qua4 non entaillée} & $4\times 8\times 40$ & $3.85$ & 7.218 & 0.55 & 53.2736 & \multicolumn{1}{c|}{3.86623} \\
+
+\multicolumn{1}{|c|}{{}} & $4\times 16\times 80$ & $6.475$ & 6.07 & 0.55 & 53.2736 & \multicolumn{1}{c|}{3.86623} \\
+\hline
+%\multicolumn{1}{|c|}{{}} & 4\times 4\times 20 & $0$ & 1.91 & 0.022 & 7.1625 & \multicolumn{1}{c|}{8.25} \\
+%\multicolumn{1}{|c|}{qua4 non-entaillé} & 4\times 8\times 40 & $0$ & 3.85 & 0.046 & 7.218 & \multicolumn{1}{c|}{8.625} \\
+%\multicolumn{1}{|c|}{{}} & 4\times 16\times 80 & $0$ & 6.475 & 0.083 & 6.07 & \multicolumn{1}{c|}{7.78125} \\
+%\hline
+\end{tabular}
+\end{center}
+\caption{Détermination des paramètres d'effet d'échelle pour les échantillons non entaillés}
+\label{tab}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.65]{figure19.png}
+\caption{Postraitement, poutres non entaillées avec la loi d'effet d'échelle de ba\v{z}ant}
+\end{center}
+\end{figure}
+
+
+
+\part{Résultats et analyse expérimentale}
+\chapter{Identification des paramètres mécaniques}
+\section{Procédure}
+Les paramètres mécaniques qu'on va déterminer expérimentalement sont : 
+\begin{itemize}
+\item[-]{Le module de Young (module d'élasticité)}
+\item[-]{Résistance en compression}
+\item[-]{Résistance en traction}
+\end{itemize}
+Différents essais ont été effectués pour permettre la connaissance des différentes entités intrinsèques
+au micro-béton utilisé. Ces essais sont menés sur des éprouvettes cylindriques $11\times 22 cm^2$, 28 jours après coulage, mais avant de les tester, il faut réctifier les éprouvettes des imperfections en surface, par la méthode de surfaçage mécanique éffectuée à l'aide d'une réctifieuse (image disponible dans l'ANNEXE A), en conséquent, on obtient:
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figure24.jpg}
+\caption{Surfaçage mécanique d'une éprouvette cylindrique, comparaison avant/après}
+\end{center}
+\end{figure}
+\\
+Pour l'instant, on peut procéder par la détermination des grandeurs physiques expérimentalement.
+\clearpage
+\emph{Module de Young}: La mesure du module d'élasticité est faite à l'aide d'un extensomètre comme dans la figure suivante.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure25.png}
+\caption{L'extensomètre appliqué à une éprouvette cylindrique}
+\end{center}
+\end{figure}
+\\
+L'extensomètre consiste de 2 couronnes indépendantes qui vennent se fixer sur l'éprouvette, et ainsi, pendant l'essai de compression uniaxiale, les capteurs verticaux mesurent le déplacement \emph{réel}, ce qui nous permet alors de calculer le module d'Young exacte. Par contre, si on vien mesurer directement cette grandeur par le rapport entre la contrainte et la déformation en tête,
+cela conduirait à une surestimation du module d'élasticité et ceci à cause des phénomènes de frettage.
+\\\\
+\emph{Contraintes de ruptures}:
+La contrainte limite de compression peut être déterminée par essai de compression uniaxial, jusqu'à rupture des éprouvettes. Après la rupture, la force de compression maximale appliquer sur l'éprouvette Durant l'essai est récupérée, ce qui permet de calculer $f_c$.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.095]{figure26.jpg}
+\caption{Test de compression uniaxial et mode de rupture}
+\end{center}
+\end{figure}
+\\
+La contrainte limite de traction est déterminée par l'essai de fendage (ou essai brésilien) qui permet d'apprécier avec une bonne précision la contrainte ultime de traction $f_t$. Une représentation de l'essai est donnée sur la Fig. 8.4.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figure27.jpg}
+\caption{Montage de l'éprouvette pour l'essai brésilien}
+\end{center}
+\end{figure}
+ 
+
+\section{Mesures}
+Durant les essais pour déterminer les contraintes limites de rupture, on récupère la force maximale $F_{max}$ qui a causée la rupture, puis en fonction de la géométrie de l'éprouvette et du test éffectuer, on calcule la contrainte de rupture correspondante.\\
+\begin{itemize}
+\item[-]{Contrainte limite en compression: $f_c=\frac{F_{max}}{S}$\\}
+\item[-]{Contrainte limite en traction: $f_t=\frac{20F_{max}}{\pi ah}$\\}
+\end{itemize}
+avec $S$, $a$ et $h$ sont la surface circulaire, le diamètre et la hauteur.
+\\\\
+Finalement j'ai regrouper tous les informations dans le tableau 8.1. Notons qu'il existe d'autres façon pour déterminer ces paramètres, par exemple, pour le module de Young, on pouvait faire une mesure par transmission d'ondes ultrasonores (en faite on trouve un module d'Young dynamique mais il existe des formules pour obtenir $E_{méca}$ à partir de $E_{dyna}$, cette méthode permet aussi d'estimer le coefficient de poisson). Egalement, la contrainte limite de traction pourrait être mesurer par un essai de traction direct sur une poutre entaillée...
+\clearpage
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c c c c}
+ 
+\hline
+\multicolumn{1}{|c|}{\begin{bf} gâchée \end{bf}} & \multicolumn{1}{c|}{date de moule} & \multicolumn{1}{c|}{Aéromètre} & \multicolumn{1}{c|}{Affaissement} & \multicolumn{2}{c|}{Résistance en (MPa)} & \multicolumn{1}{c|}{Module de} \\
+%\hline
+\multicolumn{1}{|c|}{\#} & \multicolumn{1}{c|}{(dd//MM/yy)} & \multicolumn{1}{c|}{\%} & \multicolumn{1}{c|}{(cm)} & \multicolumn{1}{c}{compression} & \multicolumn{1}{c|}{traction} & \multicolumn{1}{c|}{Young(GPa)} \\
+\hline
+\hline
+
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 51.114 & 4.283 & \multicolumn{1}{c|}{{}} \\
+\multicolumn{1}{|c|}{1} & 26/04/13 & 2.4 & 1.1 & 48.52 & 3.5 & \multicolumn{1}{c|}{$-$} \\
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 44.351 & 3.6 & \multicolumn{1}{c|}{{}} \\
+\hline
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 46.673 & {} & \multicolumn{1}{c|}{{}} \\
+\multicolumn{1}{|c|}{2} & 06/05/13 & 2.65 & 1.35 & 46.542 & $-$ & \multicolumn{1}{c|}{$-$} \\
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 47.702 & {} & \multicolumn{1}{c|}{{}} \\
+\hline
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 45.482 & {} & \multicolumn{1}{c|}{39.6} \\
+\multicolumn{1}{|c|}{3} & 14/05/13 & $-$ & $-$ & 50.851 & $-$ & \multicolumn{1}{c|}{36.4} \\
+\multicolumn{1}{|c|}{{}} & {} & {} & {} & 45.28 & {} & \multicolumn{1}{c|}{39.6} \\
+
+\hline
+%\multicolumn{1}{|c|}{{}} & 4\times 4\times 20 & $0$ & 1.91 & 0.022 & 7.1625 & \multicolumn{1}{c|}{8.25} \\
+%\multicolumn{1}{|c|}{qua4 non-entaillé} & 4\times 8\times 40 & $0$ & 3.85 & 0.046 & 7.218 & \multicolumn{1}{c|}{8.625} \\
+%\multicolumn{1}{|c|}{{}} & 4\times 16\times 80 & $0$ & 6.475 & 0.083 & 6.07 & \multicolumn{1}{c|}{7.78125} \\
+%\hline
+\end{tabular}
+\end{center}
+\caption{Paramètres mécaniques des différentes gâchées}
+\label{tab1}
+\end{table}
+\\
+Statistiques :
+\[\overline{f_c}=47.390 MPa \text{ { {} } ; { {} } } S_{fc}=5.0870\]
+\[\overline{f_t}=3.8940 MPa \text{ { {} } ; { {} } } S_{ft}=0.0822\]
+\[\overline{E}=38.533 GPa \text{ { {} } ; { {} } } S_{E}=2.2755\]
+
+
+\chapter{Les essais}
+\section{Montage}
+Avant de lancer les tests sur les poutres il faut les 'équiper' pour qu'on puisse en sortir les informations souhaiter.
+
+%\begin{itemize}
+%\item[\textbullet] 
+\textbullet{}\emph{{}L'entaille}: elle était produite après 28 jours du coulage, à l'aide d'une scie comme le montre la figure suivante.
+%\end{itemize}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figure28}\\
+\caption{Scie électrique au DGC}
+\end{center}
+\end{figure}
+
+%\begin{itemize}
+%\item[\textbullet] 
+\textbullet{}\emph{{}Le mouchetis}: c'est une étape nécessaire si l'on envisage de faire une analyse par correlation d'image. Sans le mouchetis, l'algorithme ne pourrait pas différencier entre les différents ZOI (zone of interest), et finalement les calculs ne convergerons pas. En fait l'objet du mouchetis est de permettre aux photos d'avoir un spectre de gris qui s'étend d'une manière régulière entre le blanc et le noir. 
+%\clearpage
+Une preuve du succès d'un mouchetis, pour un premier approche, serait un étude de la texture de la partie de l'éprouvette qui va être photographier, si les niveaux de gris sont répartis sur le spectre noir/blanc comme dans la Fig. 9.2 alors notre mouchtis est OK.
+%\end{itemize}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=1.9]{figure29}\\
+\caption{Exemple d'un mouchetis et la texture correspondante}
+\end{center}
+\end{figure}
+
+Une autre analyse plus sophistiqué peut être faite sur Correli\_Q4 pour mieux prévoir la convergeance des itérations, cela est possible par une analyse d'incertitude.
+Le principe de cette analyse est facile à saisir, une fois dans Correli, on choisi la photo à étudier et sur cette photo on indique la partie à analyser, sur cette partie Correli applique un déplacement de 1 pixel (on obtient ainsi une deuxième image) puis il étudie le champs de déplacement entre les figures initial/final et calcul l'erreur et l'incertitude en fonction de la taille de la ZOI, (Fig.9.3) et du déplacement. Les figures présentés là résultent de l'étude d'incertitude sur le même échatillon dans la Fig. 9.2. On remarque que pour une ZOI de taille $16\times 16$ pixels l'erreur sur le déplacement est de $0.01p\approx 0.00013mm$ ce qui est, dans mon avis, satisfaisant pour l'étude de propagation de la fissure.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.25]{figure30}\\
+\caption{Analyse d'incertitude : taille de la ZOI}
+\end{center}
+\end{figure}
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[scale=0.2]{figure31}\\
+%\caption{Analyse d'incertitude : déplacement}
+%\end{center}
+%\end{figure} 
+\\
+
+%\begin{itemize}
+%\item[\textbullet] 
+\textbullet{}\emph{{}Système flèche/CMOD}: la mesure du déplacement du verin ne peut pas être admise comme une mesure exacte de la flèche à cause de l'écrasement du béton aux niveau des appuis, donc le capteur LVDT qui mesure la flèche doit être fixer sur la poutre elle-même de manière a mesurer le déplacement de la fibre neutre. Eventuellement, pour ne pas gêner la propagation de la fissure on a décider de mesurer la flèche à une distance $L/10$ du centre. Sur les poutres les plus petites il est difficile de mesuré la flèche, on mesure plutôt le déplacement du vérin.\\
+Pour le capteur CMOD, lui peut être placer tout simplement sur l'entaille dans le cas des poutres entaillés, sinon on va coller 2 pièces métalliques sur la surface inférieure de la poutre de façon à crée une 'entaille fictive' où le capteur vient se fixer (Fig 9.4). Notons que la colle doit être appliquer loin du centre pour s'assurer que la fissure peut s'initier entre les deux points de la colle.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure32}\\
+\caption[Entaille fictive]{Entaille fictive, les plaques métalliques sont collés aux éxtrémités pour ne pas intervenire dans l'amorçage de la fissure}
+\end{center}
+\end{figure} 
+%\end{itemize}
+\\
+Finalement, l'installation est en place, nous sommes prêts à tester.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figure33}\\
+\caption{Essai F3P sur une poutre entaillé}
+\end{center}
+\end{figure}
+
+\section{Résultats}
+\textbullet{}\emph{{}Eprouvettes entaillées, $\alpha_0=0.5$}: neuf éprouvettes de ce type ont été testées. La Fig. 9.6 montre l'évolution du chargement et de la contrainte maximale dans le ligament en fonction du CMOD sur toutes les poutres de cette même géométrie (pour chaque groupe de poutres [$D$,$\alpha_0$] on affiche la courbe moyenne force/CMOD). On remarque que la contrainte nominale dépend de la taille de la structure, et comme prévus, les structures les plus petites sont les plus résistantes.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure34}\\
+\caption{Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha_0=0.5$}
+\end{center}
+\end{figure}
+\\
+\textbullet{}\emph{{}Eprouvettes entaillées, $\alpha_0=0.2$}: de même, La Fig. 9.7 montre l'évolution du chargement et de la contrainte maximale dans le ligament en fonction du CMOD.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure35}\\
+\caption{Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha_0=0.2$}
+\end{center}
+\end{figure}
+\\
+\textbullet{}\emph{{}Eprouvettes non entaillées, $\alpha_0=0$}: comme dans les deux cas précédents, la figure 9.8 présente la charge maximale et la
+contrainte dans le ligament en fonction de l'ouverture d'entaille moyennée sur toutes les éprouvettes de la même géométrie. Encore une fois, l'effet d'échelle est observé. La
+résistance du ligament décroit quand la taille de la structure augmente. Malheureusement, en raison de difficultés techniques, nous n'avons pas pu obtenir des données expérimentales sur la phase post-pic, mais ça n'empêche pas l'étude d'effet d'échelle, en ce qui concerne les lois de Ba\v{z}ant, on n'aura besoin que de la valeur au pic.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figure36}\\
+\caption{Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha_0=0$}
+\end{center}
+\end{figure}
+\\
+Les valeurs intéressantes pour l'analyse en effet d'échelle sont présenter dans le tableau 9.1, notamment les valeurs au pic de la force, la flèche, le CMOD et la contrainte nominale.
+Rappelons que la valeur de la 'flèche' pour les poutres de petites dimension ($D=40 mm$) est en réalité une mesure du déplacement du vérin.
+\\\\
+Dans l'étape suivante on va analyser l'effet d'échelle sur les poutres entaillées et non-entaillée en utilisant la loi classique, la loi intrinsèque et la loi d'effet d'échelle universelle, on sera mené alors à déterminer les paramètres liés à la géométrie et au matériau dans les équations de Ba\v{z}ant, et comparer finalement avec les résultats expérimentaux. 
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c c c }
+ 
+\hline
+\multicolumn{1}{|c|}{\begin{bf} Dimension \end{bf}} & \multicolumn{1}{c|}{géométrie} & \multicolumn{4}{c|}{valeur au pic} \\
+%\hline
+\multicolumn{1}{|c|}{D (mm)} & \multicolumn{1}{c|}{$\alpha_0$} & \multicolumn{1}{c}{force (KN)} & \multicolumn{1}{c}{flèche (mm)} & \multicolumn{1}{c}{CMOD (mm)} & \multicolumn{1}{c|}{$\sigma_N$ (MPa)} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 2.035 & 0.087 & 0.035 & \multicolumn{1}{c|}{7.632} \\
+\multicolumn{1}{|c|}{{}}  &0  & 2.031 & 0.081 & 0.035 & \multicolumn{1}{c|}{7.615} \\
+\multicolumn{1}{|c|}{{}}  &{} & $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 0.629 & 0.091 & 0.012 & \multicolumn{1}{c|}{2.358} \\
+\multicolumn{1}{|c|}{40}  &0.2& $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &{} & 0.698 & 0.097 & 0.012 & \multicolumn{1}{c|}{2.620} \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 0.358 & 0.113 & 0.030 & \multicolumn{1}{c|}{1.342} \\
+\multicolumn{1}{|c|}{{}}  &0.5& $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &{} & 0.322 & 0.120 & 0.030 & \multicolumn{1}{c|}{1.210} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 3.594 & $-$   & 0.019 & \multicolumn{1}{c|}{6.740} \\
+\multicolumn{1}{|c|}{{}}  &0  & 3.187 & 0.050 & 0.013 & \multicolumn{1}{c|}{5.975} \\
+\multicolumn{1}{|c|}{{}}  &{} & 2.983 & 0.040 & 0.017 & \multicolumn{1}{c|}{5.593} \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 1.392 & 0.032 & 0.019 & \multicolumn{1}{c|}{2.610} \\
+\multicolumn{1}{|c|}{80}  &0.2& 1.462 & 0.049 & 0.020 & \multicolumn{1}{c|}{2.742} \\
+\multicolumn{1}{|c|}{{}}  &{} & 1.682 & 0.036 & 0.018 & \multicolumn{1}{c|}{3.155} \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 0.170 & 0.064 & 0.066 & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &0.5& 0.678 & 0.037 & 0.038 & \multicolumn{1}{c|}{1.272} \\
+\multicolumn{1}{|c|}{{}}  &{} & 0.659 & 0.031 & 0.031 & \multicolumn{1}{c|}{1.236} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 6.545 & 0.068 & 0.069 & \multicolumn{1}{c|}{6.136} \\
+\multicolumn{1}{|c|}{{}}  &0  & $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &{} & 6.112 & 0.066 & 0.068 & \multicolumn{1}{c|}{5.730} \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 2.694 & 0.054 & 0.023 & \multicolumn{1}{c|}{2.530} \\
+\multicolumn{1}{|c|}{160} &0.2& $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &{} & $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\hline
+\multicolumn{1}{|c|}{{}}  &{} & 1.021 & 0.052 & 0.051 & \multicolumn{1}{c|}{0.957} \\
+\multicolumn{1}{|c|}{{}}  &0.5& $-$   & $-$   & $-$   & \multicolumn{1}{c|}{$-$  } \\
+\multicolumn{1}{|c|}{{}}  &{} & 1.042 & 0.050 & 0.058 & \multicolumn{1}{c|}{0.977} \\
+
+\hline
+%\multicolumn{1}{|c|}{{}} & 4\times 4\times 20 & $0$ & 1.91 & 0.022 & 7.1625 & \multicolumn{1}{c|}{8.25} \\
+%\multicolumn{1}{|c|}{qua4 non-entaillé} & 4\times 8\times 40 & $0$ & 3.85 & 0.046 & 7.218 & \multicolumn{1}{c|}{8.625} \\
+%\multicolumn{1}{|c|}{{}} & 4\times 16\times 80 & $0$ & 6.475 & 0.083 & 6.07 & \multicolumn{1}{c|}{7.78125} \\
+%\hline
+\end{tabular}
+\end{center}
+\caption{Résultats expérimentaux, Force, Flèche, CMOD, et contrainte nominale au pic}
+\end{table}
+\clearpage
+
+
+
+\section{Analyse par la loi d'effets d'échelle}
+
+\subsection{La loi intrinsèque d'effet d'échelle pour les poutres entaillées}
+Cette démarche est déjà développée dans le chapitre 7, alors pour l'instant je vais seulement rappeler l'équation: 
+\[\overline{\sigma_N}=\frac{K_{Ic}}{\sqrt{c_f+\overline{D}}}\]
+On cherche alors les paramètres $K_{Ic}$, et $c_f$ par régression linéaire, les valeurs sont données dans le tableau 9.2.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c c c}
+\hline
+\multicolumn{6}{|c|}{\begin{bf}Poutres entaillées\end{bf}} \\
+\hline
+\multicolumn{1}{|c|}{$\alpha_0$} & \multicolumn{1}{c|}{$K_{Ic}$} & \multicolumn{1}{c|}{$c_f$ (mm)} & \multicolumn{1}{c|}{$B(\alpha_0)$} & \multicolumn{1}{c|}{$D_0$} & \multicolumn{1}{c|}{$G_f$ (N/m)} \\
+\hline
+\hline
+\multicolumn{1}{|c}{0.2} & $1.7045\times 10^5$ & $2.03$ & 2.4285 & 11.295 & \multicolumn{1}{c|}{42.62} \\
+\multicolumn{1}{|c}{0.5} & $1.1556\times 10^5$ & $1.10$ & 0.4264 & 6.9531 & \multicolumn{1}{c|}{41.51} \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Paramètres d'effet d'échelle pour les échantillons entaillés, application aux résultats expérimentaux}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.55]{alpha02_05.png}
+\caption{Plot, loi de Ba\v{z}ant pour $\alpha_0=0.2$ (A), $\alpha_0=0.2$ (B) et résultats expérimentaux}
+\end{center}
+\end{figure}
+
+\subsection{La loi d'effet d'échelle pour les poutres non-entaillées}
+L'équation est la suivante :
+\[\sigma_N=\sigma_B(1+\frac{1}{\gamma+\frac{D}{2.l_{f_0}}})\]
+De même, on cherche les paramètres $\sigma_B$, $\gamma$ et $\l_{f_0}$ mais cette fois par une identification non-linéaire.
+Les résultats sont représentés là dessous.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c c c}
+\hline
+\multicolumn{4}{|c|}{\begin{bf}Poutres non-entaillées\end{bf}} \\
+\hline
+\multicolumn{1}{|c|}{$\alpha_0$} & \multicolumn{1}{c|}{$\sigma_B$ (MPa)} & \multicolumn{1}{c|}{$\gamma$} & \multicolumn{1}{c|}{$l_{f0}$ (mm)} \\
+\hline
+\hline
+\multicolumn{1}{|c}{0} & $2.05$ & $0.165$ & \multicolumn{1}{c|}{108.413} \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Paramètres d'effet d'échelle pour les échantillons non-entaillés, application aux résultats expérimentaux}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.55]{alpha00.png}
+\caption{Plot, loi de Ba\v{z}ant pour $\alpha_0=0$ et résultats expérimentaux}
+\end{center}
+\end{figure}
+
+\subsection{La loi universelle d'effet d'échelle}
+On a déjà fait une analyse d'effet d'échelle par la loi classique et la loi intrinsèque pour les structures entaillées, et la loi de Ba\v{z}ant pour les structures non-entaillées, sur la campagne expérimentale, aussi sur les résultats numériques au Chapitre 7.
+Il est temps maintenant de faire l'analyse d'effet d'échelle en utilisant la loi universelle.\\
+La \emph{Loi Universelle d'effet d'échelle}, \cite{bavzant2009universal}, est donnée par l'équation :
+\[\sigma_N(D,\alpha_0)=\sqrt{\frac{E'G_f}{g'(\alpha_0)c_f+g(\alpha_0)D}}\left(1-\frac{rc_f^2g''(\alpha_0)e^{-k\alpha_0^2}}{4(l_p+D)(g(\alpha_0)D+g'(\alpha_0)c_f}\right)^{1/r}\]
+avec
+\[\sigma_N=\frac{3}{2}\frac{PS}{bD^2}\]
+et
+\[g(\alpha_0)=\pi \alpha_0 c_N^2(F(\alpha_0))^2 \text { { { } };{ { } } } E'=\frac{E}{1-\nu^2}\]
+Les paramètres $G_f$ (l'énergie de fissuration), $c_f$ (la longueur effective de la FPZ), $r$ et $k$ (des paramètres libres) et $l_p$ (longueur caractéristique du matériau) seront tous déterminés par un ajustement non-linéaire de Levenberg-Marquardt.
+$g$ et $F$, deux fonctions liées à la géométrie, sont définies dans le Chapitre 2. On note que les valeurs initiales introduites dans l'algorithme d'identification (développé par Cécile) doivent être physiques, c'est à dire proches de la valeur finale. Les résultats sont données ci dessus (paramètres : Tableau 9.4 , comparaison : Fig. 9.11).
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|&gt;{\begin{bf}} c &lt;{\end{bf}} c  c c c}
+\hline
+\multicolumn{5}{|c|}{\begin{bf}Poutres entaillées et non entaillées\end{bf}} \\
+\hline
+\multicolumn{1}{|c|}{$c_f$ (mm)} & \multicolumn{1}{c|}{$r$} & \multicolumn{1}{c|}{$k$} & \multicolumn{1}{c|}{$l_p$ (mm)} & \multicolumn{1}{c|}{$G_f$ (N/m)} \\
+\hline
+\hline
+\multicolumn{1}{|c}{$27.7$} & $0.5$ & $115$ & 2.05 & \multicolumn{1}{c|}{80} \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Paramètres de la loi universelle d'effet d'échelle, application aux résultats expérimentaux}
+\end{table}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{universelle.png}
+\caption{Résultats de l'ajustement des données expérimentales avec la loi universelle de Ba\v{z}ant}
+\end{center}
+\end{figure}
+
+
+\section{Analyse par correlation d'image}
+Cette partie du mémoire a pour intérêt de montré les avantages, ainsi que les limitations, de l'analyse par correlation d'images, pour cela, et principalement à cause de la contrainte du temps, je ne vais pas exploité le totale des images (2421 photos, 277 Gbytes !), plutôt je vais donner une idée sur comment se déroule l'analyse par correlation d'images. Ceci dit, une analyse du champs de déplacement par correlation d'images sur Correli\_Q4 est réalisée sur la poutre '$M_4$' (gâchée \#2, $\alpha_0=0.5$, $D=80mm$).
+Les résultats présentés dérivent de l'étude faite sur un totale de $6$ photos (une photo de référence et cinq photos de comparaison).
+La photo de référence tombe just avant le pic (comme ça on pourra observé l'initiation de la fissure, 10 secondes de temps entre chaque photo).
+La zone qui va être étudier est choisi comme suivant:
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.42]{zone1.png}
+\caption{Champ de déplacement pour n=5}
+\end{center}
+\end{figure}
+Une fois le calcul est terminé, on peut tracer les différents vecteurs qu'on a obtenu en output. Ces vecteurs (champs de déplacement, contrainte, erreur etc..) ont la forme suivante : $f(x,y,n)$ telque $x()$ et $y()$ sont respectivement l'abscisse et l'ordonnée (discrétisés en pixels) et '$n$' un entier qui indique la photo (donc $f(i,j,k)$ c'est la valeur de $f$ au point $(i;j)$ de la photo $k$).
+Un graphe du déplacement horizontal calculé sur la photo $n=5$ (comparée bien sûr à $n=0$, l'image de référence), montre clairement l'ouverture de la fissure (Fig .9.13). D'après le saut observé on pourrait estimer la largeur de la fissure, environ $0.6p$ (pixels).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.35]{surfv.png}
+\caption{Partie de la photo à analyser par correlation d'images}
+\end{center}
+\end{figure}
+\\
+Une manière plus exacte pour calculer l'ouverture de fissure est de tracer le champ de déplacement pour une ordonnée fixe (Fig. 9.14). Dans ce cas, une solution approchée pour calculer la fissure, est de tracer les deux droites de regressions, avant et après la fissure, et puis mesurer la distance qui les sépare. D'après le calcul: $CMOD=0.4254p$
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{plot}
+\caption{Champ de déplacement pour une ordonnée fixe, et calcule de l'ouverture de fissure}
+\end{center}
+\end{figure}
+\\
+Sur la Fig. 9.15 on observe la propagation de la fissure, ici on a tracé toutes les courbes $n=1$ à $5$ pour $y=60p$, de cette façon on peut calculé la propagation de la fissure 
+à plusieurs pas de temps, ce qui peut nous accorder, pour une large base de données, de divers informations comme la vitesse de propagation de la fissure etc...
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.38]{figure37}
+\caption{Champ de déplacement pour une ordonnée fixe, $n=1, 2, 3, 4, 5$}
+\end{center}
+\end{figure}
+\\
+
+Finalement, on peut visualiser la fissure (Fig. 9.16) en traçant le champs d'erreur sur une photo donnée (on peut même distinguer un écrasement du béton au niveau de l'appuit), mais on constate que le maillage est trops grossier se qui nous empêche de discerner la pointe de fissure.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.38]{figure39}
+\caption{Champ d'erreur pour $n=5$}
+\end{center}
+\end{figure}
+\clearpage
+ 
+\section{Conclusion}
+Cette étude expérimentale a été dépouillée en terme d'effets
+d'échelle. On a pu montrer que la loi universelle de Bažant décrit correctement la
+rupture en terme de contraintes maximales au pic sur diverses tailles d'éprouvettes
+et trois géométries différentes (trois rapports entaille/hauteur différents). 
+Ceci dit, le rendement de la campagne expérimentale pourrait être plus efficace, si on règle quelques incertitudes sur nos essais, notament, les coffres en bois à mon avis ne sont pas adaptés pour des analyse d'effet d'echelle à cause de la déformation du bois même, et surtout le faite que les coffres soit réutilisables fait que l'exactitude des dimensions est doutée.
+Un autre aspect, presque impossible à prévoir et dur a géré, est celui du comportement de la machine sous un pilotage en fonction d'un capteur extérieur, dans ce cas il faut faire surtout attention à la stabilité du montage durant le test.
+En ce qui concerne la correlation d'image, c'est sans doute un outil magnifique, mais ne parvient toujours pas à identifier la pointe de la fissure.
+Malheureusement on n'a pas réussit a obtenir des résultats fiables en post-pic concernant les poutres non entaillée.
+Par contre je dirais que ce stage s'est achevé avec succès sur tous les autres niveaux expérimentaux.
+ 
+
+% --------------------------------------------------------> Biblio <---
+\part{Bibliographie et Annexe}
+\bibliography{biblio_rapport}
+
+% -------------------------------------------------------> Annexes <---
+\begin{appendix}
+\chapter{}
+\section{Les coffres}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figurex1}\\
+\caption{Plan du coffre réutilisable, poutre $4\times 16\times 80$}
+\end{center}
+\end{figure}
+\\
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figurex2}\\
+\caption{Plan pour scier la planche de bois standard}
+\end{center}
+\end{figure}
+\\
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{figurex3}\\
+\caption{Plan pour scier la planche de bois de coffrage}
+\end{center}
+\end{figure}
+\\
+\clearpage
+Dimensions des différents plaques (en $cm^2$):
+\begin{itemize}
+
+\item[.]{$(0)\times 3$: BC{ {} } $20\times 4$}
+\item[.]{$(1)\times 6$: BC{ {} } $5.8\times 4$}
+\item[.]{$(2)\times 4$: BC{ {} } $23.6\times 5.8$}
+\item[.]{$(3)\times 4$: BC{ {} } $5.8\times 2$}
+\item[.]{$(4)\times 2$: BS{ {} } $27.2\times 5.8$}
+\item[.]{$(5)\times 1$: BS{ {} } $47.2\times 46.6$}
+\item[.]{$(6)\times 3$: BC{ {} } $40\times 4$}
+\item[.]{$(7)\times 6$: BC{ {} } $9.8\times 4$}
+\item[.]{$(8)\times 4$: BC{ {} } $43.6\times 9.8$}
+\item[.]{$(9)\times 4$: BC{ {} } $9.8\times 2$}
+\item[.]{$(10)\times 2$: BS{ {} } $27.2\times 9.8$}
+\item[.]{$(11)\times 1$: BS{ {} } $67.2\times 46.6$}
+\item[.]{$(12)\times 3$: BC{ {} } $80\times 4$}
+\item[.]{$(13)\times 6$: BC{ {} } $83.6\times 17.8$}
+\item[.]{$(14)\times 6$: BC{ {} } $17.8\times 4$}
+\item[.]{$(15)\times 12$: BC{ {} } $17.8\times 2$}
+\item[.]{$(16)\times 6$: BS{ {} } $17.8\times 15.6$}
+\item[.]{$(17)\times 3$: BS{ {} } $106.6\times 35.6$}
+
+\end{itemize}
+\\
+\section{Les machines}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figurex4}\\
+\caption{La scie, DGC}
+\end{center}
+\end{figure}
+\\
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figurex5}\\
+\caption{Machine d'essai de compression, DGC}
+\end{center}
+\end{figure}
+\\
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figurex8}\\
+\caption{La réctifieuse}
+\end{center}
+\end{figure}
+\\
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[scale=0.1]{figurex11}\\
+%\caption{Groupe hydraulique, LMT}
+%\end{center}
+%\end{figure}
+%\\
+\clearpage
+\section{Les capteurs}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{figurex10}\\
+\caption{LVDT, capteur déplacement}
+\end{center}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.09]{figurex9}\\
+\caption{Capteur du CMOD}
+\end{center}
+\end{figure}
+
+\\
+
+
+\clearpage
+\section{Code CASTEM de la poutre avec une erreur de conception}
+\begin{verbatim}
+opti dime 3 elem cub8 mode trid;
+opti trac open;
+*
+*-------------- Definition de la geometrie ------------
+*
+
+*----- coefficient 
+coe = 1;
+**coe = 2;
+**coe = 4;
+
+*----- Hauteur de l'éprouvette
+Dt = 0.04*coe;
+
+*----- Longueur de l'éprouvette
+Lt = 0.2*coe;
+
+*----- Epaisseur de l'éprouvette 
+Bt = 0.04;
+
+*----- Distance entre les appuis
+La = 0.16*coe;
+
+*----- Hauteur de l'entaille
+De = 0.2*Dt;
+
+*----- Largeur de l'entaille
+Le = 0.002;
+
+*----- Longueur de la zone fine
+Lf = Lt/40;
+
+*----- Erreur de conception en mètres
+Er = 0.002; 
+
+*
+*-------------geometrie--------------
+*
+dens (1./25.) ;
+
+P1 = 0 0 0;
+P2 = 0 ((0.425*lt)) 0;
+P3 = 0 ((0.5*lt)-(0.5*le)) 0;
+P4 = (0-((de/dt)*er)) ((0.5*lt)-(0.5*le)) (de);
+P5 = (0-((de/dt)*er)) ((0.5*lt)+(0.5*le)) (de);
+P6 = 0 ((0.5*lt)+(0.5*le)) 0;
+P7 = 0 ((0.575*Lt)) 0;
+P8 = 0 (Lt) 0;
+P9 = 0 0 (dt);
+P10 = ((0-0.9775*er)) (0.425*lt) (dt);
+P11 = ((0-0.99999375*er)) ((0.5*lt)-(0.5*le)) (dt);
+P12 = ((0-0.99999375*er)) ((0.5*lt)+(0.5*le)) (dt);
+P13 = ((0-0.9775*er)) (0.575*lt) (dt);
+P14 = 0 (lt) (dt);
+
+PT1 = ((0-0.85*er)) (0.2125*lt) (dt);
+PT2 = ((0-0.9997394068*er)) (0.462065678*lt) (dt);
+PTM = ((0-1.00011875*er)) (lt/2) (dt);
+PT3 = ((0-0.9997394068*er)) (0.537934322*lt) (dt);
+PT4 = ((0-0.85*er)) (0.7875*lt) (dt);
+
+n1 = enti (4*coe);
+n2 = enti (5*coe);
+n3 = enti (3*coe);
+n4 = enti (1*coe);
+
+L1 = d n1 p1 p2;
+L2 = d n2 p2 p3;
+L3 = d n4 p3 p4;
+L4 = d 2 p4 p5;
+L5 = d n4 p5 p6;
+L6 = d n2 p6 p7;
+L7 = d n1 p7 p8;
+
+L9 = PARA n1 p9 Pt1 p10;
+L10 = PARA n2 p10 Pt2 p11;
+L11 = PARA 2 p11 Ptm p12;
+L12 = PARA n2 p12 Pt3 p13;
+L13 = PARA n1 p13 Pt4 p14;
+
+Lf1 = d n3 p1 p9;
+Lf2 = d n3 p2 p10;
+Lf3 = d n2 p3 p11;
+Lf4 = d n2 p6 p12;
+Lf5 = d n3 p7 p13;
+Lf6 = d n3 p8 p14;
+Lm1 = d n1 p4 p11;
+Lm2 = d n1 p5 p12;
+
+S1 = dall lf1 l1 lf2 l9 quelconque;
+S2 = dall lf2 l2 lf3 l10 quelconque;
+S3 = dall lm1 l4 lm2 l11 quelconque;
+S4 = dall lf4 l6 lf5 l12 quelconque;
+S5 = dall lf5 l7 lf6 l13 quelconque;
+
+Sfront = S1 et S2 et S3 et S4 et S5;
+elim Sfront 1.e-6;
+*trac Sfront;
+
+* * *
+
+P1b = (0-bt) 0 0;
+P2b = (0-bt) ((0.425*lt)) 0;
+P3b = (0-bt) ((0.5*lt)-(0.5*le)) 0;
+P4b = ((de/dt)*er-bt) ((0.5*lt)-(0.5*le)) (de);
+P5b = ((de/dt)*er-bt) ((0.5*lt)+(0.5*le)) (de);
+P6b = (0-bt) ((0.5*lt)+(0.5*le)) 0;
+P7b = (0-bt) ((0.575*Lt)) 0;
+P8b = (0-bt) (Lt) 0;
+P9b = (0-bt) 0 (dt);
+P10b = ((0.9775*er)-bt) (0.425*lt) (dt);
+P11b = ((0.99999375*er)-bt) ((0.5*lt)-(0.5*le)) (dt);
+P12b = ((0.99999375*er)-bt) ((0.5*lt)+(0.5*le)) (dt);
+P13b = ((0.9775*er)-bt) (0.575*lt) (dt);
+P14b = (0-bt) (lt) (dt);
+
+PT1 = ((0.85*er)-bt) (0.2125*lt) (dt);
+PT2 = ((0.9997394068*er)-bt) (0.462065678*lt) (dt);
+PTM = ((1.00011875*er)-bt) (lt/2) (dt);
+PT3 = ((0.9997394068*er)-bt) (0.537934322*lt) (dt);
+PT4 = ((0.85*er)-bt) (0.7875*lt) (dt);
+
+L1b = d n1 p1b p2b;
+L2b = d n2 p2b p3b;
+L3b = d n4 p3b p4b;
+L4b = d 2 p4b p5b;
+L5b = d n4 p5b p6b;
+L6b = d n2 p6b p7b;
+L7b = d n1 p7b p8b;
+
+L9b = PARA n1 p9b Pt1 p10b;
+L10b = PARA n2 p10b Pt2 p11b;
+L11b = PARA 2 p11b Ptm p12b;
+L12b = PARA n2 p12b Pt3 p13b;
+L13b = PARA n1 p13b Pt4 p14b;
+
+Lb1 = d n3 p1b p9b;
+Lb2 = d n3 p2b p10b;
+Lb3 = d n2 p3b p11b;
+Lb4 = d n2 p6b p12b;
+Lb5 = d n3 p7b p13b;
+Lb6 = d n3 p8b p14b;
+Lm1 = d n1 p4b p11b;
+Lm2 = d n1 p5b p12b;
+
+S1 = dall lb1 l1b lb2 l9b quelconque;
+S2 = dall lb2 l2b lb3 l10b quelconque;
+S3 = dall lm1 l4b lm2 l11b quelconque;
+S4 = dall lb4 l6b lb5 l12b quelconque;
+S5 = dall lb5 l7b lb6 l13b quelconque;
+
+Sback = S1 et S2 et S3 et S4 et S5;
+elim Sback 1.e-6;
+*trac Sback;
+
+* * *
+
+L1c = d n4 p1 p1b;
+L2c = d n4 p2 p2b;
+L3c = d n2 P3 p3b;
+L4c = d n2 P4 p4b;
+L5c = d n2 P5 p5b;
+L6c = d n2 P6 p6b;
+L7c = d n4 p7 p7b;
+L8c = d n4 p8 p8b;
+
+S1d = dall L1c L1 L2c L1b quelconque;
+S2d = dall L2c L2 L3c L2b quelconque;
+S3d = dall L3c L3 L4c L3b quelconque;
+S4d = dall L4c L4 L5c L4b quelconque;
+S5d = dall L5c L5 L6c L5b quelconque;
+S6d = dall L6c L6 L7c L6b quelconque;
+S7d = dall L7c L7 L8c L7b quelconque;
+
+Sbot = s1d et s2d et s3d et s4d et s5d et s6d et s7d;
+
+* * *
+
+L9c = d n4 p9 p9b;
+L10c = d n4 p10 p10b;
+L11c = d n2 P11 p11b;
+L12c = d n2 P12 p12b;
+L13c = d n4 p13 p13b;
+L14c = d n4 p14 p14b;
+
+S9d = dall L9c L9 L10c L9b quelconque;
+S10d = dall L10c L10 L11c L10b quelconque;
+S11d = dall L11c L11 L12c L11b quelconque;
+S12d = dall L12c L12 L13c L12b quelconque;
+S13d = dall L13c L13 L14c L13b quelconque;
+
+Stop = s9d et s10d et s11d et s12d et s13d;
+
+* * *
+
+sgau = dall L1c Lf1 L9c Lb1 plane;
+Sdro = dall L8c Lf6 L14c Lb6 plane;
+
+
+stot = sfront et sback et sbot et stop et sgau et sdro;
+elim stot 1.e-6;
+
+* * *
+
+vol1 = stot volu;
+elim vol1 1.e-6;
+
+*trac vol1;
+
+*_______________________________________________________________
+*                        MODELE ET MATERIAU
+* 
+* Necessite d'utiliser le modele RICBET avec regularisation en GF 
+*______________________________________________________________
+*
+
+
+modtot=MODE vol1 mecanique elastique isotrope endommagement RICBET;
+
+*Modele elastique
+*modtot = MODE stot MECANIQUE ELASTIQUE ISOTROPE;
+
+*
+*----- Paramètres matériaux ---------------------------
+* 
+
+* Module d'Young
+* * * youngn = 38E+9;
+
+* Coefficient de Poisson
+* * * nun = 0.24;
+
+* Résistance en traction
+* * * ftn = 5e6;
+
+* Fragilité en traction
+* * * aldin = 7.9e-3;
+
+* Fragilité en compression
+* * * alinn = 3.5e-4;
+
+* Module d'écrouissage 1
+* * * gam1n = 1.5E7;
+
+* Module d'écrouissage 2
+* * * a1n = 7.0e-7;
+
+* Longueur de corrélation lc1
+lc1 = 0.004;
+
+
+* * * mattot = MATE modtot YOUN youngn NU nun FT ftn 
+* * * ALIN alinn GAM1 gam1n A1 a1n ALDI aldin;
+
+* Materiau elastique
+*mattot = MATE modtot YOUN youngn NU nun;
+
+* PROCEDURE CALCUL TAILLE MINIMALE *
+* -------------------------------- *
+
+* Entrees
+* -------
+DIMENS1 = VALE 'DIME';
+
+* Creation du champs
+* ------------------
+CHAMLO = MANU 'CHML' modtot 'LONG' 1.0 'STRESSES';
+
+* Calcul de la longueur par element
+* ---------------------------------
+CHAML1 = INTG 'ELEM' modtot CHAMLO 'LONG';
+CHAML2 = CHAML1**(1./DIMENS1); 
+CHAML3 = CHAN 'STRESSES' modtot CHAML2; 
+
+* Parametres materiau
+* -------------------
+
+* Young's Modulus        
+YG = 38E+9;
+
+* Poisson ratio
+nuu = 0.24;
+
+* Tension strength limit
+ftn = 5e6;
+
+* Energie de fissuration Gf
+GF = 100;
+
+* Closure stress
+srefn = -3e6;
+
+* Compression strength (initial)
+fcn = 6e6;
+
+* Asymptotic stress in compression
+sigun = -4e6;
+
+* Yield surface 1
+afn = 0.7;
+
+* Yield surface 2
+bfn = 0.3;
+
+* Plastic potential 1
+agn = 0.6;
+
+* Plastic potential 2
+bgn = 0.45;
+
+* Yield hardening 1
+acn = 3.2e10;
+
+* Yield hardening 1
+bcn = 700.0;
+
+* Kinematic hardening modulus 1
+gam1n=1.5E7;
+
+* Kinematic hardening modulus 2
+a1n=7.0E-7;
+
+* Brittleness in tension
+aldin = CHAML3*ftn/GF ;
+
+
+mattot=MATR modtot 'YOUN' YG    'NU' nuu 'RHO'  2.3E+03 'FT'   ftn 
+               'GAM1' gam1n 'A1' a1n 'ALDI' aldin   'SREF' srefn 
+               'AF'   afn   'BF' bfn 'AG'   agn     'BG'   bgn   
+               'AC'   acn   'BC' bcn 'SIGU' sigun   'FC'   fcn;
+
+
+*
+*------- Définition des conditions aux limites --------
+*----------- et des déplacements imposés --------------
+*
+
+*Pclg1 = vol1 POIN PROC (0. ((Lt-La)/2) 0.); 
+*Pclg2 = vol1 POIN PROC (Bt ((Lt-La)/2) 0.); 
+Ptest1 = 0. ((Lt-La)/2) 0.;
+Ptest2 = (0-Bt) ((Lt-La)/2) 0.; 
+Pclg1 = vol1 POIN PROC Ptest1; 
+Pclg2 = vol1 POIN PROC Ptest2;
+Pclg = (vol1 POIN 'DROIT' Pclg1 Pclg2) COUL ROUG;
+
+clgy=BLOQ pclg UY;
+clgz=BLOQ pclg UZ;
+clgpx=BLOQ pclg1 UX;
+
+Ptest1 = 0. ((Lt+La)/2) 0.;
+Ptest2 = (0-Bt) ((Lt+La)/2) 0.; 
+Pcld1=vol1 POIN PROC Ptest1; 
+Pcld2=vol1 POIN PROC Ptest2; 
+Pcld= (vol1 POIN 'DROIT' Pcld1 Pcld2) COUL ROUG;
+cldz=BLOQ pcld UZ;
+cldpx=BLOQ pcld1 UX;
+
+Ptest3 = (0-er) (Lt/2) Dt;
+Ptest4 = (er-Bt) (Lt/2) Dt; 
+pclf1=vol1 POIN PROC Ptest3;
+pclf2=vol1 POIN PROC Ptest4;
+pclf=(vol1 POIN 'DROIT' Pclf1 Pclf2) COUL ROUG;
+clfcz=BLOQ pclf UZ;
+
+cltot = clgy et clgz et cldz et clfcz et clgpx et cldpx;
+f1 = DEPI clfcz -1;
+
+*.*TRAC (vol1 et PCLG et PCLD et PCLF);
+
+** Calcul elastique
+cltot1 = clgy et clgz et cldz et clgpx et cldpx;
+rigi1 = RIGI modtot mattot;
+rigtot = rigi1 et cltot1;
+forc1 = FORC (0. 0. (-1.e-3)) pclf;
+DEP1 = RESO rigtot forc1;
+
+def1 = DEFO DEP1 vol1;
+*.*trac def1;
+
+*
+*----- Définition du cas de charge -------------------
+*
+
+temps1=PROG 0. pas 5.e-7 16.0e-5; 
+evol1=evol manu (prog 0. 1.) (prog 0. 1.);
+char1=chargement f1 evol1 dimp;
+
+*
+*----------- Calcul par l'operateur PASAPAS ------------
+*
+
+tab1=table;
+tab1.blocages_mecaniques=cltot;
+tab1.caracteristiques=mattot;
+tab1.modele=modtot;
+tab1.chargement=char1;
+tab1.mova='D';
+tab1.temps_calculs=temps1 ;
+*conn1  = connec modtot lc1 'NORMAL' 'INTERIEUR' ;
+*tab1.conn          = conn1;
+tab1.'LCAR'        = lc1 ;
+tab1.lviam         = mots epti;
+*tab1.'NON_LOCAL' = faux ;
+
+pasapas tab1;
+
+opti sauv format 'cub8_def_ricbet.save';
+sauv format;
+
+*
+*----------- Courbe force-fleche -----------------
+*
+evol2 = @global tab1 clfcz evol1 fz;
+uu1 = extr evol2 deplac ;
+uu2 = uu1 * 1e3;
+ff1 = extr evol2 effort ;
+ff2 = -1 * ff1 * 0.1 / 1000;
+evfu = evol manu uu2 ff2;
+*-*dess evfu;
+
+
+*
+*----------- Courbe force-CMOD -----------------
+*
+ptg = 0.0 ((Lt-Le)/2) 0.0;
+geog = 'MANU' 'POI1' ptg;
+ptd = 0.0 ((Lt+Le)/2) 0.0;
+geod = 'MANU' 'POI1' ptd;
+cmod = prog;
+i=0 ;
+ntot=dime tab1.temps;
+repeter myloop ntot ;
+chpti = tab1.deplacements.i;
+PTEST1 = STOT POIN 'PROC' ptg;
+PTEST2 = STOT POIN 'PROC' ptd;
+ugi = EXTR chpti 'UY' PTEST1;
+udi = EXTR chpti 'UY' PTEST2;
+cmodi = udi - ugi;
+cmodi = cmodi * 1e6;
+cmod = cmod et (prog cmodi);
+i=i+1 ;
+fin myloop ;
+evfcmod = evol manu cmod ff2;
+*-*dess evfcmod;
+
+@EXCEL1 evfcmod 'f(cmod).txt';
+@EXCEL1 evfu 'f(u).txt';
+@EXCEL1 evfcmod 'fcmoprec2.xls';
+@EXCEL1 evfu 'fdepprec2.xls';
+
+*
+*----------- Output -----------------------------------
+*
+
+DEBPROC @EXCEL2 EV1*EVOLUTION FICOUT*MOT;
+PROG1=EXTR EV1 ABSC;
+PROG2=EXTR EV1 ORDO;
+NB=DIME PROG1;
+I=0;
+ii=vale impr;
+OPTI IMPR 10 IMPR FICOUT;
+REPETER BOU1 (NB -1);
+  I=I+1;
+  X1=EXTR PROG1 I;
+  Y1=EXTR PROG2 I;
+  MESSAGE X1 ' ' Y1 ;
+  FIN BOU1;
+OPTI IMPR II;
+FINPROC;
+
+@EXCEL2 evfcmod 'fcmod_f3p_nl_stress_D1.dat';
+@EXCEL2 evfu 'fu_f3p_nl_stress_D1.dat';
+
+
+I = 0;
+ntot=dime tab1.temps;
+repeter bou1 (ntot-1);
+I = I + 1;
+cheltdi = exco tab1.variables_internes.(I) 'D';
+chptdi = 'CHANGER' 'CHPO' modtot cheltdi;
+opti sort (CHAINE 'endo_f3p_nl_stress_cub8_def_ricbet_' I '.inp');
+sort avs chptdi stot;
+fin bou1;
+
+***déformée
+
+i=0;
+ntot=dime tab1.temps;
+repeter myloop (ntot-1);
+defi = defo tab1.deplacements.(i) stot 'ROUG';
+def0 = defo tab1.deplacements.(i) stot 0.;
+*-*trac (defi et def0);
+i=i+1;
+fin myloop;
+
+***contrainte
+
+i=0;
+ntot=dime tab1.temps;
+repeter myloop (ntot-1);
+sigi = tab1.contraintes.i;
+*-*trac sigi modtot;
+i=i+1;
+fin myloop;
+
+***endommagement
+
+i=0;
+ntot=dime tab1.temps;
+repeter myloop (ntot-1);
+endoi = exco tab1.variables_internes.(i) 'D';
+*-*trac endoi modtot;
+i=i+1;
+fin myloop;
+
+*fin;
+
+\end{verbatim}
+
+
+
+\end{appendix}
+  
+% -----------------------------------------------> Fin du document <---
+\end{document}
+% ---------------------------------------------------------------------

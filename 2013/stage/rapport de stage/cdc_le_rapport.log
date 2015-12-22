@@ -1,0 +1,1721 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.5.21)  30 MAY 2013 15:14
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**cdc_le_rapport.tex
+(./cdc_le_rapport.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, et
+hiopic, farsi, arabic, pinyin, croatian, bulgarian, ukrainian, russian, slovak,
+ czech, danish, dutch, usenglishmax, ukenglish, finnish, french, basque, ngerma
+n, german, swissgerman, ngerman-x-2012-05-30, german-x-2012-05-30, monogreek, g
+reek, ibycus, ancientgreek, hungarian, bengali, tamil, hindi, telugu, gujarati,
+ sanskrit, malayalam, kannada, assamese, marathi, oriya, panjabi, italian, lati
+n, latvian, lithuanian, mongolian, mongolianlmc, nynorsk, bokmal, indonesian, e
+speranto, coptic, welsh, irish, interlingua, serbian, serbianc, slovenian, friu
+lan, romansh, estonian, romanian, armenian, uppersorbian, turkish, afrikaans, i
+celandic, kurmanji, polish, portuguese, galician, catalan, spanish, swedish, th
+ai, loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/var/lib/texmf/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/frenchb.ldf
+Language: frenchb 2010/08/21 v2.5a French support from the babel system
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/08 v3.8m Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+Package babel Info: Making : an active character on input line 234.
+Package babel Info: Making ; an active character on input line 235.
+Package babel Info: Making ! an active character on input line 236.
+Package babel Info: Making ? an active character on input line 237.
+\FB@Mht=\dimen104
+\std@mcc=\count89
+\dec@mcc=\count90
+\parindentFFN=\dimen105
+
+*************************************
+* Local config file frenchb.cfg used
+*
+(/usr/share/texlive/texmf-dist/tex/generic/babel/frenchb.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count91
+\Gm@cntv=\count92
+\c@Gm@tempcnt=\count93
+\Gm@bindingoffset=\dimen106
+\Gm@wd@mp=\dimen107
+\Gm@odd@mp=\dimen108
+\Gm@even@mp=\dimen109
+\Gm@layoutwidth=\dimen110
+\Gm@layoutheight=\dimen111
+\Gm@layouthoffset=\dimen112
+\Gm@layoutvoffset=\dimen113
+\Gm@dimlist=\toks17
+)
+(./cdc_le_rapport.aux)
+\openout1 = `cdc_le_rapport.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Info: Redefining \degres on input line 12.
+LaTeX Info: Redefining \dots on input line 12.
+LaTeX Info: Redefining \up on input line 12.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 500.484pt, 56.9055pt)
+* v-part:(T,H,B)=(56.9055pt, 681.15898pt, 56.9055pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=500.484pt
+* \textheight=681.15898pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-52.36449pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=44.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 14.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 14.
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [1
+
+]
+(./cdc_le_rapport.toc
+Runaway argument?
+{I\hspace {1em}\~A\GenericError {(inputenc) }{Package inputenc Error:\ETC.
+! Paragraph ended before \l@part was complete.
+<to be read again> 
+                   \par 
+l.2 ...tect \edef \write \@auxout {\newlabel {\par
+                                                   }{{I}{4}}}}\relax \let \r...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Extra }, or forgotten \endgroup.
+l.2 ...ct \edef \write \@auxout {\newlabel {\par }
+                                                  {{I}{4}}}}\relax \let \rel...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+l.2 ...\write \@auxout {\newlabel {\par }{{I}{4}}}
+                                                  }\relax \let \relax \begin...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+l.2 ...write \@auxout {\newlabel {\par }{{I}{4}}}}
+                                                  \relax \let \relax \beging...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing number, treated as zero.
+<to be read again> 
+                    
+l.2 ... \begingroup \catcode `\ 12\relax \catcode 
+                                                  `\let \relax \let \reserve...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing number, treated as zero.
+<to be read again> 
+                    
+l.2 ... \begingroup \catcode `\ 12\relax \catcode 
+                                                  `\let \relax \let \reserve...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ...ngroup \catcode `\ 12\relax \catcode `\let 
+                                                  \relax \let \reserved@f \r...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ...ode `\ 12\relax \catcode `\let \relax \let 
+                                                  \reserved@f \relax \let \r...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ... `\let \relax \let \reserved@f \relax \let 
+                                                  \reserved@d =*\def \par }\...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ...\reserved@f \relax \let \reserved@d =*\def 
+                                                  \par }\def \relax \global ...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing { inserted.
+l.2 ...ved@f \relax \let \reserved@d =*\def \par }
+                                                  \def \relax \global \advan...
+Where was the left brace? You said something like `\def\a}',
+which I'm going to interpret as `\def\a{}'.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ... \relax \let \reserved@d =*\def \par }\def 
+                                                  \relax \global \advance \c...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ...\let \@@protect \edef I{I}\begingroup \let 
+                                                  4\relax \let \relax \begin...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ...ct \edef I{I}\begingroup \let 4\relax \let 
+                                                  \relax \begingroup \let 4\...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ... \let 4\relax \let \relax \begingroup \let 
+                                                  4\relax \let \@unexpandabl...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ... \let \relax \begingroup \let 4\relax \let 
+                                                  \@unexpandable@protect \ed...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.2 ... 4\relax \let \@unexpandable@protect \edef 
+                                                  \write \@auxout {\newlabel...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Undefined control sequence.
+\GenericError  ...                                
+                                                    #4  \errhelp \@err@     ...
+l.2 ...le@protect \edef \write \@auxout {\newlabel
+                                                   {\par }{{I}{4}}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\GenericError  ...                                
+                                                  \let \@err@               ...
+l.2 ...le@protect \edef \write \@auxout {\newlabel
+                                                   {\par }{{I}{4}}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\GenericError  ...                                
+                                                  \@empty \def \MessageBreak...
+l.2 ...le@protect \edef \write \@auxout {\newlabel
+                                                   {\par }{{I}{4}}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\GenericError  ...                                
+                                                     \endgroup 
+l.2 ...le@protect \edef \write \@auxout {\newlabel
+                                                   {\par }{{I}{4}}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+)
+\tf@toc=\write3
+\openout3 = `cdc_le_rapport.toc'.
+
+
+! Extra }, or forgotten \endgroup.
+\@outputpage ...or \hb@xt@ \textwidth {\@thefoot }
+                                                  \color@endbox }}\global \l...
+l.21 \chapter
+             *{Introduction}
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\@outputpage ...twidth {\@thefoot }\color@endbox }
+                                                  }\global \let \if@newlist ...
+l.21 \chapter
+             *{Introduction}
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\@outputpage ...width {\@thefoot }\color@endbox }}
+                                                  \global \let \if@newlist \...
+l.21 \chapter
+             *{Introduction}
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+<output> ...i \else \global \vsize \maxdimen \fi }
+                                                  
+l.21 \chapter
+             *{Introduction}
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.21 \chapter*{Introduction}
+                            
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 ...e exp√©rimental permettant de mettre en ≈ì
+                                                  uvre des essais de
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 ...b√©ton mettant en √©vidence des effets d‚Ä
+                                                  ô√©chelle en termes de fis...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 ...√©ton mettant en √©vidence des effets d‚Äô
+                                                  √©chelle en termes de fiss...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.24 Les r√©sultats de l‚Ä
+                          ô√©tude faite sur des poutres en micro-b√©ton (√† ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.24 Les r√©sultats de l‚Äô
+                           √©tude faite sur des poutres en micro-b√©ton (√† ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 ...exion trois points seront compar√©s √† d‚Ä
+                                                  ôautres r√©sultats exp√©ri...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.25 ...xion trois points seront compar√©s √† d‚Äô
+                                                  autres r√©sultats exp√©rim...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 d'effet d‚Ä
+                ô√©chelle de Ba≈æant. On confirme d√©j√† l‚Äôexistence de l‚...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 d'effet d‚Äô
+                 √©chelle de Ba≈æant. On confirme d√©j√† l‚Äôexistence de l‚...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...©chelle de Ba≈æant. On confirme d√©j√† l‚Ä
+                                                  ôexistence de l‚Äôeffet d‚...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...chelle de Ba≈æant. On confirme d√©j√† l‚Äô
+                                                  existence de l‚Äôeffet d‚Ä...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...t. On confirme d√©j√† l‚Äôexistence de l‚Ä
+                                                  ôeffet d‚Äô√©chelle sur de...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 .... On confirme d√©j√† l‚Äôexistence de l‚Äô
+                                                  effet d‚Äô√©chelle sur des...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...irme d√©j√† l‚Äôexistence de l‚Äôeffet d‚Ä
+                                                  ô√©chelle sur des poutres de
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 ...rme d√©j√† l‚Äôexistence de l‚Äôeffet d‚Äô
+                                                  √©chelle sur des poutres de
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 ... conclu que l'applicabilit√© de la loi d‚Ä
+                                                  ôeffet d‚Äô√©chelle d√©pen...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 ...conclu que l'applicabilit√© de la loi d‚Äô
+                                                  effet d‚Äô√©chelle d√©pend...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 ...e l'applicabilit√© de la loi d‚Äôeffet d‚Ä
+                                                  ô√©chelle d√©pend du type de
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.29 ... l'applicabilit√© de la loi d‚Äôeffet d‚Äô
+                                                  √©chelle d√©pend du type de
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 d‚Ä
+        ôeffet d‚Äô√©chelle peut √™tre utilis√©e dans une gamme de taille pl...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 d‚Äô
+         effet d‚Äô√©chelle peut √™tre utilis√©e dans une gamme de taille pl...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 d‚Äôeffet d‚Ä
+                  ô√©chelle peut √™tre utilis√©e dans une gamme de taille pl...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 d‚Äôeffet d‚Äô
+                   √©chelle peut √™tre utilis√©e dans une gamme de taille pl...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 le cas, la validit√© de la loi d‚Ä
+                                       ôeffet d‚Äô√©chelle est limit√©e √† u...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 le cas, la validit√© de la loi d‚Äô
+                                        effet d‚Äô√©chelle est limit√©e √† u...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 le cas, la validit√© de la loi d‚Äôeffet d‚Ä
+                                                 ô√©chelle est limit√©e √† u...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 le cas, la validit√© de la loi d‚Äôeffet d‚Äô
+                                                  √©chelle est limit√©e √† u...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.33 ...ent, on ne peut pas extrapoler l'effet d‚Ä
+                                                  ô√©chelle √† partir des es...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.33 ...nt, on ne peut pas extrapoler l'effet d‚Äô
+                                                  √©chelle √† partir des ess...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.35 provenant d‚Ä
+                  ôessais sur de gammes de grande taille. Ainsi, dans notre ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.35 provenant d‚Äô
+                   essais sur de gammes de grande taille. Ainsi, dans notre ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 ...ous concentrer sur d'autres aspects de l‚Ä
+                                                  ôeffet d‚Äô√©chelle tels q...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 ...us concentrer sur d'autres aspects de l‚Äô
+                                                  effet d‚Äô√©chelle tels qu...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 ...trer sur d'autres aspects de l‚Äôeffet d‚Ä
+                                                  ô√©chelle tels que les pro...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 ...rer sur d'autres aspects de l‚Äôeffet d‚Äô
+                                                  √©chelle tels que les prop...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.38 r√©sistance nominale d‚Ä
+                             ôune structure contenant une entaille (ou initi...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.38 r√©sistance nominale d‚Äô
+                              une structure contenant une entaille (ou initi...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.39 d‚Ä
+        ôautres initialement non entaill√©es.
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.39 d‚Äô
+         autres initialement non entaill√©es.
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+Overfull \hbox (34.62003pt too wide) has occurred while \output is active
+[]\T1/cmr/m/n/12 Dans ce stage on propose un protocole exp√rimental permettant 
+de mettre en ≈uvre des essais de
+ []
+
+
+Overfull \hbox (14.48468pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 flexion sur poutre en b√ton mettant en √vidence des effets d‚√ch
+elle en termes de fissuration.
+ []
+
+
+Overfull \hbox (52.28922pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 Les r√sultats de l‚√tude faite sur des poutres en micro-b√ton (√
+  priori) entaill√es et non entaill√es
+ []
+
+
+Overfull \hbox (25.83171pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 charg√es en flexion trois points seront compar√s √  d‚autres r√s
+ultats exp√rimentaux et les lois
+ []
+
+
+Overfull \hbox (37.02222pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 d'ef-fet d‚√chelle de Ba≈ant. On confirme d√j√  l‚exis-tence de 
+l‚effet d‚√chelle sur des poutres de
+ []
+
+
+Overfull \hbox (17.16862pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 pe-tites tailles (ce qui est le cas de notre √tude). Cependant, 
+pour de plus grandes poutres non
+ []
+
+
+Overfull \hbox (28.2464pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 en-taill√es la r√sistance nominale tend vers une valeur constant
+e li√e √  la r√sistance en traction
+ []
+
+
+Overfull \hbox (0.70168pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 uni-axiale. Il a √t√ conclu que l'applicabilit√ de la loi d‚effe
+t d‚√chelle d√pend du type de
+ []
+
+
+Overfull \hbox (15.46748pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 pro-bl√me, ceci dit, si la propagation de la fissure avant la ch
+arge ultime est tr√s stable, la loi
+ []
+
+
+Overfull \hbox (51.02702pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 d‚ef-fet d‚√chelle peut √tre utilis√e dans une gamme de taille p
+lut√t large. Toutefois, si ce n'est pas
+ []
+
+
+Overfull \hbox (18.36131pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 le cas, la validit√ de la loi d‚effet d‚√chelle est limit√e √  u
+ne plage de taille plus petite. Par
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/cmr/m/n/12 cons√quent, on ne peut pas extrapoler l'effet d‚√chelle √  par-
+ []
+
+
+Overfull \hbox (220.84253pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 tir des essais avec une gamme de taille petite √  une gamme de g
+rande taille, pour cela il nous manque des donn√es exp√rimentales
+ []
+
+
+Overfull \hbox (20.88434pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 pro-ve-nant d‚essais sur de gammes de grande taille. Ainsi, dans
+ notre √tude, nous allons ignorer
+ []
+
+
+Overfull \hbox (28.25896pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 cette partie de la probl√matique, puisque nous allons tester seu
+lement de petites poutres, plut√t,
+ []
+
+
+Overfull \hbox (31.38731pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 nous allons nous concentrer sur d'autres aspects de l‚effet d‚√c
+helle tels que les propri√t√s de la
+ []
+
+
+Overfull \hbox (29.43793pt too wide) has occurred while \output is active
+\T1/cmr/m/n/12 r√-sis-tance nominale d‚une structure contenant une entaille (ou
+ initialement une grande fissure) et
+ []
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.42 ...n trois points, B√©ton, Fissure, Effet d‚Ä
+                                                  ô√©chelle
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.42 ... trois points, B√©ton, Fissure, Effet d‚Äô
+                                                  √©chelle
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+! Extra }, or forgotten \endgroup.
+\@part ...vskip 20\p@ \fi \Huge \bfseries #2\par }
+                                                  \@endpart 
+l.45 \part{etude Bibliographique}
+                                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+Chapitre 1.
+! Extra }, or forgotten \endgroup.
+<recently read> }
+                 
+l.47 \chapter{Effet dechelle}
+                             
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\@hangfrom #1->\setbox \@tempboxa \hbox {{#1}
+                                             }\hangindent \wd \@tempboxa \no...
+l.49 \section{Introduction}
+                           
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\@hangfrom #1->\setbox \@tempboxa \hbox {{#1}}
+                                              \hangindent \wd \@tempboxa \no...
+l.49 \section{Introduction}
+                           
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\@sect ...@svsec }\interlinepenalty \@M #8\@@par }
+                                                  \endgroup \csname #1mark\e...
+l.49 \section{Introduction}
+                           
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.49 \section{Introduction}
+                           
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.49 \section{Introduction}
+                           
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.49 \section{Introduction}
+                           
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.49 \section{Introduction}
+                           
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.49 \section{Introduction}
+                           
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.50 L'effet d‚Ä
+                ô√©chelle dans les mat√©riaux quasi fragile comme le b√©ton ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.50 L'effet d‚Äô
+                 √©chelle dans les mat√©riaux quasi fragile comme le b√©ton ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.54 ...elui-ci. Il ya deux aspects de l'effet d‚Ä
+                                                  ô√©chelle : statistique et
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.54 ...lui-ci. Il ya deux aspects de l'effet d‚Äô
+                                                  √©chelle : statistique et
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 ...de la rupture. Dans le pass√©, l'effet d‚Ä
+                                                  ô√©chelle a √©t√©
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 ...e la rupture. Dans le pass√©, l'effet d‚Äô
+                                                  √©chelle a √©t√©
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.58 raison principale de l'effet d‚Ä
+                                     ô√©chelle r√©side dans la lib√©ration d...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.58 raison principale de l'effet d‚Äô
+                                      √©chelle r√©side dans la lib√©ration d...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+Overfull \hbox (534.65645pt too wide) has occurred while \output is active
+[]\T1/cmr/m/n/24.88 L'effet d‚√chelle dans les mat√riaux quasi fragile comme le
+ b√ton est un ph√nom√ne bien connu 
+ []
+
+
+Overfull \hbox (543.91328pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 et il existe un certain nombre d'√tudes exp√rimentales et th√
+oriques (Rusch et al, 1962 Leonhardt 
+ []
+
+
+Overfull \hbox (413.41528pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 et Walter, 1962 Kani, 1967 Bhal, 1968 Taylor, 1972 Walsh 1976
+ Walraven et Lehwalter 
+ []
+
+
+Overfull \hbox (453.80211pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 1990 Chana 1981 Reinhardt, 1981 a,b Iguro et al, 1985 Hillerb
+org, 1989 E1igehausen et al. 
+ []
+
+
+Overfull \hbox (87.48257pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 ci. Il ya deux aspects de l'effet d‚√chelle  statistique et 
+ []
+
+
+Overfull \hbox (391.40326pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 niste. Bas√s sur la m√canique de la rupture. Dans le pass√, l
+'effet d‚√chelle a √t√ 
+ []
+
+
+Overfull \hbox (351.9392pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 ment trait√e du point de vue statistique (Weibull, 1939 Mihas
+hi et Zaitscv, 1981 
+ []
+
+
+Overfull \hbox (397.41786pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 shi, 1983). Cependant, actuellement il ya suffisamment de pre
+uves qui montent que la 
+ []
+
+
+Overfull \hbox (537.92438pt too wide) has occurred while \output is active
+\T1/cmr/m/n/24.88 son principale de l'effet d‚√chelle r√side dans la lib√ration
+ de l'√nergie de d√formation due √  la 
+ []
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61 Selon Ba≈æant (1984) l'effet d‚Ä
+                                     ô√©chelle peut √™tre approximativement ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61 Selon Ba≈æant (1984) l'effet d‚Äô
+                                      √©chelle peut √™tre approximativement ...
+
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61 ...e approximativement d√©crit par la loi d‚Ä
+                                                  ôeffet
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61 ... approximativement d√©crit par la loi d‚Äô
+                                                  effet
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.62 d‚Ä
+        ô√©chelle:
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.62 d‚Äô
+         √©chelle:
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+Overfull \hbox (464.68887pt too wide) has occurred while \output is active
+[]\T1/cmr/m/n/24.88 Selon Ba≈ant (1984) l'effet d‚√chelle peut √tre approximati
+vement d√crit par la loi d‚effet 
+ []
+
+(./cdc_le_rapport.aux
+! Missing number, treated as zero.
+<to be read again> 
+                   \l@french:T1 
+l.6 \select@language{french}
+                            
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \frenchhyphenmins 
+l.6 \select@language{french}
+                            
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l.6 \select@language{french}
+                            
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \tf@lof 
+l.8 \@writefile{lof}{\select@language{french}}
+                                              
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+\select@language {french}
+! Missing number, treated as zero.
+<to be read again> 
+                   \tf@lot 
+l.9 \@writefile{lot}{\select@language{french}}
+                                              
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+\select@language {french}
+)
+! You can't use `\end' in internal vertical mode.
+\enddocument ... \endgroup \deadcycles \z@ \@@end 
+                                                  
+l.64 \end{document}
+                   
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+)
+! Emergency stop.
+<*> cdc_le_rapport.tex
+                      
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 1722 strings out of 493485
+ 22407 string characters out of 3143526
+ 82701 words of memory out of 3000000
+ 5056 multiletter control sequences out of 15000+200000
+ 9377 words of font info for 24 fonts, out of 3000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 24i,6n,24p,1168b,851s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!

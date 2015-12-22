@@ -1,0 +1,58 @@
+Bonjour, (je suis Christian Nader, un thesard de l’IFSTTAR je travail dans le laboratoir EMMS du département MAST) aujourdui je vais vous présenter mes travaux de thèse qui a démarrer il y a 6 mois diriger par Pierre ROSSI et encadrer par Jean-Louis TAILHAN, intitulé STRATÉGIE MULTI-ÉCHELLES DE MODÉLISATION PROBABILISTE DE LA FISSURATION DES STRUCTURES EN BÉTON
+
+L’Objectif final de cette thèse étant de mené les calculs à l’échelle d’une structure complète, ainsi que obtenir de l’information sur la fissuration de la structure (dans le cas d’une enceinte nucleair, se qui nous interess par exemple serait les ouvertures des fissures pour les problemes de fuites)
+
+Un plan rapide de la presentation, qui comportera une introduction sur les stratégies multi-echelles de modélisation et l’esprit des modèles qu’on développe, les aspects numériques de la thèse
+
+Comme le précise le titre de la thèse, l’objectif est de mettre en place des stratégies multi-échelles de modélisation.
+La notion de multi-échelle fait référence à plusieurs choses:
+- Pour le modèles de comportement : il s’agit d’avoir à disposition un ensemble de modèles adaptés à différentes échelles de calculs et différentes échelle de représentation de la fissuration
+- Pour les stratégies de calcul :
+	- il s’agit principalement d’être capable d’alimenter l’échelle de modélisation globale de la structure par de l’information provenant d’une description des phénomènes à une échelle inférieure
+	- Adapter les outils numériques pour traiter des calculs complexes et coûteux (parallélisation ou soustructuration)
+
+Pour les modèles de comportement: on développe déjà des modèles à differents échelles, deux familles de modèles sont représenter ici, le modèle de fissuration explicite (ou simplement elements de contact) à l’echelle fine, qui donne de l’information sur la micro et la macro fissuration, et le modèle de fissuration semi-explicite (ou simplement elements massifs) à une échelle plus grande, notament l’echelle d’un element de stucture, qui donne de l’information sur la macrofissuration.
+
+Le modèle de fissuration explicite (éléments de contact):
+prendre en compte deux caractéristiques majeures du béton : son hétérogénéité, d’une part et sa sensibilité aux effets d’échelle, d’autre part. L’hétérogénéité du béton provient de sa composition, donc de la nature même du matériau. Les caractéristiques mécaniques locales (module d’Young Eb, résistance à la traction ft) sont aléatoires et dépendent du volume de matériau sollicité. m(X) = FmX(Vs/Vg, fc) et (X) = FX(Vs/Vg, fc)
+Le critère de fissuration de Rankine en traction et de Tresca-Coulomb en cisaillement et Une fois l’élément d’interface rompu, son comportement respecte la loi de frottement de Mohr-Coulomb.
+
+Le modèle de fissuration semi-explicite (modèle macro)
+Element dissipe l’energie, representant implicitement le processus de fissuration, j’usquà un moment où toute l’energie est dissipée, à se moment là la résistance et la rigidité de l’élément disparaissent du calcul. Physiquement, il apparaît donc un "trou" au sein du maillage.
+
+Finallement je veux arriver, à une échelle d’une structure complete, d’identifier le comportement des macro éléments beton armés, déduire une loi macro de cette élément pour après injecter cette loi dans le calcule de la structure et obtenir ainsi une description de la fissuration à l’echelle de la structure
+
+Due à l’hétérogénéité du matériau, le comportement de la fissure sera aléatoir, mais aussi, on sait que mécaniquement, l’hétérogénéité est la cause principale des effets d’échelles, pour cela on modélise la fissure d’une manière probabiliste pour prendre compte des hétérogénéité du matériau, pour resoudre ainsi les problèmes induit par cette hétérogénéité
+
+Aussi, c’est important à noter que due aux informations apporter par la modélisation probabiliste nous pourrons faire une étude de fiabilité de la structure
+
+Je vais maintenant présenter les aspects numériques de la thèse
+
+Dans la litérature, les approches multi-echelle se divisent en deux familles…
+Je vais pas trop m’arreter ici parceque c’est enfait l’approche par couplage faible qui nous interess
+
+Décomposition en sous-domaines: Pierre Ladeveze, algorithm LATIN (homogénéisation espace-temps)
+Décomposition en sous structures et sous-domains qui assurent la continuité des champs de déplacements (équations de comptabilités)
+
+Sous-structuration, element maillé finement, calcule integrer dans l’algorithmie, puis extrapolation des champs de déplacements au nœuds principaux par un champ de multiplicateurs de lagrange
+
+Dans notre cas, on va aller identifier le comportement du macro éléments de notre structure, indépendament du reste de la structure, et puis venir injecter cette loi dans le calcul (donc approche de type homogénéisation en premier lieu)
+
+Avantages de cette approche: l’implimentation du modèle est simple par rapport au autres approches
+Inconvénients: dans un premier temps, l’identification des paramètres du modèle peut s’avérer un travail long et parfois difficile
+
+Le second aspect numérique c’est la parallélisation qui a pour interré de…
+La sous-structuration qui nous rend capable…
+Il rest à mentionner que FIDES…
+
+Parallélisation à mémoire partager
+
+La facon d’abrder ce problème
+
+D’abord, on cherche à trouver la gamme de taille d’éléments dans laquelle on représente bien la cinématique élastique
+
+Puis, dans cette gamme là on vient chercher la taille d’éléments qui convient le mieux à notre approche, donc, préférablement, le moins de configurations différentes d’éléments macro, dans un cas idéal, 1 seul élément béton armé et 1 seul élément béton
+
+Une fois on connait notre élément, on identifie sont comportement globale, sous des conditions limites convenables
+
+Puis on aliment notre code de calcule d’une loi macro qui peut être spécifique au problème, ou parfois même générique

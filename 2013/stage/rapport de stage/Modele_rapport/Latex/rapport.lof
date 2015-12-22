@@ -1,0 +1,80 @@
+\select@language {french}
+\contentsline {xchapter}{}{iii}{chapter*.2}
+\contentsline {xchapter}{}{vi}{chapter*.3}
+\contentsline {xchapter}{}{vii}{chapter*.4}
+\contentsline {xpart}{Etude bibliographique}{5}{part.1}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Effet d'\'echelle}{5}{chapter.1}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Mod\`ele de poutre entaill\'ee, montage en flexion trois points}}{7}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Effet d'\'echelle en flexion trois points sur des poutres entaill\'ees}}{9}{figure.1.2}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Effet d'\'echelle en flexion trois points sur des poutres non entaill\'ees}}{9}{figure.1.3}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Effet d'\'echelle sur la contrainte nominale}}{10}{figure.1.4}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Energie de fissuration}{11}{chapter.2}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Taux de restitution d'\'energie}}{11}{figure.2.1}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Correlation d'image}{13}{chapter.3}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Correlation d'images}}{14}{figure.3.1}
+\contentsline {xpart}{Proc\'edure exp\'erimentale}{19}{part.2}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Les \'echantillons}{21}{chapter.4}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces G\'eom\'etrie des \'eprouvetter}}{22}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces plan du coffre}}{23}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces \'etat final des coffres}}{24}{figure.4.3}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Conception d'une g\^ach\'ee}{25}{chapter.5}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Pr\'eparation des coffres}}{25}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Le malaxeur, d\'epartement g\'enie civil}}{26}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Moulage des poutres et des \'echantillons cylindriques (pour \'eviter l'\'evaporation d'eau de surface on couvre le b\'eton frais d'une feuille de plastique)}}{26}{figure.5.3}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Essai F3P (flexion trois points)}{27}{chapter.6}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Charge limite et mode de pilotage du chargement}}{27}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces La MTS TTC \emph {Melo}}}{28}{figure.6.2}
+\contentsline {xpart}{\'Etude num\'eriques}{33}{part.3}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Mod\'elisation}{35}{chapter.7}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Courbe exp\'erimentale / Courbe num\'erique}}{36}{figure.7.1}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Maillage poutre entaill\'ee}}{37}{figure.7.2}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Poutre avec une erreur de conception}}{37}{figure.7.3}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Comparaison des rigidit\'es entre une poutre correcte et une poutre erron\'ee}}{38}{figure.7.4}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces R\'esultats num\'eriques sur une poutres non entaill\'ees -mod\`ele RICBET-}}{38}{figure.7.5}
+\contentsline {figure}{\numberline {7.6}{\ignorespaces R\'esultats num\'eriques sur des poutres entaill\'ees -mod\`ele RICRAG-}}{39}{figure.7.6}
+\contentsline {figure}{\numberline {7.7}{\ignorespaces R\'esultats num\'eriques sur des poutres non entaill\'ees -mod\`ele RICRAG-}}{39}{figure.7.7}
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Postraitement, poutres entaill\'ees avec la loi intrins\`eque de ba\v {z}ant}}{41}{figure.7.8}
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Postraitement, poutres non entaill\'ees avec la loi d'effet d'\'echelle de ba\v {z}ant}}{42}{figure.7.9}
+\contentsline {xpart}{R\'esultats et analyse exp\'erimentale}{45}{part.4}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Identification des param\`etres m\'ecaniques}{45}{chapter.8}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Surfa\c cage m\'ecanique d'une \'eprouvette cylindrique, comparaison avant/apr\`es}}{45}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces L'extensom\`etre appliqu\'e \`a une \'eprouvette cylindrique}}{46}{figure.8.2}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Test de compression uniaxial et mode de rupture}}{46}{figure.8.3}
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Montage de l'\'eprouvette pour l'essai br\'esilien}}{47}{figure.8.4}
+\addvspace {10\p@ }
+\contentsline {xchapter}{Les essais}{49}{chapter.9}
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Scie \'electrique au DGC}}{49}{figure.9.1}
+\contentsline {figure}{\numberline {9.2}{\ignorespaces Exemple d'un mouchetis et la texture correspondante}}{50}{figure.9.2}
+\contentsline {figure}{\numberline {9.3}{\ignorespaces Analyse d'incertitude : taille de la ZOI}}{50}{figure.9.3}
+\contentsline {figure}{\numberline {9.4}{\ignorespaces Entaille fictive}}{51}{figure.9.4}
+\contentsline {figure}{\numberline {9.5}{\ignorespaces Essai F3P sur une poutre entaill\'e}}{51}{figure.9.5}
+\contentsline {figure}{\numberline {9.6}{\ignorespaces Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha _0=0.5$}}{52}{figure.9.6}
+\contentsline {figure}{\numberline {9.7}{\ignorespaces Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha _0=0.2$}}{52}{figure.9.7}
+\contentsline {figure}{\numberline {9.8}{\ignorespaces Courbes moyennes en effort et en contrainte en fonction du CMOD ; $\alpha _0=0$}}{53}{figure.9.8}
+\contentsline {figure}{\numberline {9.9}{\ignorespaces Plot, loi de Ba\v {z}ant pour $\alpha _0=0.2$ (A), $\alpha _0=0.2$ (B) et r\'esultats exp\'erimentaux}}{55}{figure.9.9}
+\contentsline {figure}{\numberline {9.10}{\ignorespaces Plot, loi de Ba\v {z}ant pour $\alpha _0=0$ et r\'esultats exp\'erimentaux}}{56}{figure.9.10}
+\contentsline {figure}{\numberline {9.11}{\ignorespaces R\'esultats de l'ajustement des donn\'ees exp\'erimentales avec la loi universelle de Ba\v {z}ant}}{57}{figure.9.11}
+\contentsline {figure}{\numberline {9.12}{\ignorespaces Champ de d\'eplacement pour n=5}}{58}{figure.9.12}
+\contentsline {figure}{\numberline {9.13}{\ignorespaces Partie de la photo \`a analyser par correlation d'images}}{58}{figure.9.13}
+\contentsline {figure}{\numberline {9.14}{\ignorespaces Champ de d\'eplacement pour une ordonn\'ee fixe, et calcule de l'ouverture de fissure}}{59}{figure.9.14}
+\contentsline {figure}{\numberline {9.15}{\ignorespaces Champ de d\'eplacement pour une ordonn\'ee fixe, $n=1, 2, 3, 4, 5$}}{59}{figure.9.15}
+\contentsline {figure}{\numberline {9.16}{\ignorespaces Champ d'erreur pour $n=5$}}{60}{figure.9.16}
+\contentsline {xpart}{Bibliographie et Annexe}{65}{part.5}
+\addvspace {10\p@ }
+\contentsline {xchapter}{}{67}{appendix.A}
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Plan du coffre r\'eutilisable, poutre $4\times 16\times 80$}}{67}{figure.A.1}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Plan pour scier la planche de bois standard}}{68}{figure.A.2}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Plan pour scier la planche de bois de coffrage}}{68}{figure.A.3}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces La scie, DGC}}{69}{figure.A.4}
+\contentsline {figure}{\numberline {A.5}{\ignorespaces Machine d'essai de compression, DGC}}{70}{figure.A.5}
+\contentsline {figure}{\numberline {A.6}{\ignorespaces La r\'ectifieuse}}{70}{figure.A.6}
+\contentsline {figure}{\numberline {A.7}{\ignorespaces LVDT, capteur d\'eplacement}}{71}{figure.A.7}
+\contentsline {figure}{\numberline {A.8}{\ignorespaces Capteur du CMOD}}{71}{figure.A.8}
