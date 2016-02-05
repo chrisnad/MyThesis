@@ -1,0 +1,33 @@
+BeginZE /home/christian/Documents/MyThesis/GID/2d_1elem_micro.gid/2d_1elem_micro.vv
+   x -0.0762214 0.176221
+   y 0.122648 -0.0226483
+   z -0.0727133 0.0727133
+   e 0.0726483
+   v 0 0 0
+   r 1
+   m 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
+   c 0.0500591 0.0500269 0
+   pd 0
+   pno 0
+   pfo 0
+   pf 4
+   pv 0
+   NowUse 0
+   DrawingType 0
+   LightVector 26.9923 85.8343 117.617 0
+   OGLShadow(UseShadows) 0
+   OGLShadow(RenderMode) RenderNice
+   OGLShadow(ShadowBias) -0.002
+   OGLShadow(AmbientShadows) 1
+   OGLShadow(UseFBO) 1
+   OGLShadow(FBOSize) 2048
+   OGLShadow(DimmedLightFactor) 0.02
+   OGLStereo(UseStereo) 0
+   OGLStereo(RelativeEyeDistance) 1
+   OGLStereo(FlipEyes) 0
+   OGLStereo(StereoMode) AnaglyphColors
+   OGLStereo(EyeDistance) 0.075
+   OGLStereo(LeftEyeDistance) 1 0 0 1
+   OGLStereo(RightEyeDistance) 0 1 1 1
+EndZE /home/christian/Documents/MyThesis/GID/2d_1elem_micro.gid/2d_1elem_micro.vv
+

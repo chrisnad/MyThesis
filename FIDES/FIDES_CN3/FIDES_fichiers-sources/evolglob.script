@@ -1,0 +1,12 @@
+#evolglob.script
+set autoscale
+set pointsize 0.35
+set title "Force-Deplacement direction x"
+plot "../FIDES_resultats/3d_tirant_macro.reac" using 1:4 notitle wi linespoints pt 7
+pause -1
+set title "Force-Deplacement direction y"
+plot "../FIDES_resultats/3d_tirant_macro.reac" using 2:5 notitle wi linespoints pt 7
+pause -1
+set title "Force-Deplacement direction z"
+plot "../FIDES_resultats/3d_tirant_macro.reac" using 3:6 notitle wi linespoints pt 7
+pause -1

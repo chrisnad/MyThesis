@@ -248,7 +248,7 @@ module variables
         integer :: num       ! numero du groupe
         integer :: loi       ! numero de loi proba
         integer :: ipa       ! nbre de parametre de la loi proba
-        real*8, dimension(5) :: param    ! liste des parametres
+        real*8, dimension(6) :: param    ! liste des parametres
     end type probab
 
     type(probab), dimension(:), allocatable :: young,resist,enerj,enerjpf,nrjbeto,nrjfibr

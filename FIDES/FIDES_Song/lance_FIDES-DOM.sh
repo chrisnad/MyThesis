@@ -10,8 +10,8 @@
 #
 # CALCULS PROBABILISTES A LA CHAINE ...
 #####################################################
-compt=1
-nbMaxCalc=1
+compt=11
+nbMaxCalc=2
 FILENAME='lecture_info.data'
 iPost=0
 #####################################################
@@ -43,7 +43,7 @@ do
 	#mkdir ../$nomdirstock/$nomdirsauv
 	mkdir ../../'FIDES_Resultats_calculs'/$numdirsup/
     mkdir ../../'FIDES_Resultats_calculs'/$numdirsup/$nomdirsauv/
-    mkdir ../../'FIDES_POST'/'FIDES_resultats'/$nomdirsauv/
+    mkdir ../../'FIDES_POST_SONG'/'FIDES_resultats'/$nomdirsauv/
 	#
 	# Initialisations
 	# ---------------
@@ -106,9 +106,10 @@ do
 	   #mv ../$nomdirstock/$nomfich.resu ../$nomdirstock/$nomdirsauv/$nomfich"-"$icompt.resu
 	   #cp ../$nomdirstock/$nomfich.list ../$nomdirstock/$nomdirsauv/$nomfich"-"$icompt.list
 	   #copy to dossier de résultats centralisés
-	   mkdir ../../'FIDES_POST'/'FIDES_resultats'/$nomdirsauv/$icompt/
-	   cp ../$nomdirstock/$nomfich.reac ../../'FIDES_POST'/'FIDES_resultats'/$nomdirsauv/$icompt/$nomfich.reac
-	   mv ../$nomdirstock/$nomfich.list ../../'FIDES_POST'/'FIDES_resultats'/$nomdirsauv/$icompt/$nomfich.list
+	   mkdir ../../'FIDES_POST_SONG'/'FIDES_resultats'/$nomdirsauv/$icompt/
+	   cp ../$nomdirstock/$nomfich.reac ../../'FIDES_POST_SONG'/'FIDES_resultats'/$nomdirsauv/$icompt/$nomfich.reac
+	   mv ../$nomdirstock/$nomfich.list ../../'FIDES_POST_SONG'/'FIDES_resultats'/$nomdirsauv/$icompt/$nomfich.list
+	   mv ../$nomdirstock/$nomfich.prop ../../'FIDES_POST_SONG'/'FIDES_resultats'/$nomdirsauv/$icompt/$nomfich.prop
 	   #cp ../$nomdirstock/$nomfich.list ../../'FIDES_Resultats_calculs'/$nomdirsauv/$nomfich"-"$icompt.list	
 	   #mv ../$nomdirstock/$nomfich.reac ../$nomdirstock/$nomdirsauv/$nomfich"-"$icompt.reac
 	   

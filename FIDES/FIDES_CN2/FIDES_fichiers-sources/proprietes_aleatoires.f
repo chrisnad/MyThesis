@@ -445,7 +445,7 @@ subroutine distrib_volumes(Ve,Dg,interv0,dPlay)
                 somme = 0.
 
                 do i =1,12
-                   alea = randgp(12,(/ie0/))
+                    alea = randgp(12,(/ie0/))
                     somme = somme + (alea(i)-0.5)
                 end do
 

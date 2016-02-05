@@ -11,7 +11,7 @@
 # CALCULS PROBABILISTES A LA CHAINE ...
 #####################################################
 compt=1
-nbMaxCalc=5
+nbMaxCalc=1
 FILENAME='lecture_info.data'
 iPost=0
 #####################################################
@@ -28,9 +28,9 @@ do
 	inbMaxCalc=$nbMaxCalc
 	if  (($j == 1))
 	then
-                nomfich='tirant_macro_10'
-                nomdirsauv='tirant_macro_10'
-        	numdirsup='3D'
+                nomfich='1elem_macro_CN2'
+                nomdirsauv='1elem_macro_CN2'
+        	numdirsup='test'
 		more=0
 	fi 
 

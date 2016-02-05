@@ -343,13 +343,13 @@ contains
                  else if (iloi == 27 .and. testmod) then ! JLT
                     if(iprint>0) print*, '   * Modele mecanique : modele macro BA orthotrope endommageable'
                     ileas = 6
-                    inoli = 3
+                    inoli = 6
                     if (dime == 3) then
                         ileas = 10
                         inoli = 9
                     end if
                     id = id + ileas + inoli
-                    ! 2D: Lecture de (CP/DP), rho, E1, E2, G12, nu12, RAB, Ea, epsl
+                    ! 2D: Lecture de (CP/DP), rho, E1, E2, G12, nu12, RAB1, Ea1, epsl1, RAB2, Ea2, epsl2
                     ! 3D: Lecture de rho, E1, E2, E3, G12, G23, G31, nu12, nu23, nu31, RAB1, Ea1, epsl1, RAB2, Ea2, epsl2, RAB3, Ea3, epsl3
                  else if (iloi == 100 .and. testmod) then
                     if(iprint>0) print*, '   * Modele mecanique : contact Mohr-Coulomb'
@@ -845,12 +845,13 @@ contains
                           enerjba(j)%loi = vitrav(2)
                           enerjba(j)%ipa = vitrav(3)
                           deallocate(vitrav)
-                          if (enerjba(j)%ipa >5) stop 'lecture :: pas plus de 5 parametres par loi probabiliste !'
+                          if (enerjba(j)%ipa >9) stop 'lecture :: pas plus de 9 parametres par loi probabiliste !'
 
                           if (enerjba(j)%ipa >0) then
                               call init_vec(vrtrav,enerjba(j)%ipa)
                               read(1, *), vrtrav
                               enerjba(j)%param(1:enerjba(j)%ipa) = vrtrav
+
                               deallocate(vrtrav)
                           end if
 
@@ -872,12 +873,13 @@ contains
                           enerjba2(j)%loi = vitrav(2)
                           enerjba2(j)%ipa = vitrav(3)
                           deallocate(vitrav)
-                          if (enerjba2(j)%ipa >5) stop 'lecture :: pas plus de 5 parametres par loi probabiliste !'
+                          if (enerjba2(j)%ipa >9) stop 'lecture :: pas plus de 9 parametres par loi probabiliste !'
 
                           if (enerjba2(j)%ipa >0) then
                               call init_vec(vrtrav,enerjba2(j)%ipa)
                               read(1, *), vrtrav
                               enerjba2(j)%param(1:enerjba2(j)%ipa) = vrtrav
+
                               deallocate(vrtrav)
                           end if
 

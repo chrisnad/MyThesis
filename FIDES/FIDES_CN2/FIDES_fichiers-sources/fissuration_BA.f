@@ -240,7 +240,6 @@
                             F_var = 0.d0
                             !----- Changement etat de l'element
                             ietat(ie) = 3
-
                         else
                             if(ietat(ie) == 3) then
                                 vcrit = .true.
@@ -916,7 +915,6 @@ subroutine fissBA_distal()
             end if
         end do
 
-
         !-- Sorties :
         deallocate(vprelg)
         call init_mat(vprelg,ie0+nbg,size(vprelg,2))
@@ -1358,6 +1356,7 @@ end subroutine fissBA_distal
                                         elseif (dime==3) then
                                             V(:, 1) = matmul(rotmatba, V(:, 1))
                                             V(:, 1) = V(:, 1) / norme(V(:, 1))
+                                            V(:, 2) = matmul(rotmatba, V(:, 2))
                                             V(:, 2) = V(:, 2) / norme(V(:, 2))
                                             V(:, 3) = matmul(rotmatba, V(:, 3))
                                             V(:, 3) = V(:, 3) / norme(V(:, 3))

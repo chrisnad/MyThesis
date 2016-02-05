@@ -28,8 +28,8 @@ do
 	inbMaxCalc=$nbMaxCalc
 	if  (($j == 1))
 	then
-                nomfich='hexahedron'
-                nomdirsauv='hexahedron'
+                nomfich='poutre_macro_CN'
+                nomdirsauv='poutre_macro_CN'
         	numdirsup='3D'
 		more=0
 	fi 

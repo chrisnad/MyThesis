@@ -59,7 +59,7 @@
                 real*8, dimension(dime,dime) :: V
                 real*8, dimension(size(vh,1)) :: vsigm, vsigmloc
                 logical :: vcrit, knull
-                integer :: nc1
+                integer :: nc1, i, j
                 real*8 :: var0, var
                 real*8 :: F_var  !varcrit, varc, F_var, RT, W, E, nu
                 real*8 :: WB, WAB, sigpa, Ea, Wel, Efa, eps0, epsc, epsl
@@ -86,24 +86,33 @@
                         veps  = matmul(vb,vdle)
                         vsigm = matmul(vh,veps)
                         vepslim = 0.d0
-
+                        
                         !----- Parametres specifiques a la loi
-                        id = 1
-                        if (dime == 3) STOP '3D NON IMPLEMENTE pour loi 27'
+                        if (dime == 2) then
+                            id = 4
+                        elseif (dime == 3) then
+                            id = 3
+                        else
+                            STOP '1D NON IMPLEMENTE pour loi 27'
+                        end if
 
-                        E1 = vprel(id+3)
+                        E1 = vprel(id)
 
-                        Rba   = vprel(id+7)          !    \
-                        eps0  = Rba/(E1)
-                        Ea    = vprel(id+8)          !     | Parametres de la loi
-                        epsl  = eps0 + vprel(id+9)   !    /
+                        Rba   = vprel(id+dime**2)            !    \
+                        eps0  = Rba/(E1)		     !     | Parametres
+                        Ea    = vprel(id+dime**2+1)          !     | de la loi
+                        epsl  = eps0 + vprel(id+dime**2+2)   !    /
 
                         sigpa = (epsl - eps0) * Ea   ! debut de non-linearite du comportement des aciers
                         epsc = -Ea*eps0/(E1-Ea)
 
                         !----- Recuperation du repere principal de ferraillage
-                        V(:,1) = (/1., 0./)
-                        V(:,2) = (/0., 1./)
+                        do i = 1, dime
+                            do j = 1, dime
+                                V(i, j) = 0.d0
+                            end do
+                            V(i, i) = 1.d0
+                        end do
 
                         !----- Calcul des matrices de changement de repere (Global->ferraillage)
                         P = fissBA_changement_repere(V,nc1,1)
@@ -143,7 +152,6 @@
                             F_var = 0.d0
                             !----- Changement etat de l'element
                             ietat(ie) = 3
-
                         else
                             if(ietat(ie) == 3) then
                                 vcrit = .true.
@@ -212,11 +220,22 @@
                         D = min(D,1.d0)
 
                         ! Contraintes et Rigidité
-                        vh(1,1) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(1,1) * Dk
-                        vh(1,2) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(1,2) * Dk
-                        vh(2,1) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(2,1) * Dk
-                        vh(2,2) = (1.d0-Dnul1*D0)*vh(2,2) * Dk
-                        vh(3,3) = (1.d0-Dnul1*D0)*vh(3,3) * Dk
+!                        vh(1,1) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(1,1) * Dk
+!                        vh(1,2) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(1,2) * Dk
+!                        vh(2,1) = (1.d0-Dnul1*D0)*(1.d0-Dnul2*D)*vh(2,1) * Dk
+!                        vh(2,2) = (1.d0-Dnul1*D0)*vh(2,2) * Dk
+!                        vh(3,3) = (1.d0-Dnul1*D0)*vh(3,3) * Dk
+                        
+                        vh(1,1) = (1.d0-Dnul2*D)*vh(1,1)
+                        vh(1,2) = (1.d0-Dnul2*D)*vh(1,2)
+                        vh(2,1) = (1.d0-Dnul2*D)*vh(2,1)
+                        if (dime == 3) then
+                            vh(1,3) = (1.d0-Dnul2*D)*vh(1,3)
+                            vh(3,1) = (1.d0-Dnul2*D)*vh(3,1)
+                        end if
+                        
+                        vh = (1.d0-Dnul1*D0)*Dk*vh
+                        
                         vsig = matmul(vh,veps-vepslim)
 
                         vin(1) = D
@@ -460,26 +479,23 @@ end function fissBA_changement_repere
 subroutine fissBA_distal()
 
 
-    use variables, only : nelt, dime, ktypel, &
-            & infele, vprelg, kprop, kprop0, idmax, &
-            !& prob, pi, fiss, icompfiss, Dg, fc, &
-            & pi, fissBA, Dg, fc, vitrav, &
+    use variables, only : nelt, dime, &
+            & vprelg, kprop, kprop0, fissBA, vitrav, &
             !--- gestion de l'alea (deb)
             & alea, enerjba, enerjba2
             !--- gestion de l'alea (fin)
-    use lib_elem, only : elem_B
     use initialisation
     use proprietes_aleatoires
     use math
 
     implicit none
 
-    real*8, dimension(:,:), allocatable :: vprelg0, ksig, vn, vb
-    real*8, dimension(:), allocatable   :: vpg
+    real*8, dimension(:,:), allocatable :: vprelg0
     real*8, dimension(dime) :: PBA1, PBA2
     real*8, dimension(5) :: loi1, loi2
-
-    integer :: iebe, i, ie, ie0, nbg, ipg, npg, id, iloi, dPlay, igrp, igmp, ine
+    real*8, dimension(1) :: probab
+    
+    integer :: i, ie, ie0, nbg, id, iloi, igrp
     logical :: nrjbap, nrjbap2
 
 !********************************************************!
@@ -498,91 +514,105 @@ subroutine fissBA_distal()
         vprelg0(1:nbg,:) = vprelg(1:nbg,:)
 
         ie0 = 0
-        iebe = 0
+
         !-- Boucle sur les elements
         do ie = 1, nelt
+
             !-- detection d'un element probabiliste (module et/ou resistance et/ou energie)
             nrjbap = .false.
             if (allocated(enerjba)) then
                 if (count(enerjba%num==kprop0(ie))==1) nrjbap=.true.
             end if
-            
+
             nrjbap2 = .false.
             if (allocated(enerjba2)) then
                 if (count(enerjba2%num==kprop0(ie))==1) nrjbap2=.true.
             end if
+
             !-- si l'element appartient a un groupe probabiliste (energie)
             if (nrjbap .or. nrjbap2) then
+
                 !-- on verifie la compatibilite de la loi de comp avec sa formulation probabiliste
                 iloi=int(vprelg0(kprop(ie),1))
 
-                ie0 = ie0 + 1
-                iebe = iebe + 1
-                !-- Distributions aleatoires de proprietes mecaniques
+                    ie0 = ie0 + 1
 
-                !-- Energie plastique (ce test a ete conserve au cas ou...)
-                if (nrjbap) then
-                    ! on recupere le numero de groupe probabiliste correspondant a l'element
-                    allocate(vitrav(1))
-                    vitrav= find_vec(enerjba%num,kprop0(ie))
-                    igrp = vitrav(1)
-                    deallocate(vitrav)
+                    !-- Distributions aleatoires de proprietes mecaniques
 
-                    loi1(1) = 0.       ! b
-                    loi1(2) = 0.       ! c
-                    loi1(3) = 0.       ! moy
-                    loi1(4) = 0.       ! ect
-                    loi1(5) = enerjba(igrp)%loi        ! num
+                    !-- Energie plastique (ce test a ete conserve au cas ou...)
+                do i = 1, dime
+                    if (nrjbap) then
                     
-                    if (loi1(5)==1) then
-                        ! Loi normale
-                        loi1(3) = enerjba(igrp)%param(2*i-1)
-                        loi1(4) = enerjba(igrp)%param(2*i)
-                    elseif (loi1(5)==2) then
-                        ! Loi de Weibull
-                        loi1(1) = enerjba(igrp)%param(2*i-1)
-                        loi1(2) = enerjba(igrp)%param(2*i)
-                    elseif (loi1(5)==3) then
-                        ! Loi log-normale
-                        loi1(3) = enerjba(igrp)%param(2*i-1)
-                        loi1(4) = enerjba(igrp)%param(2*i)
-                    end if
-                    !====> Tirage aleatoire de l'energie
-                    PBA1 = distr_alea(loi1,dime,ie0)
-                    
-                end if !fin if nrjp
-                
-                !-- Energie plastique 2
-                if (nrjbap2) then
-                    ! on recupere le numero de groupe probabiliste correspondant a l'element
-                    allocate(vitrav(1))
-                    vitrav= find_vec(enerjba2%num,kprop0(ie))
-                    igrp = vitrav(1)
-                    deallocate(vitrav)
-                    
-                    loi2(1) = 0.       ! b
-                    loi2(2) = 0.       ! c
-                    loi2(3) = 0.       ! moy
-                    loi2(4) = 0.       ! ect
-                    loi2(5) = enerjba2(igrp)%loi        ! num
-                    
-                    if (loi2(5)==1) then
-                        ! Loi normale
-                        loi2(3) = enerjba2(igrp)%param(2*i-1)
-                        loi2(4) = enerjba2(igrp)%param(2*i)
-                    elseif (loi2(5)==2) then
-                        ! Loi de Weibull
-                        loi2(1) = enerjba2(igrp)%param(2*i-1)
-                        loi2(2) = enerjba2(igrp)%param(2*i)
-                    elseif (loi2(5)==3) then
-                        ! Loi log-normale
-                        loi2(3) = enerjba2(igrp)%param(2*i-1)
-                        loi2(4) = enerjba2(igrp)%param(2*i)
-                    end if
-                    !====> Tirage aleatoire de l'energie
-                    PBA2 = distr_alea(loi2,1,ie0)
+                        ! on recupere le numero de groupe probabiliste correspondant a l'element
+                        allocate(vitrav(1))
+                        vitrav= find_vec(enerjba%num,kprop0(ie))
+                        igrp = vitrav(1)
+                        deallocate(vitrav)
 
-                end if !fin if nrjp
+                        loi1(1) = 0.       ! b
+                        loi1(2) = 0.       ! c
+                        loi1(3) = 0.       ! moy
+                        loi1(4) = 0.       ! ect
+                        loi1(5) = enerjba(igrp)%loi        ! num
+
+                        if (loi1(5)==1) then
+                            ! Loi normale
+                            loi1(3) = enerjba(igrp)%param(2*i-1)
+                            loi1(4) = enerjba(igrp)%param(2*i)
+                        elseif (loi1(5)==2) then
+                            ! Loi de Weibull
+                            loi1(1) = enerjba(igrp)%param(2*i-1)
+                            loi1(2) = enerjba(igrp)%param(2*i)
+                        elseif (loi1(5)==3) then
+                            ! Loi log-normale
+                            loi1(3) = enerjba(igrp)%param(2*i-1)
+                            loi1(4) = enerjba(igrp)%param(2*i)
+                        end if
+                        !====> Tirage aleatoire de l'energie
+!                        PBA1 = distr_alea(loi1,1,ie0)
+                        probab = distr_alea(loi1,1,ie0)
+                        PBA1(i) = probab(1)
+
+                    end if !fin if nrjp
+
+                    !-- Energie plastique 2
+                    if (nrjbap2) then
+                        ! on recupere le numero de groupe probabiliste correspondant a l'element
+                        allocate(vitrav(1))
+                        vitrav= find_vec(enerjba2%num,kprop0(ie))
+                        igrp = vitrav(1)
+                        deallocate(vitrav)
+
+                        loi2(1) = 0.       ! b
+                        loi2(2) = 0.       ! c
+                        loi2(3) = 0.       ! moy
+                        loi2(4) = 0.       ! ect
+                        loi2(5) = enerjba2(igrp)%loi        ! num
+
+                        if (loi2(5)==1) then
+                            ! Loi normale
+                            loi2(3) = enerjba2(igrp)%param(2*i-1)
+                            loi2(4) = enerjba2(igrp)%param(2*i)
+                        elseif (loi2(5)==2) then
+                            ! Loi de Weibull
+                            loi2(1) = enerjba2(igrp)%param(2*i-1)
+                            loi2(2) = enerjba2(igrp)%param(2*i)
+                        elseif (loi2(5)==3) then
+                            ! Loi log-normale
+                            loi2(3) = enerjba2(igrp)%param(2*i-1)
+                            loi2(4) = enerjba2(igrp)%param(2*i)
+                        end if
+                        !====> Tirage aleatoire de l'energie
+!                        PBA2 = distr_alea(loi2,1,ie0)
+                        probab = distr_alea(loi2,1,ie0)
+                        PBA2(i) = probab(1)
+
+                    end if !fin if nrjp
+                end do
+!print*, PBA1
+!print*, PBA2
+!print*, vprelg0
+!pause
                 !---- Stockage des valeurs
                 vprelg0(nbg + ie0,:) = vprelg(kprop(ie),:)
                 kprop(ie) = nbg + ie0
@@ -606,12 +636,14 @@ subroutine fissBA_distal()
                 end if
             end if
         end do
-        
+
         !-- Sorties :
         deallocate(vprelg)
-        call init_mat(vprelg,ie0+nbg,size(vprelg,2))
+        call init_mat(vprelg,ie0+nbg,size(vprelg0,2))
         vprelg(1:ie0+nbg,:) = vprelg0(1:ie0+nbg,:)
-
+!print*, vprelg(1, :)
+!print*, vprelg(2, :)
+!pause
         deallocate(vprelg0)
     end if
 
@@ -830,6 +862,12 @@ end subroutine fissBA_distal
             integer :: ie, ipg, npg, id, iloi, ndle, imin, imax
             integer :: binf, bsup, iedang
             
+            if (dime == 2) then
+                id = 4
+            elseif (dime == 3) then
+                id = 3
+            end if
+            
         !----- Switch en fonction de l'option de calcul
         !      iedang => fiss_pilot applique a iedang seulement (pour obtenir le repere local)
             binf = 1
@@ -867,7 +905,7 @@ end subroutine fissBA_distal
 
                             !----- Pour les elements BA vierges
                             !if ((typel == 'MBT3' .or. typel == 'MTT4' .or. typel == 'MBT6' .or. typel == 'MBQ4')  &
-                            if ((typel == 'MBQ4' .or. typel == 'MBT3')  &
+                            if ((typel == 'MBQ4' .or. typel == 'MBT3' .or. typel == 'MTH8')  &
                                 & .and. (ietat(ie)==0)) then
 
                                 !----- Proprietes elementaires
@@ -884,7 +922,7 @@ end subroutine fissBA_distal
                                 npg = size(ksig,1)
 
                                 !----- Initialisations relatives aux elements
-                                call init_vec(vrtrav,npg*dime*dime)
+                                call init_vec(vrtrav,npg*dime**2)
                                 allocate(alpg(npg))
                                 alpg = 1.d0
 
@@ -945,11 +983,9 @@ end subroutine fissBA_distal
                                 if (iloi==27) then
 
                                     !----- Recuperation des parametres de la loi
-                                    id = 1
-                                    if (dime == 3) stop 'FIDES_fissBA_pilot : non programmee en 3D'
 
-                                    RT = 1.001d0 * vprel(id+7)     ! Contrainte limite en traction pure
-                                    RC = 1.001d0 * fc              ! Contrainte limite en cisaillement
+                                    RT = 1.001d0 * vprel(id+dime**2)     ! Contrainte limite en traction pure
+                                    RC = 1.001d0 * fc                    ! Contrainte limite en cisaillement
 
                                     !----- Recuperation des contraintes principales
                                     s1 = vsi0loc(imax)+vdsiloc(imax)
@@ -1028,6 +1064,7 @@ end subroutine fissBA_distal
                                         elseif (dime==3) then
                                             V(:, 1) = matmul(rotmatba, V(:, 1))
                                             V(:, 1) = V(:, 1) / norme(V(:, 1))
+                                            V(:, 2) = matmul(rotmatba, V(:, 2))
                                             V(:, 2) = V(:, 2) / norme(V(:, 2))
                                             V(:, 3) = matmul(rotmatba, V(:, 3))
                                             V(:, 3) = V(:, 3) / norme(V(:, 3))

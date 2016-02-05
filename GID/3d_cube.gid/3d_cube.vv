@@ -1,0 +1,33 @@
+BeginZE /home/christian/Documents/MyThesis/GID/3d_cube.gid/3d_cube.vv
+   x -0.998147 2.00975
+   y 1.39309 -0.338962
+   z -1.41831 0.561172
+   e 0.866025
+   v 0.0453839 -0.0739783 0.0286309
+   r -0.995815
+   m 0.987415 0.0503073 0.149936 0 -0.063737 0.994241 0.0861519 0 -0.144739 -0.0946241 0.984935 0 0 0 0 1
+   c 0.428571 0.428571 0.428571
+   pd 0
+   pno 0
+   pfo 0
+   pf 4
+   pv 0
+   NowUse 1
+   DrawingType 0
+   LightVector 26.9923 85.8343 117.617 0
+   OGLShadow(UseShadows) 0
+   OGLShadow(RenderMode) RenderNice
+   OGLShadow(ShadowBias) -0.002
+   OGLShadow(AmbientShadows) 1
+   OGLShadow(UseFBO) 1
+   OGLShadow(FBOSize) 2048
+   OGLShadow(DimmedLightFactor) 0.02
+   OGLStereo(UseStereo) 0
+   OGLStereo(RelativeEyeDistance) 1
+   OGLStereo(FlipEyes) 0
+   OGLStereo(StereoMode) AnaglyphColors
+   OGLStereo(EyeDistance) 0.075
+   OGLStereo(LeftEyeDistance) 1 0 0 1
+   OGLStereo(RightEyeDistance) 0 1 1 1
+EndZE /home/christian/Documents/MyThesis/GID/3d_cube.gid/3d_cube.vv
+

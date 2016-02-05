@@ -119,7 +119,7 @@ subroutine pilot(imetpilo,vsol,vduI,vduII,dlam)
             irloc(iedng,:) = mrtrav(iedng,:)
             inorm(iedng,:) = mrtrav(iedng,1:dime)
          endif
-        if ((fiss == 1).and.(iedng==iedngba)) then
+        if ((fissba == 1).and.(iedng==iedngba)) then
             call fissba_pilot(imetpilo,vsol,vduI,vduII,dlam,alpham,MOTm,elefissm,iedng)
             !----- Et on stocke son repere principal
             irloc(iedng,:) = mrtrav(iedng,:)

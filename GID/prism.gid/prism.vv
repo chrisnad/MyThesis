@@ -1,0 +1,33 @@
+BeginZE /home/christian/Documents/MyThesis/GID/prism.gid/prism.vv
+   x -2.17179 2.17179
+   y 1.5 -1
+   z -4.25 3.25
+   e 1.25
+   v 0.0919748 -0.212216 -0.0096755
+   r -0.972837
+   m 0.909741 -0.0578625 0.411124 0 -0.0202118 0.982894 0.183059 0 -0.414684 -0.174846 0.89301 0 0 0 0 1
+   c -1.66533e-16 0.25 0.5
+   pd 0
+   pno 0
+   pfo 0
+   pf 4
+   pv 0
+   NowUse 1
+   DrawingType 0
+   LightVector 26.9923 85.8343 117.617 0
+   OGLShadow(UseShadows) 0
+   OGLShadow(RenderMode) RenderNice
+   OGLShadow(ShadowBias) -0.002
+   OGLShadow(AmbientShadows) 1
+   OGLShadow(UseFBO) 1
+   OGLShadow(FBOSize) 0
+   OGLShadow(DimmedLightFactor) 0.02
+   OGLStereo(UseStereo) 0
+   OGLStereo(RelativeEyeDistance) 1
+   OGLStereo(FlipEyes) 0
+   OGLStereo(StereoMode) AnaglyphColors
+   OGLStereo(EyeDistance) 0.075
+   OGLStereo(LeftEyeDistance) 1 0 0 1
+   OGLStereo(RightEyeDistance) 0 1 1 1
+EndZE /home/christian/Documents/MyThesis/GID/prism.gid/prism.vv
+
