@@ -10,7 +10,7 @@
 #
 # CALCULS PROBABILISTES A LA CHAINE ...
 #####################################################
-compt=11
+compt=1
 nbMaxCalc=2
 FILENAME='lecture_info.data'
 iPost=0

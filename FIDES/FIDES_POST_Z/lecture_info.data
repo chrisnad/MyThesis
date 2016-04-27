@@ -1,0 +1,44 @@
+// Nom fichier de donnees
+cube_tet.data
+// Lieu de calcul des contraintes
+1
+// Affichage : iprint
+1
+// Indicateur de calcul explicite
+0
+// nzmax (en pourcentage) : matrices creuses (was .0003)
+.1
+// Post-traitement
+1
+// Choix de la methode d'assemblage
+2
+// Numero du fichier a traité
+0
+
+
+Nom fichier de donnees
+ fichier situe dans le repertoire FIDES_data
+ ex : test.data
+
+
+Lieu de calcul des contraintes
+ 1 : Points de Gauss
+ 2 : Noeuds
+
+
+Affichage : iprint
+ 0 : pas d'affichage
+ 1 : affichage temps de calcul pour chaque itération
+ 2 : affichage temps de calcul pour chaque itération et solution globale
+
+
+Indicateur de calcul explicite
+ 0 : pas de cacul explicite
+ 1 : calcul explicite
+
+
+nzmax : matrices creuses
+ Taille memoire allouee pour la matrice de rigidite (en pourcentage d'elements non nuls, compris entre 0 et 1)
+ Attention !! Ce nombre doit etre suffisament grand pour contenir tous les elements non nuls
+ ex : 0.1
+

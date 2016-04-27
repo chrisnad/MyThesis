@@ -20,7 +20,7 @@ program FIDES
    use mumps
    use Maillage
    use FormatCSRC 
-   use Assemblage_CSRC           
+   use Assemblage_CSRC
    implicit none
    
 !------------------- MPI (car MUMPS est ici compile en version parallele -----------------------------!
@@ -498,8 +498,69 @@ program FIDES
                       end if ! fin choix = 2    
                  call CPU_TIME(time2)
                  !print*,'temps dinsertion des CL',time2-time1
-               !------------------------------- Resolution ------------------------------!
+                 
+               !-------------------------------------------------------------------------!
+               !---------------- Critere de convergence sur le residu -------------------!
+               !-----------------   et test de convergence globale   --------------------!
+               !-------------------------------------------------------------------------!
 
+               if (iter == 2) then
+                   !-- preparation du test de convergence
+                   if (dlam0==0.d0) dlam0 = dlmin
+                   !-- Residu a la premiere iteration (on ajoute dlam0*vresII pour tenir compte
+                   !   de l'increment de chargement en deplacements imposes au debut du pas de tps)
+                   denof = norme((vresI+dlam0*vresII)*v1) + 1.D-20
+                   ndf = 1.d0
+
+               elseif (iter > 2) then
+                   !-- Critere de convergence sur le residu
+                   ndf = norme((vresI)*v1)/denof
+
+                   !-- Test de convergence globale
+                   if ((ndu < 1.d-06) .and. (ndf < 1.d-04)) nconv = .true.
+
+                   if (iter>100) then
+                       nconv = .true.
+                   endif
+
+               end if
+
+               !-------------------------------------------------------------------------!
+               !----------------- SI CONVERGENCE SORTIE DU CALCUL -----------------------!
+               !-------------------------------------------------------------------------!
+
+               !*************************************************************************!
+
+               !-- Calcul du temps par iteration
+               if (iter > 1) then
+                   call CPU_TIME(time)
+                   time_it = time - time_it
+
+                   !-- Impression ecran des infos sur convergence
+                   if (iprint > 0) then
+                       !-- Il faut imprimer iter-1 car décalage d'une iteration
+                       if (CHOIX==1) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CSR_Iter =', iter-1, &
+                       &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (It) ',time_it
+
+                       if (CHOIX==2) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CRC_Iter =', iter-1, &
+                       &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (It) ',time_it
+                       
+                       if ((iter > 100) .and. (nconv)) print*,'Attention: convergence forcee !'
+                   end if
+                   call CPU_TIME(time_it)
+               end if
+
+               !-- Desallocations et sortie si convergence
+               if (nconv) then
+                   deallocate(kdimp)
+                   exit
+               end if
+               
+               !*************************************************************************!
+
+               !-------------------------------------------------------------------------!
+                 !------------------------------- Resolution ------------------------------!
+                 !-------------------------------------------------------------------------!
                 call CPU_TIME(time_rs)
                 if (CHOIX==1) call Solve_MUMPS(vkg, vresI, vresII, vduI, vduII) 
                 if (CHOIX==2) then   
@@ -596,47 +657,18 @@ program FIDES
                 !----- Verification du changement d'etat         
                 call change_etat
 
-                !----------------------- Test de convergence ------------------------------
+         !-------------------------------------------------------------------------!
+         !---------------- Test de convergence sur le deplacement -----------------!
+         !-------------------------------------------------------------------------!
+               
                 if (iter == 1) then
-                   denou = norme((vduI + dlmin*vduII)*v1) + 1.D-20          
-                   denof = norme((vresI + dlmin*vresII)*v1) + 1.D-20
-                   !if (dlam0==0.d0) dlam0 = dlmin
-                   !denou = norme((vduI + dlam0*vduII)*v1) + 1.D-20          
-                   !denof = norme((vresI + dlam0*vresII)*v1) + 1.D-20
+                   !denou = norme((vduI + dlmin*vduII)*v1) + 1.D-20
+                   if (dlam0<=1.d-09) dlam0 = dlmin
+                   denou = norme((vduI + dlam0*vduII)*v1) + 1.D-20
+                   ndu = 1.d0
+                else
+                    ndu = norme(vdu*v1)/denou
                 end if
-
-                ndu = norme(vdu*v1)/denou
-                ndf = norme((vresI + dlam*vresII)*v1)/denof
-
-                call CPU_TIME(time)   
-                time_it = time - time_it
-           
-                if (iprint > 0) then 
-                     if (CHOIX==1) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CSR_Iter =', iter, & 
-                         &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (s) ',time_it
-
-                     if (CHOIX==2) print'(a8,i4,a14,e13.6,a8,e12.6,a13,e8.2,a7,e8.2,a6,e8.2)', 'CRC_Iter =', iter, &
-                         &' - norme ndu = ', ndu,'ndf = ', ndf,' | CPU: Kg = ', time_kg, ' - Rs = ', time_rs, ' (s) ',time_it
-                end if ! fin iprint=0
-
-                !if (ipas==1 .or. iter/=1) then
-                  if ((ndu < 1.d-06) .and. (ndf <1.d-04)) nconv = .true.
-
-                  !if (iter>100) then
-                  !   if ((ndu < 1.d-04) .and. (ndf <1.d-02)) nconv = .true.
-                  !end if
-                  
-                  if (iter>150) then
-                      nconv = .true.
-                      print*,'Attention: convergence forcee !'
-                  endif
-
-                  if ((ndu > 1.d50) .and. (ndf > 1.d50)) goto 1000
-                  if (isnan(ndu) .or. isnan(ndf)) goto 1000
-                !end if
-                
-                if (nconv) exit ! On verifie la convergence (tous les processus doivent la verifier)
-
              end do
                  
            !                                  Fin boucle d'iteration
@@ -713,7 +745,7 @@ program FIDES
 
                 call CPU_TIME(time)
                 print'(2x,a10,f20.6,1x,a8)', 'Temps cpu = ', time - time0, 'secondes'
-                print '(2x,a,i2,a,i2,a,i2,a,i2,a,i4))', 'Le calcul a ete lance a ',values(5),'h', & 
+                print '(2x,a,i2,a,i2,a,i2,a,i2,a,i4)', 'Le calcul a ete lance a ',values(5),'h', & 
                     & values(6),', le ', values(3),'/',values(2),'/',values(1)
                 print*;
                       print*, 'nombre oscillations', comptoscill

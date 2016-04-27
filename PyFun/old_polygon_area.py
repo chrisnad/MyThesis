@@ -7,10 +7,11 @@ from shapely.geometry.polygon import  LinearRing, Polygon
 from collections import *
 #from statistics import *
 
-filename1 = "2d_tirant_micro"
+filename1 = "2d_tirant_microo"
 wd1 = "/home/christian/Documents/FIDES/FIDES_Resultats_calculs/2D/" + filename1
-filename2 = "3d_tirant_macro" #model
+filename2 = "3d_tirant_macroo" #model
 wd2 = "/home/christian/Documents/FIDES/FIDES_Resultats_calculs/3D/" + filename2
+wd2 = wd2 #+ "/7"
 
 colonne_1 = 1
 colonne_2 = 4
@@ -31,6 +32,7 @@ mean_Y = {}
 for fichier in glob.glob(Files):
 	datalist = numpy.loadtxt(fichier)
 	n = len(datalist[0])
+	print datalist
 	data = []
 	for i in range(n):
 		data.append(datalist[:,i])
@@ -62,6 +64,7 @@ f = []
 
 for fichier in glob.glob(Files):
 	datalist = numpy.loadtxt(fichier)
+	print datalist
 	n = len(datalist[0])
 	data = []
 	dict_Y = {}
