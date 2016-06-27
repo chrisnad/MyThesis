@@ -7,11 +7,11 @@ from shapely.geometry.polygon import  LinearRing, Polygon, LineString
 from collections import *
 #from statistics import *
 
-filename1 = "2d_tirant_micro"
+filename1 = "2d_tirant_micro_s"
 wd1 = "/home/christian/Documents/FIDES/FIDES_Resultats_calculs/2D/" + filename1
-filename2 = "3d_tirant_macro" #model
+filename2 = "3d_tirant_macro_s" #model
 wd2 = "/home/christian/Documents/FIDES/FIDES_Resultats_calculs/3D/" + filename2
-wd2 = wd2 + "/16"
+wd2 = wd2
 
 colonne_1 = 1
 colonne_2 = 4
@@ -25,11 +25,11 @@ def segments(p):
 	return zip(p, p[1:]+[p[0]])
 
 os.chdir(wd1)
-Files1 = filename1 + "*"
+Files1 = filename1 + "-*"
 n1 = len(glob.glob(Files1))
 
 os.chdir(wd2)
-Files2 = filename2 + "*"
+Files2 = filename2 + "-*"
 n2 = len(glob.glob(Files2))
 
 f = []
