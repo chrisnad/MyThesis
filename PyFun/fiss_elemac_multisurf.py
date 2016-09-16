@@ -123,7 +123,7 @@ for I in surf:
 	c = 0
 	for z in range(pas_min,pas_max,pas_int):
 		d = -reac[z, 4]							# pour poutres
-		#d = reac[z, 3]							# pour tirants
+		#d = reac[z, 3]							# pour tirants, DCB
 		AO[c].append(d)
 		e = []
 		for i in delta:

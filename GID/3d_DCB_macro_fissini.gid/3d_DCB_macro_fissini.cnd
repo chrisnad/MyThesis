@@ -1,0 +1,108 @@
+NUMBER: 1 CONDITION: Point-Constraints-x
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: X-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 2 CONDITION: Point-Constraints-y
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Y-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 3 CONDITION: Point-Constraints-z
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Z-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 4 CONDITION: Point-Displacement-x
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: X-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 5 CONDITION: Point-Displacement-y
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Y-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 6 CONDITION: Point-Displacement-z
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Z-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 7 CONDITION: Point-Force-Load-x
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: X-Force
+VALUE: 0.0
+END CONDITION
+NUMBER: 8 CONDITION: Point-Force-Load-y
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Y-Force
+VALUE: 0.0
+END CONDITION
+NUMBER: 9 CONDITION: Point-Force-Load-z
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Z-Force
+VALUE: 0.0
+END CONDITION
+NUMBER: 10 CONDITION: Surface_Boundary_Constraints_x
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: X-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 11 CONDITION: Surface_Boundary_Constraints_y
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Y-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 12 CONDITION: Surface_Boundary_Constraints_z
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Y-Constraint:#CB#(1,0)
+VALUE: 1
+END CONDITION
+NUMBER: 13 CONDITION: Surface_Boundary_Displacement_x
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: X-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 14 CONDITION: Surface_Boundary_Displacement_y
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Y-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 15 CONDITION: Surface_Boundary_Displacement_z
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Z-Displacement:
+VALUE: 0.0
+END CONDITION
+NUMBER: 16 CONDITION: Surface_Boundary_Force_x
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: X-Force:
+VALUE: 0.0
+END CONDITION
+NUMBER: 17 CONDITION: Surface_Boundary_Force_y
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Y-Force:
+VALUE: 0.0
+END CONDITION
+NUMBER: 18 CONDITION: Surface_Boundary_Force_z
+CONDTYPE: over surfaces
+CONDMESHTYPE: over face elements
+QUESTION: Z-Force:
+VALUE: 0.0
+END CONDITION
